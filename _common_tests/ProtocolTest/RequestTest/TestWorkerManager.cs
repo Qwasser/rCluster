@@ -1,52 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _common.NodeInterfaces;
+﻿using _common.NodeInterfaces;
 
 namespace _common_tests.ProtocolTest.RequestTest
 {
     class TestWorkerManager: IAsyncWorkerManager
     {
+        public static readonly string AddWorkersResult = "addworkers";
+        public static readonly string StopWorkersResult = "stopworkers";
+        public static readonly string AddAllWorkersResult = "addworkers";
+        public static readonly string StopAllWorkersResult = "stopworkers";
+        public static readonly string GetWorkersCountResult = "getworkerscount";
+        public static readonly string SetRedisIpResult = "setredisip";
+        public static readonly string GetWorkersMemoryResult = "getworkersmemory";
+        public static readonly string GetWorkersLoadResult = "getworkersload";
+        private string _result;
+        public string GetResult()
+        {
+            return _result;
+        }
         public void GetWorkersCount()
         {
-            throw new NotImplementedException();
+            _result = GetWorkersCountResult;
         }
 
         public void AddWorkers(int n)
         {
-            throw new NotImplementedException();
+            _result = AddWorkersResult + n;
         }
 
         public void RemoveWorkers(int n)
         {
-            throw new NotImplementedException();
+            _result = StopWorkersResult + n;
         }
 
         public void AddAllWorkers()
         {
-            throw new NotImplementedException();
+            _result = AddAllWorkersResult;
         }
 
         public void RemoveAllWorkers()
         {
-            throw new NotImplementedException();
+            _result = StopAllWorkersResult;
         }
 
         public void SetRedisIp(string ip)
         {
-            throw new NotImplementedException();
+            _result = SetRedisIpResult + ip;
         }
 
         public void GetWorkersMemory()
         {
-            throw new NotImplementedException();
+            _result = GetWorkersMemoryResult;
         }
 
         public void GetWorkersLoad()
         {
-            throw new NotImplementedException();
+            _result = GetWorkersLoadResult;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace _common.Protocol.Request
 {
-    class RemoteLibraryManager: IAsyncLibraryManager
+    public class RemoteLibraryManager: IAsyncLibraryManager
     {
         private readonly IRequestSender _sender;
         public RemoteLibraryManager(IRequestSender sender)

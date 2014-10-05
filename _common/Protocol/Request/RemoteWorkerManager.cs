@@ -2,7 +2,7 @@
 
 namespace _common.Protocol.Request
 {
-    class RemoteWorkerManager: IAsyncWorkerManager
+    public class RemoteWorkerManager: IAsyncWorkerManager
     {
         private readonly IRequestSender _sender;
 

@@ -2,7 +2,7 @@
 
 namespace _common.Protocol.Request
 {
-    class RemoteLoadManager: IAsyncLoadManager
+    public class RemoteLoadManager: IAsyncLoadManager
     {
         private readonly IRequestSender _sender;
         public RemoteLoadManager(IRequestSender sender)
