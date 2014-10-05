@@ -3,7 +3,7 @@
     /// <summary>
     /// Async interface for worker managing
     /// </summary>
-    interface IAsyncWorkerManager
+    public interface IAsyncWorkerManager
     {
         void GetWorkersCount();
         void AddWorkers(int n);

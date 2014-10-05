@@ -7,7 +7,7 @@ namespace _common.NodeInterfaces
     /// <summary>
     /// Asynchronious interface for load managing
     /// </summary>
-    interface IAsyncLoadManager
+    public interface IAsyncLoadManager
     {
         void GetCurrentLimit();
         void GetMaxLimit();

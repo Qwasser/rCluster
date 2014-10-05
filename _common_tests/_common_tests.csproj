@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="LoadStatusTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProtocolTest\ConsoleRequestSender.cs" />
-    <Compile Include="ProtocolTest\RequestSenderHandlerTests.cs" />
+    <Compile Include="ProtocolTest\RequestTest\TestLibraryManager.cs" />
+    <Compile Include="ProtocolTest\RequestTest\TestLoadManager.cs" />
+    <Compile Include="ProtocolTest\RequestTest\TestSystemInfo.cs" />
+    <Compile Include="ProtocolTest\RequestTest\TestWorkerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\_common\_common.csproj">

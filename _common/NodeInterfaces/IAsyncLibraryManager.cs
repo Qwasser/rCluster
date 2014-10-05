@@ -3,7 +3,7 @@
     /// <summary>
     /// Async interface for library managing
     /// </summary>
-    interface IAsyncLibraryManager
+    public interface IAsyncLibraryManager
     {
         void HasLibrary(string libraryName);
         void GetLibraryList();

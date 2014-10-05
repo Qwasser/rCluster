@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _common.NodeInterfaces;
+﻿using _common.NodeInterfaces;
 
 namespace _common.Protocol.Request
 {
@@ -38,22 +33,22 @@ namespace _common.Protocol.Request
 
         public void RemoveAllWorkers()
         {
-            throw new NotImplementedException();
+            _sender.SendRequest(new StopAllWorkersRequest());
         }
 
         public void SetRedisIp(string ip)
         {
-            throw new NotImplementedException();
+            _sender.SendRequest(new SetRedisIpRequest(ip));
         }
 
         public void GetWorkersMemory()
         {
-            throw new NotImplementedException();
+            _sender.SendRequest(new GetWorkersMemoryRequest());
         }
 
         public void GetWorkersLoad()
         {
-            throw new NotImplementedException();
+            _sender.SendRequest(new GetWorkersLoadRequest());
         }
     }
 }
