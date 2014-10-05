@@ -39,11 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NodeInterfaces\IAsyncLibraryManager.cs" />
+    <Compile Include="NodeInterfaces\IAsyncLoadManager.cs" />
+    <Compile Include="NodeInterfaces\IAsyncSystemInfo.cs" />
+    <Compile Include="NodeInterfaces\IAsyncWorkerManager.cs" />
     <Compile Include="Protocol\AbstractClusterMessageHnadler.cs" />
     <Compile Include="Protocol\AbstractClusterRequestHandler.cs" />
+    <Compile Include="Protocol\ClusterRequestSender.cs" />
     <Compile Include="Protocol\AbstractClusterResponseHandlers.cs" />
     <Compile Include="Protocol\ClusterMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\ClusterResponseSender.cs" />
+    <Compile Include="Protocol\IMessageSender.cs" />
     <Compile Include="Protocol\LoadStatus.cs" />
     <Compile Include="Protocol\MessageDataUtils.cs" />
   </ItemGroup>

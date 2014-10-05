@@ -70,6 +70,10 @@ namespace _common.Protocol
             HandleLoadStatus(msg.Data);
         }
 
+        public override void ParseSetLoadStatus(ClusterMessage msg)
+        {
+
+        }
         public override void ParseCurrentWorkerLimit(ClusterMessage msg)
         {
             HandleCurrentWorkerLimit(MessageDataUtils.GetIntFromData(msg.Data));
@@ -86,7 +90,10 @@ namespace _common.Protocol
 
         public override void ParseHasLibrary(ClusterMessage msg)
         {
-            HandleHasLibrary(msg.Data);
+            string name;
+            bool hasLibrary;
+            MessageDataUtils.GetStringAndBool(msg.Data, out name, out hasLibrary);
+            HandleHasLibrary(hasLibrary, name);
         }
 
         public override void ParseInstallLibrary(ClusterMessage msg)

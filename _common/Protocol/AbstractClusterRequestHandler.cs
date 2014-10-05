@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace _common.Protocol
+﻿namespace _common.Protocol
 {
     public abstract class AbstractClusterRequestHandler : AbstractClusterMessageHnadler
     {
@@ -66,9 +64,15 @@ namespace _common.Protocol
 
         public override void ParseLoadStatus(ClusterMessage msg)
         {
-            HandleLoadStatus(msg.Data);
+            HandleLoadStatus();
         }
 
+        public override void ParseSetLoadStatus(ClusterMessage msg)
+        {
+            LoadStatus s;
+            LoadStatus.TryParseString(msg.Data, out s);
+
+        }
         public override void ParseCurrentWorkerLimit(ClusterMessage msg)
         {
             HandleCurrentWorkerLimit();
@@ -109,7 +113,8 @@ namespace _common.Protocol
 
         abstract public void HandleTotalLoad();
         abstract public void HandleTotalMemory();
-        abstract public void HandleLoadStatus(string status);
+        abstract public void HandleLoadStatus();
+        abstract public void HandleSetLoadStatus(LoadStatus status);
         abstract public void HandleCurrentWorkerLimit();
         abstract public void HandleMaximumWorkerLimit();
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _common.Protocol
 {
@@ -46,7 +42,7 @@ namespace _common.Protocol
                     ParseTotalLoad(msg);
                     break;
                 case MessageType.TotalMemory:
-                    ParseTotalLoad(msg);
+                    ParseTotalMemory(msg);
                     break;
                 case MessageType.LoadStatus:
                     ParseLoadStatus(msg);
@@ -65,6 +61,9 @@ namespace _common.Protocol
                     break;
                 case MessageType.InstallLibrary:
                     ParseInstallLibrary(msg);
+                    break;
+                case MessageType.SetLoadStatus:
+                    ParseSetLoadStatus(msg);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -87,11 +86,14 @@ namespace _common.Protocol
         abstract public void ParseTotalLoad(ClusterMessage msg);
         abstract public void ParseTotalMemory(ClusterMessage msg);
         abstract public void ParseLoadStatus(ClusterMessage msg);
+        abstract public void ParseSetLoadStatus(ClusterMessage msg);
         abstract public void ParseCurrentWorkerLimit(ClusterMessage msg);
         abstract public void ParseMaximumWorkerLimit(ClusterMessage msg);
 
         abstract public void ParseLibrariesList(ClusterMessage msg);
         abstract public void ParseHasLibrary(ClusterMessage msg);
         abstract public void ParseInstallLibrary(ClusterMessage msg);
+
+        abstract public void HandleUnknownMessage();
     }
 }

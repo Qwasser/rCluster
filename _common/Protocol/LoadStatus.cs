@@ -20,10 +20,10 @@ namespace _common.Protocol
         }
 
         public static bool TryParseString(string data, out LoadStatus status)
-        {
-            LoadStatusType t;
+        {    
             if (data.IndexOf(';') > 0 && data.IndexOf(';') < data.Length - 1)
             {
+                LoadStatusType t;
                 bool typeParsed = Enum.TryParse(data.Substring(0, data.IndexOf(';')), true, out t);
 
                 int count;

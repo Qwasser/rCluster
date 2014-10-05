@@ -1,11 +1,5 @@
 ﻿namespace _common.Protocol
 {
-    public enum MessageDirection
-    {
-        Request,
-        Response
-    };
-
     public enum MessageType
     {
         // Common commands
@@ -28,6 +22,7 @@
 
         // Load managing
         LoadStatus,
+        SetLoadStatus,
         CurrentWorkerLimit,
         MaximumWorkerLimit,
 
@@ -39,7 +34,6 @@
 
     public struct ClusterMessage
     {
-        public MessageDirection Direction;
         public MessageType Type;
         public string Data;
     }
