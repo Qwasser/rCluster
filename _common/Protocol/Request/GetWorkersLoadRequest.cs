@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
-    class GetWorkersLoadRequest
+    class GetWorkersLoadRequest: AbstractRequestClusterMessage
     {
+        public override void Handle(WorkerNodeContext context)
+        {
+            context.WorkerManager.GetWorkersLoad();
+        }
     }
 }

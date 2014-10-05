@@ -9,7 +9,7 @@ namespace _common.Protocol.Request
 {
     class RemoteWorkerManager: IAsyncWorkerManager
     {
-        private IRequestSender _sender;
+        private readonly IRequestSender _sender;
 
         public RemoteWorkerManager(IRequestSender sender)
         {
@@ -18,7 +18,7 @@ namespace _common.Protocol.Request
 
         public void GetWorkersCount()
         {
-            throw new NotImplementedException();
+            _sender.SendRequest(new WorkersCountRequest());
         }
 
         public void AddWorkers(int n)
@@ -28,12 +28,12 @@ namespace _common.Protocol.Request
 
         public void RemoveWorkers(int n)
         {
-            throw new NotImplementedException();
+            _sender.SendRequest(new StopWorkersRequest(n));
         }
 
         public void AddAllWorkers()
         {
-            throw new NotImplementedException();
+            _sender.SendRequest(new AddAllWorkersRequest());
         }
 
         public void RemoveAllWorkers()
@@ -42,6 +42,16 @@ namespace _common.Protocol.Request
         }
 
         public void SetRedisIp(string ip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetWorkersMemory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetWorkersLoad()
         {
             throw new NotImplementedException();
         }

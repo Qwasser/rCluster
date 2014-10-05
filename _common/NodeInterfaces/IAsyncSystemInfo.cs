@@ -5,7 +5,7 @@
     /// </summary>
     public interface IAsyncSystemInfo
     {
-        void GetMemory();
-        void GetLoad();
+        void GetSystemMemory();
+        void GetSystemLoad();
     }
 }

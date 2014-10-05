@@ -10,7 +10,7 @@ namespace _common.Protocol.Request
     {
         public override void Handle(WorkerNodeContext context)
         {
-            context.SystemInfo.GetSystenLoad();
+            context.SystemInfo.GetSystemLoad();
         }
     }
 }
