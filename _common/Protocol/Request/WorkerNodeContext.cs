@@ -7,7 +7,7 @@ using _common.NodeInterfaces;
 
 namespace _common.Protocol.Request
 {
-    class WorkerNodeContext: IRequestHandler
+    public class WorkerNodeContext: IRequestHandler
     {
         public readonly IAsyncLibraryManager LibraryManager;
         public readonly IAsyncLoadManager LoadManager;
@@ -16,7 +16,7 @@ namespace _common.Protocol.Request
         public WorkerNodeContext(IAsyncLibraryManager libraryManager, IAsyncLoadManager loadManager, 
             IAsyncSystemInfo systemInfo, IAsyncWorkerManager workerManager)
         {
-            LibraryManager = libraryManager;
+            LibraryManager = libraryManager; 
             LoadManager = loadManager;
             SystemInfo = systemInfo;
             WorkerManager = workerManager;

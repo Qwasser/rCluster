@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="LoadStatusTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtocolTest\RequestTest\RequestTest.cs" />
+    <Compile Include="ProtocolTest\RequestTest\TestContext.cs" />
     <Compile Include="ProtocolTest\RequestTest\TestLibraryManager.cs" />
     <Compile Include="ProtocolTest\RequestTest\TestLoadManager.cs" />
     <Compile Include="ProtocolTest\RequestTest\TestSystemInfo.cs" />
