@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WorkerNode
 {
-    class WorkerManager : IWorkerManager
+    public class WorkerManager : IWorkerManager
     {
         private const int WorkerLimitConst = 4;
 
@@ -23,46 +23,43 @@ namespace WorkerNode
             get { return _workers.Count; }
         }
 
-        public int WorkerLimit
-        {
-            get { return WorkerLimit; }
-            
-            set
-            {
-                if (value > WorkerLimit)
-                {
-                    WorkerLimit = value;
-                }
-                else
-                {
-                    int n = WorkerLimit - value;
-                    RemoveWorkers(n);
-
-                    WorkerLimit = value;
-                }
-            }
-        }
-
+        public int WorkersLimit { get; private set; }
+        
         private readonly LinkedList<WorkerThread> _workers;
         private readonly WorkerThreadFactory _workerThreadFactory;
 
-        WorkerManager(string redisIp = "127.0.0.1", string redisPort = "6379", string queue = "jobs", WorkerThreadFactory workerThreadFactory = null)
+        public WorkerManager(string redisIp = "127.0.0.1", string redisPort = "6379", string queue = "jobs", WorkerThreadFactory workerThreadFactory = null)
         {
             _redisIp = redisIp;
             _redisPort = redisPort;
             _queue = queue;
 
-            WorkerLimit = WorkerLimitConst;
+            WorkersLimit = WorkerLimitConst;
 
             _maxId = 0;
 
             _workers = new LinkedList<WorkerThread>();
             _workerThreadFactory = workerThreadFactory ?? new WorkerThreadFactory();
         }
+
+        public void SetWorkersLimit(int limit)
+        {
+            if (limit > WorkersLimit)
+            {
+                WorkersLimit = limit;
+            }
+            else
+            {
+                int n = WorkersLimit - limit;
+                RemoveWorkers(n);
+
+                WorkersLimit = limit;
+            }
+        }
  
         public void AddWorkers(int n)
         {
-            for (var i = 0; i < n && _workers.Count < WorkerLimit; i++)
+            for (var i = 0; i < n && _workers.Count < WorkersLimit; i++)
             {
                 var newWorker = _workerThreadFactory.CreateWorker(_redisIp, _redisPort, _queue, ++_maxId);
                 
@@ -85,7 +82,7 @@ namespace WorkerNode
 
         public void AddAllWorkers()
         {
-            AddWorkers(WorkerLimit);
+            AddWorkers(WorkersLimit);
         }
 
         public void RemoveAllWorkers()
