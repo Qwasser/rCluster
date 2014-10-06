@@ -1,37 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WorkerNode
 {
     public class RThread
     {
-        private readonly ProcessStartInfo rStartInfo;
+        public Action<Tuple<int, string>> OnSuccess;
 
-        public Action<String> OnSuccess;
+        public Action<Tuple<int, string>> OnMessage;
 
-        public Action<String> OnFailure;
+        public Action<Tuple<int, string>> OnFailure;
 
-        private Process _process;
+        private readonly Process _process;
         private bool _disposed;
 
-        public RThread(String script, String rPath)
+        public readonly int Id;
+
+        public bool HasExidet
         {
-            rStartInfo = new ProcessStartInfo
+            get { return _process.HasExited; }
+        }
+
+        public RThread(String script, String rPath, int id)
+        {
+            Id = id;
+
+            var rStartInfo = new ProcessStartInfo
             {
                 
-                    FileName = rPath,
-                    Arguments = script,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
+                FileName = rPath,
+                Arguments = script,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
                 
+            };
+
+            _process.ErrorDataReceived += (sender, args) => OnFailure(new Tuple<int, string>(Id, args.ToString()));
+            _process.OutputDataReceived += (sender, args) => OnMessage(new Tuple<int, string>(Id, args.ToString()));
+            
+            _process.Exited += (sender, args) => 
+            { 
+                var process = sender as Process;
+
+                if (process != null && process.ExitCode != 0)
+                {
+                    OnFailure(new Tuple<int, string>(Id, args.ToString()));
+                }
+                else
+                {
+                    OnSuccess(new Tuple<int, string>(Id, args.ToString()));
+                }
             };
 
             _process = Process.Start(rStartInfo);

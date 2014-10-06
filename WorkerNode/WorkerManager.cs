@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,27 +16,29 @@ namespace WorkerNode
         private readonly string _redisPort;
         private readonly string _queue;
 
+        private int _maxId;
+
         public int WorkersCount
         {
             get { return _workers.Count; }
         }
 
-        public int _workerLimit
+        public int WorkerLimit
         {
-            get { return _workerLimit; }
+            get { return WorkerLimit; }
             
             set
             {
-                if (value > _workerLimit)
+                if (value > WorkerLimit)
                 {
-                    _workerLimit = value;
+                    WorkerLimit = value;
                 }
                 else
                 {
-                    int n = _workerLimit - value;
+                    int n = WorkerLimit - value;
                     RemoveWorkers(n);
 
-                    _workerLimit = value;
+                    WorkerLimit = value;
                 }
             }
         }
@@ -43,15 +46,15 @@ namespace WorkerNode
         private readonly LinkedList<WorkerThread> _workers;
         private readonly WorkerThreadFactory _workerThreadFactory;
 
-
-
-        WorkerManager(string redisIp, string redisPort, string queue, WorkerThreadFactory workerThreadFactory = null)
+        WorkerManager(string redisIp = "127.0.0.1", string redisPort = "6379", string queue = "jobs", WorkerThreadFactory workerThreadFactory = null)
         {
             _redisIp = redisIp;
             _redisPort = redisPort;
             _queue = queue;
 
-            _workerLimit = WorkerLimitConst;
+            WorkerLimit = WorkerLimitConst;
+
+            _maxId = 0;
 
             _workers = new LinkedList<WorkerThread>();
             _workerThreadFactory = workerThreadFactory ?? new WorkerThreadFactory();
@@ -59,9 +62,15 @@ namespace WorkerNode
  
         public void AddWorkers(int n)
         {
-            for (int i = 0; i < n && _workers.Count < _workerLimit; i++)
+            for (var i = 0; i < n && _workers.Count < WorkerLimit; i++)
             {
-                _workers.AddLast(_workerThreadFactory.CreateWorker(_redisIp, _redisPort, _queue));
+                var newWorker = _workerThreadFactory.CreateWorker(_redisIp, _redisPort, _queue, ++_maxId);
+                
+                newWorker.OnSuccess += WokerSuccess;
+                newWorker.OnFailure += WokerFailure;
+                newWorker.OnMessage += WorkerMessage;
+
+                _workers.AddLast(newWorker);
             }
         }
 
@@ -76,17 +85,39 @@ namespace WorkerNode
 
         public void AddAllWorkers()
         {
-            AddWorkers(_workerLimit);
+            AddWorkers(WorkerLimit);
         }
 
         public void RemoveAllWorkers()
         {
-            foreach (var workerThread in _workers)
-            {
-                workerThread.Dispose();
-            }
+            RemoveWorkers(_workers.Count);
+        }
 
-            _workers.Clear();
+        private void WokerSuccess(Tuple<int, string> tuple)
+        {
+            lock (_workers)
+            {
+                var thread = _workers.FirstOrDefault(workerThread => workerThread.Id == tuple.Item1);
+
+                _workers.Remove(thread);
+            }
+        }
+
+        private void WokerFailure(Tuple<int, string> tuple)
+        {
+            lock (_workers)
+            {
+                var thread = _workers.FirstOrDefault(workerThread => workerThread.Id == tuple.Item1);
+
+                _workers.Remove(thread);
+
+                AddWorkers(1);
+            }
+        }
+
+        private void WorkerMessage(Tuple<int, string> tuple)
+        {
+            
         }
     }
 }
