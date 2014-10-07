@@ -43,6 +43,10 @@
     <Compile Include="NodeInterfaces\IAsyncLoadManager.cs" />
     <Compile Include="NodeInterfaces\IAsyncSystemInfo.cs" />
     <Compile Include="NodeInterfaces\IAsyncWorkerManager.cs" />
+    <Compile Include="NodeInterfaces\ILibraryManagerListener.cs" />
+    <Compile Include="NodeInterfaces\ILoadManagerListener.cs" />
+    <Compile Include="NodeInterfaces\ISystemInfoListener.cs" />
+    <Compile Include="NodeInterfaces\IWorkerManagerListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\LoadStatus.cs" />
     <Compile Include="Protocol\Request\RemoteLibraryManager.cs" />
@@ -70,9 +74,13 @@
     <Compile Include="Protocol\Request\StopWorkersRequest.cs" />
     <Compile Include="Protocol\Request\WorkerNodeContext.cs" />
     <Compile Include="Protocol\Request\WorkersCountRequest.cs" />
+    <Compile Include="SocketConnection\ConnectionState.cs" />
+    <Compile Include="SocketConnection\ConnectionUtils.cs" />
+    <Compile Include="SocketConnection\MasterNodeSocket.cs" />
+    <Compile Include="SocketConnection\WorkerNodeSocket.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Connection\" />
+    <Folder Include="Protocol\Response\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

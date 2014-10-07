@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using _common.Protocol;
 
 namespace _common.NodeInterfaces
 {
-    class ILoadManagerListener
+    interface ILoadManagerListener
     {
+        void OnMaxLimitRetreived(int limit);
+        void OnCurrentLimitRetreived(int limit);
+        void OnLoadStatusRetreived(LoadStatus status);
+        void OnLoadStatusChanged(LoadStatus status);
+
     }
 }
