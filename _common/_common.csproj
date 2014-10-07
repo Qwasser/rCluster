@@ -74,14 +74,30 @@
     <Compile Include="Protocol\Request\StopWorkersRequest.cs" />
     <Compile Include="Protocol\Request\WorkerNodeContext.cs" />
     <Compile Include="Protocol\Request\WorkersCountRequest.cs" />
+    <Compile Include="Protocol\Response\AbstractResponseClusterMessage.cs" />
+    <Compile Include="Protocol\Response\CurrentWorkerLimitRetreivedResponse.cs" />
+    <Compile Include="Protocol\Response\HasLibraryResponse.cs" />
+    <Compile Include="Protocol\Response\IResponseHandler.cs" />
+    <Compile Include="Protocol\Response\LibraryFailureResponse.cs" />
+    <Compile Include="Protocol\Response\LibraryInstallResponse.cs" />
+    <Compile Include="Protocol\Response\LibraryListRetrivedResponse.cs" />
+    <Compile Include="Protocol\Response\LoadStatusChangedResponse.cs" />
+    <Compile Include="Protocol\Response\LoadStatusRetrivedResponse.cs" />
+    <Compile Include="Protocol\Response\MasterNodeContext.cs" />
+    <Compile Include="Protocol\Response\MaxWorkerLimitRetreivedResponse.cs" />
+    <Compile Include="Protocol\Response\RedisIpRetreivedResponse.cs" />
+    <Compile Include="Protocol\Response\WorkerCountRetreivedResponse.cs" />
+    <Compile Include="Protocol\Response\WorkerErrorResponse.cs" />
+    <Compile Include="Protocol\Response\WorkerLoadRetreivedResponse.cs" />
+    <Compile Include="Protocol\Response\SystemMemoryRetrivedResponse.cs" />
+    <Compile Include="Protocol\Response\SystemLoadRetrivedResponse.cs" />
+    <Compile Include="Protocol\Response\WorkerMemoryRetreivedResponse.cs" />
     <Compile Include="SocketConnection\ConnectionState.cs" />
     <Compile Include="SocketConnection\ConnectionUtils.cs" />
     <Compile Include="SocketConnection\MasterNodeSocket.cs" />
     <Compile Include="SocketConnection\WorkerNodeSocket.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Protocol\Response\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
