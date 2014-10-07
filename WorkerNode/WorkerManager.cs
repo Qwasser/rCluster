@@ -2,12 +2,13 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WorkerNode
 {
-    class WorkerManager : IWorkerManager
+    public class WorkerManager : IWorkerManager
     {
         private const int WorkerLimitConst = 4;
 
@@ -15,53 +16,58 @@ namespace WorkerNode
         private readonly string _redisPort;
         private readonly string _queue;
 
+        private int _maxId;
+
         public int WorkersCount
         {
             get { return _workers.Count; }
         }
 
-        public int _workerLimit
-        {
-            get { return _workerLimit; }
-            
-            set
-            {
-                if (value > _workerLimit)
-                {
-                    _workerLimit = value;
-                }
-                else
-                {
-                    int n = _workerLimit - value;
-                    RemoveWorkers(n);
-
-                    _workerLimit = value;
-                }
-            }
-        }
-
+        public int WorkersLimit { get; private set; }
+        
         private readonly LinkedList<WorkerThread> _workers;
         private readonly WorkerThreadFactory _workerThreadFactory;
 
-
-
-        WorkerManager(string redisIp, string redisPort, string queue, WorkerThreadFactory workerThreadFactory = null)
+        public WorkerManager(string redisIp = "127.0.0.1", string redisPort = "6379", string queue = "jobs", WorkerThreadFactory workerThreadFactory = null)
         {
             _redisIp = redisIp;
             _redisPort = redisPort;
             _queue = queue;
 
-            _workerLimit = WorkerLimitConst;
+            WorkersLimit = WorkerLimitConst;
+
+            _maxId = 0;
 
             _workers = new LinkedList<WorkerThread>();
             _workerThreadFactory = workerThreadFactory ?? new WorkerThreadFactory();
         }
+
+        public void SetWorkersLimit(int limit)
+        {
+            if (limit > WorkersLimit)
+            {
+                WorkersLimit = limit;
+            }
+            else
+            {
+                int n = WorkersLimit - limit;
+                RemoveWorkers(n);
+
+                WorkersLimit = limit;
+            }
+        }
  
         public void AddWorkers(int n)
         {
-            for (int i = 0; i < n && _workers.Count < _workerLimit; i++)
+            for (var i = 0; i < n && _workers.Count < WorkersLimit; i++)
             {
-                _workers.AddLast(_workerThreadFactory.CreateWorker(_redisIp, _redisPort, _queue));
+                var newWorker = _workerThreadFactory.CreateWorker(_redisIp, _redisPort, _queue, ++_maxId);
+                
+                newWorker.OnSuccess += WokerSuccess;
+                newWorker.OnFailure += WokerFailure;
+                newWorker.OnMessage += WorkerMessage;
+
+                _workers.AddLast(newWorker);
             }
         }
 
@@ -76,17 +82,39 @@ namespace WorkerNode
 
         public void AddAllWorkers()
         {
-            AddWorkers(_workerLimit);
+            AddWorkers(WorkersLimit);
         }
 
         public void RemoveAllWorkers()
         {
-            foreach (var workerThread in _workers)
-            {
-                workerThread.Dispose();
-            }
+            RemoveWorkers(_workers.Count);
+        }
 
-            _workers.Clear();
+        private void WokerSuccess(Tuple<int, string> tuple)
+        {
+            lock (_workers)
+            {
+                var thread = _workers.FirstOrDefault(workerThread => workerThread.Id == tuple.Item1);
+
+                _workers.Remove(thread);
+            }
+        }
+
+        private void WokerFailure(Tuple<int, string> tuple)
+        {
+            lock (_workers)
+            {
+                var thread = _workers.FirstOrDefault(workerThread => workerThread.Id == tuple.Item1);
+
+                _workers.Remove(thread);
+
+                AddWorkers(1);
+            }
+        }
+
+        private void WorkerMessage(Tuple<int, string> tuple)
+        {
+            
         }
     }
 }

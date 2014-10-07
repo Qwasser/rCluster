@@ -8,6 +8,6 @@ namespace WorkerNode
 {
     interface IWorkerThreadFactory
     {
-        WorkerThread CreateWorker(string redisIp, string redisPort, string queue);
+        WorkerThread CreateWorker(string redisIp, string redisPort, string queue, int id);
     }
 }
