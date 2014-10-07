@@ -6,7 +6,7 @@ namespace WorkerNode
 {
     public class WorkerManager : IWorkerManager
     {
-        private const int WorkerLimitConst = 4;
+        private const int WorkerLimitConst = 0;
 
         private readonly string _redisIp;
         private readonly string _redisPort;

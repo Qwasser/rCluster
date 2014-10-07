@@ -16,6 +16,8 @@ namespace WorkerNode
 
         void RemoveAllWorkers();
 
+        void SetWorkersLimit(int limit);
+
         //void addListener(IWorkerManagerListener)
     }
 }
