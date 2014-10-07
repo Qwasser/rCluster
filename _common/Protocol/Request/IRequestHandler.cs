@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
-    interface IRequestHandler
+    public interface IRequestHandler
     {
         void HandleRequest(AbstractRequestClusterMessage msg);
     }

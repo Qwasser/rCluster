@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
-    class AddAllWorkersRequest: AbstractRequestClusterMessage
+    [Serializable]
+    public class AddAllWorkersRequest: AbstractRequestClusterMessage
     {
         public override void Handle(WorkerNodeContext context)
         {
