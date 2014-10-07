@@ -37,6 +37,8 @@ namespace WorkerNode
                 
             };
 
+            _process = new Process();
+
             _process.ErrorDataReceived += (sender, args) => OnFailure(new Tuple<int, string>(Id, args.ToString()));
             _process.OutputDataReceived += (sender, args) => OnMessage(new Tuple<int, string>(Id, args.ToString()));
             
@@ -54,7 +56,9 @@ namespace WorkerNode
                 }
             };
 
-            _process = Process.Start(rStartInfo);
+            _process.StartInfo = rStartInfo;
+
+            _process.Start();
             _disposed = false;
         }
 
