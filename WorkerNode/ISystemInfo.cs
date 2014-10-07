@@ -2,8 +2,8 @@
 {
     interface ISystemInfo
     {
-        long GetMemory();
+        float GetMemory();
 
-        int GetLoad();
+        float GetLoad();
     }
 }

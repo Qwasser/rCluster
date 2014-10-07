@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="RThreadTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemInfoTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
