@@ -2,7 +2,7 @@
 
 namespace _common.NodeInterfaces
 {
-    interface ILoadManagerListener
+    public interface ILoadManagerListener
     {
         void OnMaxLimitRetreived(int limit);
         void OnCurrentLimitRetreived(int limit);

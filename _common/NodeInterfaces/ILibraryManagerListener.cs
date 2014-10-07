@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace _common.NodeInterfaces
 {
-    internal interface ILibraryManagerListener
+    public interface ILibraryManagerListener
     {
         void OnLibraryListRetreived(List<string> libraryList);
         void OnHasLibrary(string libraryName, bool hasLibrary);

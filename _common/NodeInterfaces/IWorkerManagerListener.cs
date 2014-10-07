@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace _common.NodeInterfaces
 {
-    interface IWorkerManagerListener
+    public interface IWorkerManagerListener
     {
         void OnCountRetreived(int count);
         void OnError(string error);
         void OnRedisIpRetrived(string ip);
-        void OnWorkersLoadRetreived(int load);
+        void OnWorkersLoadRetreived(long load);
         void OnWorkersMemoryRetreived(long memory);
     }
 }
