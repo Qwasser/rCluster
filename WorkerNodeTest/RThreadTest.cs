@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using NUnit.Framework;
 using WorkerNode;
 
@@ -16,6 +17,8 @@ namespace WorkerNodeTest
             wm.AddAllWorkers();
 
             Console.WriteLine(wm.WorkersCount);
+
+            Thread.Sleep(5000);
         }
     }
 }
