@@ -23,5 +23,15 @@ namespace _common.Protocol.Request
         {
             _sender.SendRequest(new GetSystemLoadRequest());
         }
+
+        public void AddListener(ISystemInfoListener listener)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveListener(ISystemInfoListener listener)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

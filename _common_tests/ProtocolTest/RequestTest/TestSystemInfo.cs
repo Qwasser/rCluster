@@ -20,5 +20,15 @@ namespace _common_tests.ProtocolTest.RequestTest
         {
             _result = SystemLoadResult;
         }
+
+        public void AddListener(ISystemInfoListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveListener(ISystemInfoListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

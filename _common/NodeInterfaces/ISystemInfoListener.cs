@@ -9,7 +9,7 @@ namespace _common.NodeInterfaces
 {
     public interface ISystemInfoListener
     {
-        void OnMemoryRetreived(long memory);
-        void OnLoadRetreived(long load);
+        void OnMemoryRetreived(float memory);
+        void OnLoadRetreived(float load);
     }
 }

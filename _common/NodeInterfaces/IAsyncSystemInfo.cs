@@ -7,5 +7,8 @@
     {
         void GetSystemMemory();
         void GetSystemLoad();
+
+        void AddListener(ISystemInfoListener listener);
+        void RemoveListener(ISystemInfoListener listener);
     }
 }
