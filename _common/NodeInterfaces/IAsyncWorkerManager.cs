@@ -10,7 +10,6 @@
         void RemoveWorkers(int n);
         void AddAllWorkers();
         void RemoveAllWorkers();
-        void SetRedisIp(string ip);
         void GetWorkersMemory();
         void GetWorkersLoad();
     }

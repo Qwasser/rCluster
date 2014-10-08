@@ -14,11 +14,6 @@ namespace WorkerNode
 
         private int _maxId;
 
-        public int WorkersCount
-        {
-            get { return _workers.Count; }
-        }
-
         public int WorkersLimit { get; private set; }
         
         private readonly LinkedList<WorkerThread> _workers;
@@ -36,6 +31,11 @@ namespace WorkerNode
 
             _workers = new LinkedList<WorkerThread>();
             _workerThreadFactory = workerThreadFactory ?? new WorkerThreadFactory();
+        }
+
+        public int GetWorkersCount()
+        {
+            return _workers.Count;
         }
 
         public void SetWorkersLimit(int limit)

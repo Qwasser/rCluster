@@ -17,7 +17,7 @@ namespace _common.Protocol.Request
 
         public override void Handle(WorkerNodeContext context)
         {
-            context.WorkerManager.SetRedisIp(_ip);
+            //context.WorkerManager.SetRedisIp(_ip);
         }
     }
 }
