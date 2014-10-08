@@ -17,12 +17,12 @@ namespace _common.Protocol.Response
             _sender = sender;
         }
 
-        public void OnMemoryRetreived(long memory)
+        public void OnMemoryRetreived(float memory)
         {
             _sender.SendResponse(new SystemMemoryRetrivedResponse(memory));
         }
 
-        public void OnLoadRetreived(long load)
+        public void OnLoadRetreived(float load)
         {
             _sender.SendResponse(new SystemLoadRetrivedResponse(load));
         }

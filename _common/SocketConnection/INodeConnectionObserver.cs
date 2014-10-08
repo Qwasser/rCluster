@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace _common.SocketConnection
 {
-    class INodeConnectionObserver
+    public interface INodeConnectionObserver
     {
+        void OnConnectionError();
+        void OnDisconnected();
+        void OnConnected();
+        void OnConnecting();
     }
 }

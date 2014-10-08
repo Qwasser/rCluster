@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace _common.SocketConnection
 {
-    class INodeConnection
+    public interface INodeConnection
     {
+        bool IsConnected();
+        void Connect(string ip, int port);
+        void Disconnect();
+        void AddObserver(INodeConnectionObserver observer);
+
     }
 }

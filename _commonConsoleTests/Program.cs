@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using _common.Protocol.Request;
+using _common.Protocol.Response;
 
 namespace _commonConsoleTests
 {
@@ -22,14 +23,14 @@ namespace _commonConsoleTests
             NetworkStream stream = client.GetStream();
             StreamWriter sw = new StreamWriter(stream);
             Thread.Sleep(500);
-            _common.SocketConnection.WorkerNodeSocket.SendRequest(new AddAllWorkersRequest());
+            _common.SocketConnection.WorkerNodeSocket.SendResponse(new CurrentWorkerLimitRetreivedResponse(234));
             StreamReader sr = new StreamReader(client.GetStream());
             Console.Out.WriteLine("here");
             Console.Out.WriteLine(sr.ReadLine());
 
             Console.ReadKey();
             sw.Close();
-            _common.SocketConnection.WorkerNodeSocket.SendRequest(new AddAllWorkersRequest());
+            _common.SocketConnection.WorkerNodeSocket.SendResponse(new CurrentWorkerLimitRetreivedResponse(234));
         }
     }
 }

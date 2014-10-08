@@ -8,9 +8,9 @@ namespace _common.Protocol.Response
 {
     public class SystemMemoryRetrivedResponse: AbstractResponseClusterMessage
     {
-        private readonly long _memory;
+        private readonly float _memory;
 
-        public SystemMemoryRetrivedResponse(long memory)
+        public SystemMemoryRetrivedResponse(float memory)
         {
             _memory = memory;
         }

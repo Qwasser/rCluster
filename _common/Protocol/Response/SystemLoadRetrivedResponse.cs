@@ -9,9 +9,9 @@ namespace _common.Protocol.Response
 {
     public class SystemLoadRetrivedResponse: AbstractResponseClusterMessage
     {
-        private readonly long _load;
+        private readonly float _load;
 
-        public SystemLoadRetrivedResponse(long load)
+        public SystemLoadRetrivedResponse(float load)
         {
             _load = load;
         }

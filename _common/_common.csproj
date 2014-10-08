@@ -99,6 +99,8 @@
     <Compile Include="Protocol\Response\WorkerMemoryRetreivedResponse.cs" />
     <Compile Include="SocketConnection\ConnectionState.cs" />
     <Compile Include="SocketConnection\ConnectionUtils.cs" />
+    <Compile Include="SocketConnection\INodeConnection.cs" />
+    <Compile Include="SocketConnection\INodeConnectionObserver.cs" />
     <Compile Include="SocketConnection\MasterNodeSocket.cs" />
     <Compile Include="SocketConnection\WorkerNodeSocket.cs" />
   </ItemGroup>
