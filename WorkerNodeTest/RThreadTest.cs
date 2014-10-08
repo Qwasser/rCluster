@@ -19,6 +19,8 @@ namespace WorkerNodeTest
             Console.WriteLine(wm.GetWorkersCount());
 
             Thread.Sleep(5000);
+
+            Console.WriteLine(wm.GetTotalLoad());
         }
     }
 }

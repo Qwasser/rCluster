@@ -20,6 +20,10 @@ namespace WorkerNode
 
         int GetWorkersCount();
 
+        long GetUsedMemory();
+
+        float GetTotalLoad();
+
         //void addListener(IWorkerManagerListener)
     }
 }

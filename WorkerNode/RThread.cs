@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
+using System.Timers;
 
 namespace WorkerNode
 {
     public class RThread
     {
+        private const int TimerInterval = 1000;
+
         public Action<Tuple<int, string>> OnSuccess;
 
         public Action<Tuple<int, string>> OnMessage;
@@ -20,6 +24,16 @@ namespace WorkerNode
         {
             get { return _process.HasExited; }
         }
+
+        public long Memory
+        {
+            get { return _process.WorkingSet64; }
+        }
+
+        private System.Timers.Timer _cpuLoadTread;
+        private PerformanceCounter _cpuCounter;
+
+        public float CpuLoad { get; private set; }
 
         public RThread(String script, String rPath, int id)
         {
@@ -57,8 +71,20 @@ namespace WorkerNode
             };
 
             _process.StartInfo = rStartInfo;
-
             _process.Start();
+
+            CpuLoad = 0f;
+            _cpuCounter = new PerformanceCounter("Process", "% Processor Time", _process.ProcessName);
+
+            _cpuLoadTread = new System.Timers.Timer()
+            {
+                Interval = TimerInterval,
+                Enabled = true
+            };
+
+            _cpuLoadTread.Elapsed += (sender, args) => { CpuLoad = _cpuCounter.NextValue(); };
+            _cpuLoadTread.Start();
+
             _disposed = false;
         }
 
@@ -77,6 +103,8 @@ namespace WorkerNode
 
             _disposed = true;
             GC.SuppressFinalize(this);
+
+            _cpuLoadTread.Stop();
         }
 
         ~RThread()

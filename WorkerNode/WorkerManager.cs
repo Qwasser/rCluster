@@ -6,7 +6,7 @@ namespace WorkerNode
 {
     public class WorkerManager : IWorkerManager
     {
-        private const int WorkerLimitConst = 0;
+        private const int WorkerLimitConst = 4;
 
         private readonly string _redisIp;
         private readonly string _redisPort;
@@ -84,6 +84,16 @@ namespace WorkerNode
         public void RemoveAllWorkers()
         {
             RemoveWorkers(_workers.Count);
+        }
+
+        public long GetUsedMemory()
+        {
+            return _workers.Select(w => w.Memory).Sum();
+        }
+
+        public float GetTotalLoad()
+        {
+            return _workers.Select(w => w.CpuLoad).Sum();
         }
 
         private void WokerSuccess(Tuple<int, string> tuple)

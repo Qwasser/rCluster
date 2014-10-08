@@ -1,14 +1,15 @@
 ﻿using System.Diagnostics;
-using System.Threading;
 
 namespace WorkerNode
 {
     public class SystemInfo : ISystemInfo
     {
+        private const int TimerInterval = 1000;
+
         private PerformanceCounter _cpuCounter;
         private PerformanceCounter _ramCounter;
 
-        private Thread _cpuLoadTread;
+        private System.Timers.Timer _cpuLoadTread;
 
         private bool _aborted;
 
@@ -27,10 +28,16 @@ namespace WorkerNode
             _aborted = false;
             _cpuLoad = 0;
 
-            _cpuLoadTread = new Thread(UpdateCPULoad);
+            _cpuLoadTread = new System.Timers.Timer()
+            {
+                Interval = TimerInterval,
+                Enabled = true
+            };
+
+            _cpuLoadTread.Elapsed += (sender, args) => UpdateCpuLoad();
+
             _cpuLoadTread.Start();
         }
-
 
         public float GetMemory()
         {
@@ -42,26 +49,14 @@ namespace WorkerNode
             return _cpuLoad;
         }
 
-        private void UpdateCPULoad()
+        private void UpdateCpuLoad()
         {
-            while (!_aborted)
-            {
-                _cpuCounter.NextValue();
-                Thread.Sleep(1000);
-
-                _cpuLoad = _cpuCounter.NextValue();
-            }
-        }
-
-        private void Dispode()
-        {
-            _aborted = true;
-            _cpuLoadTread.Join();
+            _cpuLoad = _cpuCounter.NextValue();
         }
 
         ~SystemInfo()
         {
-            Dispode();
+            _cpuLoadTread.Stop();
         }
     }
 }
