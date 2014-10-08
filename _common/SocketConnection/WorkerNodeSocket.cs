@@ -2,13 +2,15 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using _common.Protocol.Request;
+using _common.Protocol.Response;
 
 namespace _common.SocketConnection
 {
-    public class WorkerNodeSocket
+    public class WorkerNodeSocket : IResponseSender
     {
         private static TcpListener _listener;
         private static IRequestHandler _requestHandler;
@@ -42,9 +44,8 @@ namespace _common.SocketConnection
             return client.GetStream();
         }
 
-        public static void SendRequest(AbstractRequestClusterMessage msg)
+        public static void SendResponse(AbstractResponseClusterMessage msg)
         {
-            Console.Out.WriteLine("ooooooh");
             if (_writer != StreamWriter.Null)
             {
                 
@@ -68,7 +69,7 @@ namespace _common.SocketConnection
                             string res = reader.ReadLine();
                             while (res != null)
                             {
-                                _requestHandler.HandleRequest(ConnectionUtils.TryDecode(res));
+                                _requestHandler.HandleRequest(ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
                                 res = reader.ReadLine();
                             }
                             shutdown = true;
@@ -99,6 +100,11 @@ namespace _common.SocketConnection
                 stream.Close();
                 AsyncAcceptConnection();
             } 
+        }
+
+        void IResponseSender.SendResponse(AbstractResponseClusterMessage response)
+        {
+            SendResponse(response);
         }
     }
 }

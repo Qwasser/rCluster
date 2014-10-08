@@ -14,17 +14,17 @@ namespace _common.SocketConnection
         public static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
 
-        public static AbstractRequestClusterMessage TryDecode(string bytes)
+        public static T TryDecode<T>(string bytes)
         {
             byte[] b = Convert.FromBase64String(bytes);
             using (var stream = new MemoryStream(b))
             {
                 stream.Seek(0, SeekOrigin.Begin);
-                return (AbstractRequestClusterMessage)Formatter.Deserialize(stream);
+                return (T)Formatter.Deserialize(stream);
             }
         }
 
-        public static string Encode(AbstractRequestClusterMessage msg)
+        public static string Encode<T>(T msg)
         {
             using (var ms = new MemoryStream())
             {

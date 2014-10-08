@@ -78,6 +78,7 @@
     <Compile Include="Protocol\Response\CurrentWorkerLimitRetreivedResponse.cs" />
     <Compile Include="Protocol\Response\HasLibraryResponse.cs" />
     <Compile Include="Protocol\Response\IResponseHandler.cs" />
+    <Compile Include="Protocol\Response\IResponseSender.cs" />
     <Compile Include="Protocol\Response\LibraryFailureResponse.cs" />
     <Compile Include="Protocol\Response\LibraryInstallResponse.cs" />
     <Compile Include="Protocol\Response\LibraryListRetrivedResponse.cs" />
@@ -86,6 +87,10 @@
     <Compile Include="Protocol\Response\MasterNodeContext.cs" />
     <Compile Include="Protocol\Response\MaxWorkerLimitRetreivedResponse.cs" />
     <Compile Include="Protocol\Response\RedisIpRetreivedResponse.cs" />
+    <Compile Include="Protocol\Response\RemoteLibraryManagerListener.cs" />
+    <Compile Include="Protocol\Response\RemoteLoadManagerListener.cs" />
+    <Compile Include="Protocol\Response\RemoteSystemInfoListener.cs" />
+    <Compile Include="Protocol\Response\RemoteWorkerManagerListener.cs" />
     <Compile Include="Protocol\Response\WorkerCountRetreivedResponse.cs" />
     <Compile Include="Protocol\Response\WorkerErrorResponse.cs" />
     <Compile Include="Protocol\Response\WorkerLoadRetreivedResponse.cs" />
