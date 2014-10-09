@@ -4,9 +4,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_common", "_common\_common.csproj", "{2CE3B2F0-ED29-4012-99FF-F69902ABE15A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_common_tests", "_common_tests\_common_tests.csproj", "{A9E27839-D8B0-4889-9253-3F92F7CDB671}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerNode", "WorkerNode\WorkerNode.csproj", "{BE334629-B635-42B8-B217-354F958AB528}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerNodeTest", "WorkerNodeTest\WorkerNodeTest.csproj", "{49454620-E823-4601-A098-611A1E3CD39D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerNodeApp", "WorkerNodeApp\WorkerNodeApp.csproj", "{0A77BFCC-ADC8-42EA-BBF3-F1EBC6D52820}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +33,10 @@ Global
 		{49454620-E823-4601-A098-611A1E3CD39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49454620-E823-4601-A098-611A1E3CD39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49454620-E823-4601-A098-611A1E3CD39D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A77BFCC-ADC8-42EA-BBF3-F1EBC6D52820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A77BFCC-ADC8-42EA-BBF3-F1EBC6D52820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A77BFCC-ADC8-42EA-BBF3-F1EBC6D52820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A77BFCC-ADC8-42EA-BBF3-F1EBC6D52820}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

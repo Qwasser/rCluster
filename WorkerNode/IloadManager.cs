@@ -3,7 +3,7 @@ using _common.Protocol;
 
 namespace WorkerNode
 {
-    interface ILoadManager
+    public interface ILoadManager
     {
         int GetMaxLimit();
 

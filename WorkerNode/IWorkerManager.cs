@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorkerNode
 {
-    interface IWorkerManager
+    public interface IWorkerManager
     {
         void AddWorkers(int n);
 

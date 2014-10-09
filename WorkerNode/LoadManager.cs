@@ -5,7 +5,7 @@ using _common.Protocol;
 
 namespace WorkerNode
 {
-    class LoadManager : ILoadManager
+    public class LoadManager : ILoadManager
     {
         private readonly int _maxLimit;
         private readonly IWorkerManager _workerManager;
