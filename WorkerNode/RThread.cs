@@ -59,14 +59,17 @@ namespace WorkerNode
             _process.Exited += (sender, args) => 
             { 
                 var process = sender as Process;
-
-                if (process != null && process.ExitCode != 0)
+                
+                if (!_disposed)
                 {
-                    OnFailure(new Tuple<int, string>(Id, args.ToString()));
-                }
-                else
-                {
-                    OnSuccess(new Tuple<int, string>(Id, args.ToString()));
+                    if (process != null && process.ExitCode != 0)
+                    {
+                        OnFailure(new Tuple<int, string>(Id, args.ToString()));
+                    }
+                    else
+                    {
+                        OnSuccess(new Tuple<int, string>(Id, args.ToString()));
+                    }
                 }
             };
 
