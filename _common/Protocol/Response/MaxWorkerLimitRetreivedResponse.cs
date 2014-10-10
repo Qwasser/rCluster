@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Response
 {
+    [Serializable]
     public class MaxWorkerLimitRetreivedResponse : AbstractResponseClusterMessage
     {
         private readonly int _limit;

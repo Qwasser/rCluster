@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Response
 {
+    [Serializable]
     public abstract class AbstractResponseClusterMessage
     {
         public abstract void Handle(MasterNodeContext context);

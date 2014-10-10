@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Response
 {
+    [Serializable]
     public class LibraryListRetrivedResponse: AbstractResponseClusterMessage
     {
         private readonly List<string> _libs;

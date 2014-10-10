@@ -1,5 +1,8 @@
-﻿namespace _common.Protocol.Response
+﻿using System;
+
+namespace _common.Protocol.Response
 {
+    [Serializable]
     class WorkerMemoryRetreivedResponse: AbstractResponseClusterMessage
     {
         private readonly long _memory;

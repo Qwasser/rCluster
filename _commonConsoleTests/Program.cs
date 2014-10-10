@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using _common.Protocol.Request;
 using _common.Protocol.Response;
+using _common.SocketConnection;
 
 namespace _commonConsoleTests
 {
@@ -12,25 +13,23 @@ namespace _commonConsoleTests
     {
         private static void Main(string[] args)
         {
-            _common.SocketConnection.WorkerNodeSocket.StartListening(6273, null);
+            //_common.SocketConnection.WorkerNodeSocket.StartListening(6273, null);
 
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            IPEndPoint endPoint = new IPEndPoint(ip, 6273);
-            TcpClient client = new TcpClient();
-            client.Connect(endPoint);
+            MasterNodeSocket client = new MasterNodeSocket(new ConsoleHandler());
 
-            
-            NetworkStream stream = client.GetStream();
-            StreamWriter sw = new StreamWriter(stream);
-            Thread.Sleep(500);
-            _common.SocketConnection.WorkerNodeSocket.SendResponse(new CurrentWorkerLimitRetreivedResponse(234));
-            StreamReader sr = new StreamReader(client.GetStream());
-            Console.Out.WriteLine("here");
-            Console.Out.WriteLine(sr.ReadLine());
-
+            client.Connect("127.0.0.1", 6273);
             Console.ReadKey();
-            sw.Close();
-            _common.SocketConnection.WorkerNodeSocket.SendResponse(new CurrentWorkerLimitRetreivedResponse(234));
+
+
+
+        }
+
+        public class ConsoleHandler : IResponseHandler
+        {
+            public void HandleResponse(AbstractResponseClusterMessage msg)
+            {
+                Console.Out.WriteLine(msg.ToString());
+            }
         }
     }
 }

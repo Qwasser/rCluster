@@ -26,21 +26,39 @@ namespace _common.SocketConnection
             var ipEndPoint = new IPEndPoint(ipAddr, port);
 
             _listener = new TcpListener(ipEndPoint);
-            _listener.Start(1);
+            _listener.Start(0);
             AsyncAcceptConnection();
+        }
+
+        public static void StopListening()
+        {
+            if (_connectedClient != null)
+            {
+                _connectedClient.Close();
+            }
+            _listener.Stop();
         }
 
         public static void AsyncAcceptConnection()
         {
-            var clientTask = Task.Factory.FromAsync<TcpClient>(_listener.BeginAcceptTcpClient,
+            try
+            {
+                var clientTask = Task.Factory.FromAsync<TcpClient>(_listener.BeginAcceptTcpClient,
                     _listener.EndAcceptTcpClient, _listener);
-            clientTask.ContinueWith(c => SaveConnection(c.Result)).ContinueWith(c => ContinuousReceive(c.Result));
+                clientTask.ContinueWith(c => SaveConnection(c.Result)).ContinueWith(c => ContinuousReceive(c.Result));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            
         }
 
         private static NetworkStream SaveConnection(TcpClient client)
         {
             _connectedClient = client;
             _writer = new StreamWriter(client.GetStream());
+            Console.WriteLine("recaived");
             return client.GetStream();
         }
 
@@ -49,7 +67,7 @@ namespace _common.SocketConnection
             if (_writer != StreamWriter.Null)
             {
                 
-                _writer.WriteLine(ConnectionUtils.Encode(msg));
+                _writer.WriteLine(ConnectionUtils.Encode<AbstractResponseClusterMessage>(msg));
                 _writer.Flush();
             }
         }
@@ -63,22 +81,15 @@ namespace _common.SocketConnection
                 while (!shutdown)
                 {
                     try
-                    {
-                        if (stream.DataAvailable)
+                    {          
+                        string res = reader.ReadLine();
+                        while (res != null)
                         {
-                            string res = reader.ReadLine();
-                            while (res != null)
-                            {
-                                _requestHandler.HandleRequest(ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
-                                res = reader.ReadLine();
-                            }
-                            shutdown = true;
+                            _requestHandler.HandleRequest(ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
+                            res = reader.ReadLine();
                         }
-                        else
-                        {
-                            Thread.Sleep(50);
-                        }
-                        
+                        shutdown = true;  
+                        Console.Out.WriteLine("shutting down");
                     }
                     catch (IOException ex)
                     {
@@ -89,6 +100,7 @@ namespace _common.SocketConnection
                 _writer.Close();
                 _writer = StreamWriter.Null;
                 _connectedClient.Close();
+                Console.WriteLine("ClosedConnection");
             }
             catch (Exception ex)
             {

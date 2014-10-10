@@ -9,8 +9,15 @@ using _common.Protocol.Request;
 
 namespace _common.SocketConnection
 {
-    class ConnectionUtils
+    public class ConnectionUtils
     {
+        public static readonly string HandShakeString = "clusterHandshake";
+        public enum ConnectionState
+        {
+            Connected,
+            Connecting,
+            Disconnected
+        }
         public static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
 
@@ -28,12 +35,10 @@ namespace _common.SocketConnection
         {
             using (var ms = new MemoryStream())
             {
-                Console.Out.WriteLine("encoding");
                 Formatter.Serialize(ms, msg);
                 ms.Flush();
                 ms.Position = 0;
                 string res = Convert.ToBase64String(ms.ToArray());
-                Console.Out.WriteLine(res);
                 return res;
             }
         }

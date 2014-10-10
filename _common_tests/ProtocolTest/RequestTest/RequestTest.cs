@@ -94,9 +94,11 @@ namespace _common_tests.ProtocolTest.RequestTest
             sender.GetWorkersMemory();
             Assert.AreEqual(TestWorkerManager.GetWorkersMemoryResult, testWorkerManager.GetResult());
 
+            /*
             const string ip = "192.168.0.1";
             sender.SetRedisIp(ip);
             Assert.AreEqual(TestWorkerManager.SetRedisIpResult + ip, testWorkerManager.GetResult());
+             */
         }
     }
 }

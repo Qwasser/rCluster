@@ -1,6 +1,9 @@
 ﻿
+using System;
+
 namespace _common.Protocol.Response
 {
+    [Serializable]
     public class HasLibraryResponse: AbstractResponseClusterMessage
     {
         private readonly string _libName;

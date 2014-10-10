@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace _common.Protocol.Response
 {
+    [Serializable]
     public class SystemLoadRetrivedResponse: AbstractResponseClusterMessage
     {
         private readonly float _load;

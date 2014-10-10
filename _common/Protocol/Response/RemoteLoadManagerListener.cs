@@ -7,6 +7,7 @@ using _common.NodeInterfaces;
 
 namespace _common.Protocol.Response
 {
+    [Serializable]
     class RemoteLoadManagerListener : ILoadManagerListener
     {
         private readonly IResponseSender _sender;

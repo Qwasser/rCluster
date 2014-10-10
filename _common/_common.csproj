@@ -97,7 +97,6 @@
     <Compile Include="Protocol\Response\SystemMemoryRetrivedResponse.cs" />
     <Compile Include="Protocol\Response\SystemLoadRetrivedResponse.cs" />
     <Compile Include="Protocol\Response\WorkerMemoryRetreivedResponse.cs" />
-    <Compile Include="SocketConnection\ConnectionState.cs" />
     <Compile Include="SocketConnection\ConnectionUtils.cs" />
     <Compile Include="SocketConnection\INodeConnection.cs" />
     <Compile Include="SocketConnection\INodeConnectionObserver.cs" />

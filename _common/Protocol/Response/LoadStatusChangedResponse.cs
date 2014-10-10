@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Response
 {
+    [Serializable]
     class LoadStatusChangedResponse: AbstractResponseClusterMessage
     {
         private readonly LoadStatus _status;

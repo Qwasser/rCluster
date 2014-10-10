@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Response
 {
-    interface IResponseHandler
+    public interface IResponseHandler
     {
         void HandleResponse(AbstractResponseClusterMessage msg);
     }

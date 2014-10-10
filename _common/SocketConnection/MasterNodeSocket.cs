@@ -13,16 +13,23 @@ using _common.Protocol.Response;
 
 namespace _common.SocketConnection
 {
-    class MasterNodeSocket : IRequestSender, INodeConnection
+    public class MasterNodeSocket : IRequestSender, INodeConnection
     {
-        private List<INodeConnectionObserver> _observers = new List<INodeConnectionObserver>();
+        private readonly List<INodeConnectionObserver> _observers = new List<INodeConnectionObserver>();
+        
+        // Current tcp client
         private TcpClient _client;
-        private IResponseHandler _responseHandler;
-        private bool _isConnected = false;
-        private bool _isConnecting = false;
+        private readonly IResponseHandler _responseHandler;
+        
+        // State of connection
+        private ConnectionUtils.ConnectionState _state = ConnectionUtils.ConnectionState.Disconnected;
 
+        // Currently unning received thread
         private Receiver _receiver;
+        // Current stream writer
         private StreamWriter _writer = StreamWriter.Null;
+        
+        // Shut down event to stop all the threads
         public ManualResetEvent ShutDownEvent = new ManualResetEvent(false);
 
         public MasterNodeSocket(IResponseHandler responseHandler)
@@ -41,36 +48,59 @@ namespace _common.SocketConnection
 
         public bool IsConnected()
         {
-            return _isConnected;
+            return _state == ConnectionUtils.ConnectionState.Connected;
         }
 
         public void Connect(string ip, int port)
         {
-            if (!_isConnected && !_isConnecting)
+            if (_state == ConnectionUtils.ConnectionState.Disconnected)
             {
+                // Changing state to connecting
+                _state = ConnectionUtils.ConnectionState.Connecting;
                 NotifyConnecting();
-                _isConnecting = true;
+
+                // Create tcp client for connection
                 _client = new TcpClient();
+
+                // Reset the shutdown event
                 ShutDownEvent.Reset();
-                var callBack = new AsyncCallback(OnConnected);
-                try
+                var callBack = new AsyncCallback(OnConnected);  
+                IAsyncResult result = _client.BeginConnect(IPAddress.Parse(ip), port, callBack, _client);
+
+                // Run task to close socket if connection is timed out
+                Task.Factory.StartNew(() =>
                 {
-                    _client.BeginConnect(IPAddress.Parse(ip), port, callBack, _client);
-                }
-                catch (Exception)
-                {
-                    _isConnecting = false;
-                    NotifyDisconnected();
-                }
+                    var wh = result.AsyncWaitHandle;
+                    try
+                    {
+                        if (!result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(4), false))
+                        {
+                            // The logic to control when the connection timed out
+                            _client.Close();
+                            NotifyDisconnected();
+                            _state = ConnectionUtils.ConnectionState.Disconnected;
+
+                        }
+                    }
+                    finally
+                    {
+                        wh.Close();
+                    }
+                });
+                
             }
         }
 
         public void Disconnect()
         {
-            _isConnected = false;
-            ShutDownEvent.Set();
-            NotifyDisconnected();
-            _client.Close();
+            if (_state == ConnectionUtils.ConnectionState.Connected)
+            {
+                _state = ConnectionUtils.ConnectionState.Disconnected;
+                ShutDownEvent.Set();
+                NotifyDisconnected();
+                _client.Close();
+                _receiver._thread.Join();
+            }
         }
 
         public void AddObserver(INodeConnectionObserver observer)
@@ -104,11 +134,21 @@ namespace _common.SocketConnection
 
         private void OnConnected(IAsyncResult result)
         {
-            _isConnecting = false;
-            _isConnected = true;
-            var client = (TcpClient) result.AsyncState;
-            NotifyConnected();
-            _receiver = new Receiver(client.GetStream(), this);
+            if (_client.Connected)
+            {
+                // If client is succesfully connected - set the state and run receiver thread
+                _state = ConnectionUtils.ConnectionState.Connected;
+                
+                _receiver = new Receiver(_client.GetStream(), this);
+                NotifyConnected();       
+            }
+            else
+            {
+                // If not connected - close client, set disconnected status and notify observers
+                _client.Close();
+                _state = ConnectionUtils.ConnectionState.Disconnected;
+                NotifyDisconnected();
+            }
         }
 
         private sealed class Receiver
@@ -133,39 +173,29 @@ namespace _common.SocketConnection
                     {
                         try
                         {
-                            // We could use the ReadTimeout property and let Read()
-                            // block.  However, if no data is received prior to the
-                            // timeout period expiring, an IOException occurs.
-                            // While this can be handled, it leads to problems when
-                            // debugging if we are wanting to break when exceptions
-                            // are thrown (unless we explicitly ignore IOException,
-                            // which I always forget to do).
-                            if (!_stream.DataAvailable)
+                            string res = reader.ReadLine();
+                            if (res != null)
                             {
-                                // Give up the remaining time slice.
-                                Thread.Sleep(1);
+                                _parent._responseHandler.HandleResponse(
+                                    ConnectionUtils.TryDecode<AbstractResponseClusterMessage>(res));
+
                             }
-                            else 
+                            else
                             {
-                                string res = reader.ReadLine();
-                                while (res != null)
-                                {
-                                    _parent._responseHandler.HandleResponse(ConnectionUtils.TryDecode<AbstractResponseClusterMessage>(res));
-                                    res = reader.ReadLine();
-                                }
-                                
                                 _parent.ShutDownEvent.Set();
                             }
                         }
                         catch (IOException ex)
                         {
-                            // Handle the exception...
+                            reader.Close();
                         }
+                        
                     }
+
                 }
                 catch (Exception ex)
                 {
-                    _parent._isConnected = false;
+                    _parent._state = ConnectionUtils.ConnectionState.Disconnected;
                     _parent.NotifyDisconnected();
                 }
                 finally
@@ -175,7 +205,7 @@ namespace _common.SocketConnection
             }
 
             private NetworkStream _stream;
-            private Thread _thread;
+            public Thread _thread;
             private MasterNodeSocket _parent;
         }
     }

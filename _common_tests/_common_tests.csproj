@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionTest\ClientTest.cs" />
+    <Compile Include="ConnectionTest\SerrializationTests.cs" />
+    <Compile Include="ConnectionTest\StringResponseHandler.cs" />
+    <Compile Include="ConnectionTest\TestNodeConnectionObserver.cs" />
     <Compile Include="LoadStatusTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolTest\RequestTest\RequestTest.cs" />
