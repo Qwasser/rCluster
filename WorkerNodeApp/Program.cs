@@ -17,12 +17,12 @@ namespace WorkerNodeApp
         [STAThread]
         static void Main()
         {
-            string rPath = ConfigurationManager.AppSettings["rPath"];
-            string redisPort = ConfigurationManager.AppSettings["redisPort"];
-            string redisIp = ConfigurationManager.AppSettings["redisIp"];
-            string redisQueue = ConfigurationManager.AppSettings["redisQueue"];
-            string redisScriptTemplate = ConfigurationManager.AppSettings["redisScriptTemplate"];
-            string loadStatusStr = ConfigurationManager.AppSettings["loadStatus"];
+            string rPath = @"C:\Program Files\R\R-3.1.1\bin\x64\Rscript";//ConfigurationManager.AppSettings["rPath"];
+            string redisPort = "6379";//ConfigurationManager.AppSettings["redisPort"];
+            string redisIp = "127.0.0.1";//ConfigurationManager.AppSettings["redisIp"];
+            string redisQueue = "jobs";//ConfigurationManager.AppSettings["redisQueue"];
+            string redisScriptTemplate = " --slave -e \"require(doRedis);redisWorker(host = '{0}', port = {1}, queue='{2}')\" ";//ConfigurationManager.AppSettings["redisScriptTemplate"];
+            string loadStatusStr = "Free;4";//ConfigurationManager.AppSettings["loadStatus"];
 
             LoadStatus loadStatus;
             if (!LoadStatus.TryParseString(loadStatusStr, out loadStatus))
@@ -38,7 +38,7 @@ namespace WorkerNodeApp
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(workerManager, loadManager));
+            Application.Run(new MainForm(loadManager, workerManager));
         }
     }
 }

@@ -7,14 +7,17 @@ namespace WorkerNodeApp
 {
     public partial class MainForm : Form
     {
-        private readonly IWorkerManager _workerManager;
-
         private readonly ILoadManager _loadManager;
+        private readonly IWorkerManager _workerManager;
+        private bool _initialized;
 
-        public MainForm(IWorkerManager workerManager = null, ILoadManager loadManager = null)
+        public MainForm(ILoadManager loadManager, IWorkerManager workerManager)
         {
-            _workerManager = workerManager ?? new WorkerManager();
-            _loadManager = loadManager ?? new LoadManager(_workerManager, new LoadStatus(){LoadType = LoadStatusType.Free});
+            _initialized = false;
+
+
+            _loadManager = loadManager;
+            _workerManager = workerManager;
 
             InitializeComponent();
 
@@ -45,7 +48,10 @@ namespace WorkerNodeApp
                 }
             }
 
+
             _workerManager.AddAllWorkers();
+
+            _initialized = true;
         }
 
         private void LimitedRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -80,12 +86,19 @@ namespace WorkerNodeApp
 
         private void WokersUserLimitNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (WokersUserLimitNumericUpDown.Value == 0)
+            if (_initialized)
             {
-                LockedRadioButton.Checked = true;
-            }
+                if (WokersUserLimitNumericUpDown.Value == 0)
+                {
+                    LockedRadioButton.Checked = true;
+                }
 
-            _loadManager.SetStatus(new LoadStatus() { Limit = (int)WokersUserLimitNumericUpDown.Value, LoadType = LoadStatusType.Limited });
+                _loadManager.SetStatus(new LoadStatus()
+                {
+                    Limit = (int) WokersUserLimitNumericUpDown.Value,
+                    LoadType = LoadStatusType.Limited
+                });
+            }
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
