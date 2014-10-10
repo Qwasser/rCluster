@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using WorkerNode;
-using _common;
 using _common.Protocol;
 
 namespace WorkerNodeApp
@@ -22,7 +21,29 @@ namespace WorkerNodeApp
             WokersUserLimitNumericUpDown.Value = _loadManager.GetMaxLimit();
             WokersUserLimitNumericUpDown.Maximum = _loadManager.GetMaxLimit();
 
-            FreeRadioButton.Checked = true;
+            switch (_loadManager.GetStatus().LoadType)
+            {
+                case LoadStatusType.Free:
+                {
+                    FreeRadioButton.Checked = true;
+                    break;
+                }
+                case LoadStatusType.Limited:
+                {
+                    WokersUserLimitNumericUpDown.Value = _loadManager.GetStatus().Limit;
+                    LimitedRadioButton.Checked = true;
+                    break;
+                }
+                case LoadStatusType.Locked:
+                {
+                    LockedRadioButton.Checked = true;
+                    break;
+                }
+                case LoadStatusType.Adaptive:
+                {
+                    break;
+                }
+            }
 
             _workerManager.AddAllWorkers();
         }

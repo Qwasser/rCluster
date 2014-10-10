@@ -17,9 +17,9 @@ namespace WorkerNode
         public int WorkersLimit { get; private set; }
         
         private readonly LinkedList<WorkerThread> _workers;
-        private readonly WorkerThreadFactory _workerThreadFactory;
+        private readonly IWorkerThreadFactory _workerThreadFactory;
 
-        public WorkerManager(string redisIp = "127.0.0.1", string redisPort = "6379", string queue = "jobs", WorkerThreadFactory workerThreadFactory = null)
+        public WorkerManager(string redisIp = "127.0.0.1", string redisPort = "6379", string queue = "jobs", IWorkerThreadFactory workerThreadFactory = null)
         {
             _redisIp = redisIp;
             _redisPort = redisPort;
