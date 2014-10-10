@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionTest\ClientTest.cs" />
+    <Compile Include="ConnectionTest\DataTransmittionTests.cs" />
     <Compile Include="ConnectionTest\SerrializationTests.cs" />
     <Compile Include="ConnectionTest\StringResponseHandler.cs" />
     <Compile Include="ConnectionTest\TestNodeConnectionObserver.cs" />
@@ -62,6 +63,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

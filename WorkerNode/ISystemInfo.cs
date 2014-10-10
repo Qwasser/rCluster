@@ -1,6 +1,6 @@
 ﻿namespace WorkerNode
 {
-    interface ISystemInfo
+    public interface ISystemInfo
     {
         float GetMemory();
 

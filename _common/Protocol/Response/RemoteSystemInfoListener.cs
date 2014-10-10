@@ -8,7 +8,7 @@ using _common.NodeInterfaces;
 
 namespace _common.Protocol.Response
 {
-    class RemoteSystemInfoListener: ISystemInfoListener
+    public class RemoteSystemInfoListener: ISystemInfoListener
     {
         private readonly IResponseSender _sender;
 

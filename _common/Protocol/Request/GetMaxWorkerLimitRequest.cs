@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
-    class GetMaxWorkerLimitRequest: AbstractRequestClusterMessage
+    [Serializable]
+    public class GetMaxWorkerLimitRequest: AbstractRequestClusterMessage
     {
         public override void Handle(WorkerNodeContext context)
         {

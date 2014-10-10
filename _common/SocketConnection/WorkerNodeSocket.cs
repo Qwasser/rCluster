@@ -39,7 +39,7 @@ namespace _common.SocketConnection
             _listener.Stop();
         }
 
-        public static void AsyncAcceptConnection()
+        private static void AsyncAcceptConnection()
         {
             try
             {
@@ -58,7 +58,6 @@ namespace _common.SocketConnection
         {
             _connectedClient = client;
             _writer = new StreamWriter(client.GetStream());
-            Console.WriteLine("recaived");
             return client.GetStream();
         }
 
@@ -67,7 +66,7 @@ namespace _common.SocketConnection
             if (_writer != StreamWriter.Null)
             {
                 
-                _writer.WriteLine(ConnectionUtils.Encode<AbstractResponseClusterMessage>(msg));
+                _writer.WriteLine(ConnectionUtils.Encode(msg));
                 _writer.Flush();
             }
         }
@@ -81,15 +80,19 @@ namespace _common.SocketConnection
                 while (!shutdown)
                 {
                     try
-                    {          
-                        string res = reader.ReadLine();
-                        while (res != null)
+                    {
+                        if (stream.DataAvailable)
                         {
-                            _requestHandler.HandleRequest(ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
-                            res = reader.ReadLine();
+                            string res = reader.ReadLine();
+                            while (res != null)
+                            {
+                                _requestHandler.HandleRequest(
+                                    ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
+                                SendResponse(new SystemMemoryRetrivedResponse(213));
+                                res = reader.ReadLine();
+                            }
+                            shutdown = true;
                         }
-                        shutdown = true;  
-                        Console.Out.WriteLine("shutting down");
                     }
                     catch (IOException ex)
                     {
@@ -100,7 +103,7 @@ namespace _common.SocketConnection
                 _writer.Close();
                 _writer = StreamWriter.Null;
                 _connectedClient.Close();
-                Console.WriteLine("ClosedConnection");
+
             }
             catch (Exception ex)
             {

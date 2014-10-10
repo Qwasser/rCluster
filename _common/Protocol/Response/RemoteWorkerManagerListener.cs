@@ -7,7 +7,7 @@ using _common.NodeInterfaces;
 
 namespace _common.Protocol.Response
 {
-    class RemoteWorkerManagerListener: IWorkerManagerListener
+    public class RemoteWorkerManagerListener: IWorkerManagerListener
     {
         private readonly IResponseSender _sender;
 

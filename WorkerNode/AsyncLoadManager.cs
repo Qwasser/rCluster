@@ -4,7 +4,7 @@ using _common.Protocol;
 
 namespace WorkerNode
 {
-    class AsyncLoadManager : IAsyncLoadManager
+    public class AsyncLoadManager : IAsyncLoadManager
     {
 
         private readonly ILoadManager _loadManager;
@@ -32,7 +32,7 @@ namespace WorkerNode
 
             foreach (var loadManagerListener in _listeners)
             {
-                loadManagerListener.OnCurrentLimitRetreived(maxLimit);
+                loadManagerListener.OnMaxLimitRetreived(maxLimit);
             }
         }
 

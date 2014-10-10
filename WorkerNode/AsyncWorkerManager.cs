@@ -4,7 +4,7 @@ using _common.NodeInterfaces;
 
 namespace WorkerNode
 {
-    class AsyncWorkerManager : IAsyncWorkerManager
+    public class AsyncWorkerManager : IAsyncWorkerManager
     {
         private readonly IWorkerManager _workerManager;
         private readonly List<IWorkerManagerListener> _listeners;

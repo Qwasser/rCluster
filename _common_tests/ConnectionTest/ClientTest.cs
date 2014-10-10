@@ -84,7 +84,7 @@ namespace _common_tests.ConnectionTest
                 // Whait a bit for connection
                 Thread.Sleep(100);
                 // Check connected status
-                Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Connected);
+                Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Connected);         
             }
             catch (Exception)
             {

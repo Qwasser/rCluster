@@ -3,7 +3,7 @@ using _common.NodeInterfaces;
 
 namespace WorkerNode
 {
-    class AsyncSystemInfo : IAsyncSystemInfo
+    public class AsyncSystemInfo : IAsyncSystemInfo
     {
         private readonly ISystemInfo _systemInfo;
         private readonly List<ISystemInfoListener> _listeners;  

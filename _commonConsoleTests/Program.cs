@@ -17,11 +17,12 @@ namespace _commonConsoleTests
 
             MasterNodeSocket client = new MasterNodeSocket(new ConsoleHandler());
 
-            client.Connect("127.0.0.1", 6273);
+            client.Connect("127.0.0.1", 6700);
+            Console.Out.WriteLine(client.IsConnected());
             Console.ReadKey();
-
-
-
+            client.SendRequest(new GetMaxWorkerLimitRequest());
+            Console.ReadKey();
+            client.Disconnect();
         }
 
         public class ConsoleHandler : IResponseHandler
