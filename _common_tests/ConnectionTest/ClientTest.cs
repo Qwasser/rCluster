@@ -74,21 +74,33 @@ namespace _common_tests.ConnectionTest
 
             // Run server on localhost
             WorkerNodeSocket.StartListening(6273, null);
-            // Client is disconnected when created
-            Assert.IsFalse(client.IsConnected());
-            // COnnect to a server
-            client.Connect("127.0.0.1", 6273);
-            
-            // Whait a bit for connection
-            Thread.Sleep(100);
-            // Check connected status
-            Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Connected);
+            try
+            {
+                // Client is disconnected when created
+                Assert.IsFalse(client.IsConnected());
+                // COnnect to a server
+                client.Connect("127.0.0.1", 6273);
 
-            //Disconnect an check status
-            client.Disconnect();
-            Thread.Sleep(100);
-            Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Connected);
+                // Whait a bit for connection
+                Thread.Sleep(100);
+                // Check connected status
+                Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Connected);
+            }
+            catch (Exception)
+            {
+                {
+                }
+                throw;
+            }
+            finally
+            {
+                //Disconnect an check status
+                client.Disconnect();
+                Thread.Sleep(100);
+                Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Disconnected);
 
+                WorkerNodeSocket.StopListening();
+            }
         }
       
     }
