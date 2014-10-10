@@ -17,12 +17,12 @@ namespace WorkerNodeApp
         [STAThread]
         static void Main()
         {
-            string rPath = ConfigurationManager.AppSettings["rPath"];
-            string redisPort = ConfigurationManager.AppSettings["redisPort"];
-            string redisIp = ConfigurationManager.AppSettings["redisIp"];
-            string redisQueue = ConfigurationManager.AppSettings["redisQueue"];
-            string redisScriptTemplate =  ConfigurationManager.AppSettings["redisScriptTemplate"];
-            string loadStatusStr = ConfigurationManager.AppSettings["loadStatus"];
+            var rPath = ConfigurationManager.AppSettings["rPath"];
+            var redisPort = ConfigurationManager.AppSettings["redisPort"];
+            var redisIp = ConfigurationManager.AppSettings["redisIp"];
+            var redisQueue = ConfigurationManager.AppSettings["redisQueue"];
+            var redisScriptTemplate =  ConfigurationManager.AppSettings["redisScriptTemplate"];
+            var loadStatusStr = ConfigurationManager.AppSettings["loadStatus"];
 
             LoadStatus loadStatus;
             if (!LoadStatus.TryParseString(loadStatusStr, out loadStatus))
