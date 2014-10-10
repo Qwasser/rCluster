@@ -102,6 +102,90 @@ namespace _common_tests.ConnectionTest
                 WorkerNodeSocket.StopListening();
             }
         }
-      
+
+        public void ConnectDisconnect(MasterNodeSocket client, string ip, int port, TestNodeConnectionObserver observer)
+        {
+            Assert.IsFalse(client.IsConnected());
+            // COnnect to a server
+            client.Connect(ip, port);
+
+            // Whait a bit for connection
+            Thread.Sleep(100);
+            // Check connected status
+            Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Connected);
+
+            //Disconnect an check status
+            client.Disconnect();
+            Thread.Sleep(100);
+            Assert.AreEqual(ConnectionUtils.ConnectionState.Disconnected, observer.State);
+        }
+
+        [Test]
+        public void ConnectDisconnectTest()
+        {
+            // Set up environment
+            var observer = new TestNodeConnectionObserver();
+            var client = new MasterNodeSocket(new StringResponseHandler());
+            client.AddObserver(observer);
+
+            // Run server on localhost
+            WorkerNodeSocket.StartListening(6273, null);
+            try
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    ConnectDisconnect(client, "127.0.0.1", 6273, observer);
+                }
+            }
+            catch (Exception)
+            {
+                {
+                }
+                throw;
+            }
+            finally
+            {
+                WorkerNodeSocket.StopListening();
+            }
+        }
+
+        [Test]
+        public void ServerDisconnectedTest()
+        {
+            // Set up environment
+            var observer = new TestNodeConnectionObserver();
+            var client = new MasterNodeSocket(new StringResponseHandler());
+            client.AddObserver(observer);
+
+            // Run server on localhost
+            WorkerNodeSocket.StartListening(6273, null);
+            try
+            {
+                // Client is disconnected when created
+                Assert.IsFalse(client.IsConnected());
+                // COnnect to a server
+                client.Connect("127.0.0.1", 6273);
+
+                // Whait a bit for connection
+                Thread.Sleep(100);
+                // Check connected status
+                Assert.AreEqual(observer.State, ConnectionUtils.ConnectionState.Connected);
+            }
+            catch (Exception)
+            {
+                {
+                }
+                throw;
+            }
+            finally
+            {
+                // Worker node socket suddenlu failed
+                WorkerNodeSocket.StopListening();
+            }
+
+            Thread.Sleep(800);
+            // Client must fall into disconnected state
+            Assert.AreEqual(ConnectionUtils.ConnectionState.Disconnected, observer.State);
+        }
     }
 }

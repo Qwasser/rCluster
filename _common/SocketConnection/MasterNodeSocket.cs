@@ -182,7 +182,8 @@ namespace _common.SocketConnection
                             }
                             else
                             {
-                                _parent.ShutDownEvent.Set();
+                                // Reached end of stream. Must stop thread and close connection
+                                _parent.Disconnect();
                             }
                         }
                         catch (IOException ex)
@@ -195,8 +196,7 @@ namespace _common.SocketConnection
                 }
                 catch (Exception ex)
                 {
-                    _parent._state = ConnectionUtils.ConnectionState.Disconnected;
-                    _parent.NotifyDisconnected();
+                    _parent.Disconnect();
                 }
                 finally
                 {
