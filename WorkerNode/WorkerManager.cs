@@ -40,7 +40,7 @@ namespace WorkerNode
 
         public void SetWorkersLimit(int limit)
         {
-            if (limit > WorkersLimit)
+            if (limit >= WorkersLimit)
             {
                 WorkersLimit = limit;
             }
