@@ -21,7 +21,7 @@ namespace WorkerNodeApp
             string redisPort = ConfigurationManager.AppSettings["redisPort"];
             string redisIp = ConfigurationManager.AppSettings["redisIp"];
             string redisQueue = ConfigurationManager.AppSettings["redisQueue"];
-            string redisScriptTemplate =  "--slave -e \"require(doRedis);redisWorker(host = '{0}', port = {1}, queue='{2}')\""; //ConfigurationManager.AppSettings["redisScriptTemplate"];
+            string redisScriptTemplate =  ConfigurationManager.AppSettings["redisScriptTemplate"];
             string loadStatusStr = ConfigurationManager.AppSettings["loadStatus"];
 
             LoadStatus loadStatus;

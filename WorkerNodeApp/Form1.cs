@@ -103,13 +103,9 @@ namespace WorkerNodeApp
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            TrayIcon.BalloonTipTitle = "Minimize to Tray App";
-            TrayIcon.BalloonTipText = "You have successfully minimized your form.";
-
             if (FormWindowState.Minimized == WindowState)
             {
                 TrayIcon.Visible = true;
-                TrayIcon.ShowBalloonTip(500);
                 Hide();
             }
             else if (FormWindowState.Normal == WindowState)
