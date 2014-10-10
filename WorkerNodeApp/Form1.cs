@@ -11,7 +11,7 @@ namespace WorkerNodeApp
 
         private readonly ILoadManager _loadManager;
 
-        public MainForm(WorkerManager workerManager = null, LoadManager loadManager = null)
+        public MainForm(IWorkerManager workerManager = null, ILoadManager loadManager = null)
         {
             _workerManager = workerManager ?? new WorkerManager();
             _loadManager = loadManager ?? new LoadManager(_workerManager, new LoadStatus(){LoadType = LoadStatusType.Free});
