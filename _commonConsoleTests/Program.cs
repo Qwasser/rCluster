@@ -18,7 +18,10 @@ namespace _commonConsoleTests
             MasterNodeSocket client = new MasterNodeSocket(new ConsoleHandler());
 
             client.Connect("192.168.0.113", 6700);
+            Thread.Sleep(100);
             Console.Out.WriteLine(client.IsConnected());
+            Console.ReadKey();
+            client.SendRequest(new StopWorkersRequest(10));
             Console.ReadKey();
             client.SendRequest(new AddWorkersRequest(1));
             Console.ReadKey();

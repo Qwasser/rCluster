@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
+    [Serializable]
     public class SetLoadStatusRequest: AbstractRequestClusterMessage
     {
         private readonly LoadStatus _status;
