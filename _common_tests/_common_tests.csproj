@@ -45,6 +45,7 @@
     <Compile Include="ConnectionTest\ClientTest.cs" />
     <Compile Include="ConnectionTest\DataTransmittionTests.cs" />
     <Compile Include="ConnectionTest\SerrializationTests.cs" />
+    <Compile Include="ConnectionTest\StringRequestHandler.cs" />
     <Compile Include="ConnectionTest\StringResponseHandler.cs" />
     <Compile Include="ConnectionTest\TestNodeConnectionObserver.cs" />
     <Compile Include="LoadStatusTest.cs" />

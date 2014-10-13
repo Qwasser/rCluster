@@ -81,18 +81,17 @@ namespace _common.SocketConnection
                 {
                     try
                     {
-                        if (stream.DataAvailable)
+                        //Console.Out.WriteLine("here");
+                        string res = reader.ReadLine();
+                        while (res != null)
                         {
-                            string res = reader.ReadLine();
-                            while (res != null)
-                            {
-                                _requestHandler.HandleRequest(
-                                    ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
-                                SendResponse(new SystemMemoryRetrivedResponse(213));
-                                res = reader.ReadLine();
-                            }
-                            shutdown = true;
+                            _requestHandler.HandleRequest(
+                                ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
+                                
+                            res = reader.ReadLine();
                         }
+                        shutdown = true;
+                        
                     }
                     catch (IOException ex)
                     {
