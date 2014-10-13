@@ -9,6 +9,7 @@ namespace _common.Protocol
         Limited,
         Adaptive
     }
+    [Serializable]
     public struct LoadStatus
     {
         public LoadStatusType LoadType;

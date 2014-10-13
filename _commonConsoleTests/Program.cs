@@ -15,7 +15,7 @@ namespace _commonConsoleTests
         {
             //_common.SocketConnection.WorkerNodeSocket.StartListening(6273, null);
 
-            MasterNodeSocket client = new MasterNodeSocket(new ConsoleHandler());
+            var client = new MasterNodeSocket(new ConsoleHandler());
 
             client.Connect("192.168.0.113", 6700);
             Thread.Sleep(100);
