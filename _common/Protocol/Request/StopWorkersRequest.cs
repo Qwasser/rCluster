@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
+    [Serializable]
     public class StopWorkersRequest: AbstractRequestClusterMessage
     {
         private readonly int _workersToStop;

@@ -1,7 +1,9 @@
-﻿using _common.NodeInterfaces;
+﻿using System;
+using _common.NodeInterfaces;
 
 namespace _common.Protocol.Request
 {
+    [Serializable]
     public class RemoteLoadManager: IAsyncLoadManager
     {
         private readonly IRequestSender _sender;

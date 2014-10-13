@@ -7,6 +7,7 @@ using _common.NodeInterfaces;
 
 namespace _common.Protocol.Request
 {
+    [Serializable]
     public class RemoteSystemInfo: IAsyncSystemInfo
     {
         private readonly IRequestSender _sender;

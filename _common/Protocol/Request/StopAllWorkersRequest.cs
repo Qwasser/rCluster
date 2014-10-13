@@ -1,6 +1,9 @@
-﻿namespace _common.Protocol.Request
+﻿using System;
+
+namespace _common.Protocol.Request
 {
-    class StopAllWorkersRequest: AbstractRequestClusterMessage
+    [Serializable]
+    public class StopAllWorkersRequest: AbstractRequestClusterMessage
     {
         public override void Handle(WorkerNodeContext context)
         {

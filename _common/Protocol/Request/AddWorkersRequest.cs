@@ -1,5 +1,8 @@
-﻿namespace _common.Protocol.Request
+﻿using System;
+
+namespace _common.Protocol.Request
 {
+    [Serializable]
     public class AddWorkersRequest: AbstractRequestClusterMessage
     {
         private readonly int _workersToAdd;
