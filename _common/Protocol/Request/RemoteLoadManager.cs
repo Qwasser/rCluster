@@ -29,5 +29,15 @@ namespace _common.Protocol.Request
         {
             _sender.SendRequest(new SetLoadStatusRequest(status));
         }
+
+        public void AddListener(ILoadManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveListener(ILoadManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

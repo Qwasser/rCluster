@@ -56,5 +56,15 @@ namespace _common_tests.ProtocolTest.RequestTest
         {
             _result = GetWorkersLoadResult;
         }
+
+        public void AddListener(IWorkerManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveListener(IWorkerManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

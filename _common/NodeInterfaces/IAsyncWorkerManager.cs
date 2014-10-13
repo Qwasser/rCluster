@@ -12,5 +12,8 @@
         void RemoveAllWorkers();
         void GetWorkersMemory();
         void GetWorkersLoad();
+
+        void AddListener(IWorkerManagerListener listener);
+        void RemoveListener(IWorkerManagerListener listener);
     }
 }

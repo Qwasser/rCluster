@@ -13,5 +13,8 @@ namespace _common.NodeInterfaces
         void GetMaxLimit();
         void GetStatus();
         void SetStatus(LoadStatus status);
+
+        void AddListener(ILoadManagerListener listener);
+        void RemoveListener(ILoadManagerListener listener);
     }
 }

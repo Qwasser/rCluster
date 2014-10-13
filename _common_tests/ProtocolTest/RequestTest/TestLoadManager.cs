@@ -34,5 +34,15 @@ namespace _common_tests.ProtocolTest.RequestTest
         {
             _result = status.ToString();
         }
+
+        public void AddListener(ILoadManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveListener(ILoadManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

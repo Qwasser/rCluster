@@ -50,5 +50,15 @@ namespace _common.Protocol.Request
         {
             _sender.SendRequest(new GetWorkersLoadRequest());
         }
+
+        public void AddListener(IWorkerManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveListener(IWorkerManagerListener listener)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
