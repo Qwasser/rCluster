@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Windows.Forms;
 using WorkerNode;
-using _common.NodeInterfaces;
 using _common.Protocol;
 using _common.Protocol.Request;
 using _common.Protocol.Response;
@@ -67,7 +66,7 @@ namespace WorkerNodeApp
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(loadManager, workerManager));
+            Application.Run(new MainForm(asyncLoadManager, asyncWorkerManager));
         }
     }
 }

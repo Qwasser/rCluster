@@ -1,57 +1,30 @@
 ﻿using System;
 using System.Windows.Forms;
 using WorkerNode;
+using _common.NodeInterfaces;
 using _common.Protocol;
 
 namespace WorkerNodeApp
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, ILoadManagerListener
     {
-        private readonly ILoadManager _loadManager;
-        private readonly IWorkerManager _workerManager;
+        private readonly IAsyncLoadManager _loadManager;
+        private readonly IAsyncWorkerManager _workerManager;
         private bool _initialized;
 
-        public MainForm(ILoadManager loadManager, IWorkerManager workerManager)
+        public MainForm(IAsyncLoadManager loadManager, IAsyncWorkerManager workerManager)
         {
             _initialized = false;
-
 
             _loadManager = loadManager;
             _workerManager = workerManager;
 
+            _loadManager.AddListener(this);
+
             InitializeComponent();
 
-            WokersUserLimitNumericUpDown.Value = _loadManager.GetMaxLimit();
-            WokersUserLimitNumericUpDown.Maximum = _loadManager.GetMaxLimit();
-
-            switch (_loadManager.GetStatus().LoadType)
-            {
-                case LoadStatusType.Free:
-                {
-                    FreeRadioButton.Checked = true;
-                    break;
-                }
-                case LoadStatusType.Limited:
-                {
-                    WokersUserLimitNumericUpDown.Value = _loadManager.GetStatus().Limit;
-                    LimitedRadioButton.Checked = true;
-                    break;
-                }
-                case LoadStatusType.Locked:
-                {
-                    LockedRadioButton.Checked = true;
-                    break;
-                }
-                case LoadStatusType.Adaptive:
-                {
-                    break;
-                }
-            }
-
-
-            _workerManager.AddAllWorkers();
-
-            _initialized = true;
+            loadManager.GetMaxLimit();
+            loadManager.GetStatus();
         }
 
         private void LimitedRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -121,5 +94,57 @@ namespace WorkerNodeApp
         }
 
 
+        public void OnMaxLimitRetreived(int limit)
+        {
+            WokersUserLimitNumericUpDown.Maximum = limit;
+        }
+
+        public void OnCurrentLimitRetreived(int limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnLoadStatusRetreived(LoadStatus status)
+        {
+            ApplyStaus(status);
+
+            if (!_initialized)
+            {
+                _initialized = true;
+                _workerManager.AddAllWorkers();
+            }
+        }
+
+        public void OnLoadStatusChanged(LoadStatus status)
+        {
+            ApplyStaus(status);
+        }
+
+        private void ApplyStaus(LoadStatus status)
+        {
+            switch (status.LoadType)
+            {
+                case LoadStatusType.Free:
+                    {
+                        FreeRadioButton.Checked = true;
+                        break;
+                    }
+                case LoadStatusType.Limited:
+                    {
+                        WokersUserLimitNumericUpDown.Value = status.Limit;
+                        LimitedRadioButton.Checked = true;
+                        break;
+                    }
+                case LoadStatusType.Locked:
+                    {
+                        LockedRadioButton.Checked = true;
+                        break;
+                    }
+                case LoadStatusType.Adaptive:
+                    {
+                        break;
+                    }
+            }
+        }
     }
 }
