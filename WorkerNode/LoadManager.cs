@@ -7,6 +7,8 @@ namespace WorkerNode
 {
     public class LoadManager : ILoadManager
     {
+        public Action<LoadStatus> LoadStatusChanged; 
+
         private readonly int _maxLimit;
         private readonly IWorkerManager _workerManager;
 
@@ -22,21 +24,30 @@ namespace WorkerNode
         }
 
 
-        public int GetMaxLimit()
+        public override int GetMaxLimit()
         {
             return _maxLimit;
         }
 
-        public LoadStatus GetStatus()
+        public override LoadStatus GetStatus()
         {
             return _status;
         }
 
-        public void SetStatus(LoadStatus status)
+        public override void SetStatus(LoadStatus status)
         {
-            _status = status;
-
+            _status = new LoadStatus()
+            {
+                Limit = Math.Min(status.Limit, _maxLimit),
+                LoadType = status.LoadType
+            };
+            
             ApplyLoadStatus();
+
+            if (LoadStatusChanged != null)
+            {
+                LoadStatusChanged(_status);
+            }
         }
 
         private void ApplyLoadStatus()

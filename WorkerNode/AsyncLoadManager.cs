@@ -13,6 +13,7 @@ namespace WorkerNode
         public AsyncLoadManager(ILoadManager loadManager)
         {
             _loadManager = loadManager;
+            _loadManager.LoadStatusChanged += NotifyStatusChange;
             _listeners = new List<ILoadManagerListener>();
         }
 
@@ -50,7 +51,10 @@ namespace WorkerNode
         public void SetStatus(LoadStatus status)
         {
             _loadManager.SetStatus(status);
+        }
 
+        private void NotifyStatusChange(LoadStatus status)
+        {
             foreach (var loadManagerListener in _listeners)
             {
                 loadManagerListener.OnLoadStatusChanged(status);
