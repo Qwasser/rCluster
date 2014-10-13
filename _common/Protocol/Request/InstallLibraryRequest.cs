@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
-    class InstallLibraryRequest: AbstractRequestClusterMessage
+    public class InstallLibraryRequest: AbstractRequestClusterMessage
     {
         private readonly string _libraryName;
 

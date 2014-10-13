@@ -1,6 +1,6 @@
 ﻿namespace _common.Protocol.Request
 {
-    class AddWorkersRequest: AbstractRequestClusterMessage
+    public class AddWorkersRequest: AbstractRequestClusterMessage
     {
         private readonly int _workersToAdd;
         public AddWorkersRequest(int workersToAdd)

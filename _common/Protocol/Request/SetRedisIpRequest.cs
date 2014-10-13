@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
-    class SetRedisIpRequest: AbstractRequestClusterMessage
+    public class SetRedisIpRequest: AbstractRequestClusterMessage
     {
         private readonly string _ip;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _common.Protocol.Request
 {
-    class GetWorkersMemoryRequest: AbstractRequestClusterMessage
+    public class GetWorkersMemoryRequest: AbstractRequestClusterMessage
     {
         public override void Handle(WorkerNodeContext context)
         {
