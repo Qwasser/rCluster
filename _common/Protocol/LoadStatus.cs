@@ -17,7 +17,14 @@ namespace _common.Protocol
 
         public override string ToString()
         {
-            return LoadType.ToString() + ';' + Limit;
+            var outputString = "Type: " + LoadType;
+
+            if (LoadType == LoadStatusType.Limited)
+            {
+                outputString += ", Limit: " + Limit;
+            }
+
+            return outputString;
         }
 
         public static bool TryParseString(string data, out LoadStatus status)

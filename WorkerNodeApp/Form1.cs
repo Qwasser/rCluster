@@ -123,6 +123,8 @@ namespace WorkerNodeApp
                         break;
                     }
             }
+
+            LoadStatusLabel.Text = status.ToString();
         }
 
         private void ApplyButton_MouseClick(object sender, MouseEventArgs e)
