@@ -26,7 +26,7 @@ namespace WorkerNodeApp
 
         private void WokersUserLimitNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (WokersUserLimitNumericUpDown.Value == 0)
+            if (WorkersUserLimitNumericUpDown.Value == 0)
             {
                 LockedRadioButton.Checked = true;
             }
@@ -53,7 +53,7 @@ namespace WorkerNodeApp
 
         public void OnMaxLimitRetreived(int limit)
         {
-            WokersUserLimitNumericUpDown.Maximum = limit;
+            WorkersUserLimitNumericUpDown.Maximum = limit;
         }
 
         public void OnCurrentLimitRetreived(int limit)
@@ -78,18 +78,44 @@ namespace WorkerNodeApp
             {
                 case LoadStatusType.Free:
                     {
-                        FreeRadioButton.Checked = true;
+                        if (FreeRadioButton.InvokeRequired)
+                        {
+                            FreeRadioButton.Invoke(new MethodInvoker(delegate { FreeRadioButton.Checked = true; }));
+                        }
+                        else
+                        {
+                            FreeRadioButton.Checked = true;
+                        }
                         break;
                     }
                 case LoadStatusType.Limited:
                     {
-                        WokersUserLimitNumericUpDown.Value = status.Limit;
-                        LimitedRadioButton.Checked = true;
+                        if (LimitedRadioButton.InvokeRequired)
+                        {
+                            WorkersUserLimitNumericUpDown.Invoke(new MethodInvoker(delegate
+                            {
+                                WorkersUserLimitNumericUpDown.Value = status.Limit;
+                            }));
+
+                            LimitedRadioButton.Invoke(new MethodInvoker(delegate { LimitedRadioButton.Checked = true; }));
+                        }
+                        else
+                        {
+                            WorkersUserLimitNumericUpDown.Value = status.Limit;
+                            LimitedRadioButton.Checked = true;    
+                        }
                         break;
                     }
                 case LoadStatusType.Locked:
                     {
-                        LockedRadioButton.Checked = true;
+                        if (LockedRadioButton.InvokeRequired)
+                        {
+                            LockedRadioButton.Invoke(new MethodInvoker(delegate { LockedRadioButton.Checked = true; }));
+                        }
+                        else
+                        {
+                            LockedRadioButton.Checked = true;
+                        }
                         break;
                     }
                 case LoadStatusType.Adaptive:
@@ -103,23 +129,47 @@ namespace WorkerNodeApp
         {
             if (LimitedRadioButton.Checked)
             {
-                WokersUserLimitNumericUpDown.Enabled = true;
+                WorkersUserLimitNumericUpDown.Enabled = true;
 
-                _loadManager.SetStatus(new LoadStatus() { Limit = (int)WokersUserLimitNumericUpDown.Value, LoadType = LoadStatusType.Limited });
+                _loadManager.SetStatus(new LoadStatus() { Limit = (int)WorkersUserLimitNumericUpDown.Value, LoadType = LoadStatusType.Limited });
             }
 
             if (FreeRadioButton.Checked)
             {
-                WokersUserLimitNumericUpDown.Enabled = false;
+                WorkersUserLimitNumericUpDown.Enabled = false;
 
                 _loadManager.SetStatus(new LoadStatus() { LoadType = LoadStatusType.Free });
             }
 
             if (LockedRadioButton.Checked)
             {
-                WokersUserLimitNumericUpDown.Enabled = false;
+                WorkersUserLimitNumericUpDown.Enabled = false;
 
                 _loadManager.SetStatus(new LoadStatus() { LoadType = LoadStatusType.Locked });
+            }
+        }
+
+        private void LockedRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (LockedRadioButton.Checked)
+            {
+                WorkersUserLimitNumericUpDown.Enabled = false;
+            }
+        }
+
+        private void LimitedRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (LimitedRadioButton.Checked)
+            {
+                WorkersUserLimitNumericUpDown.Enabled = true;
+            }
+        }
+
+        private void FreeRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (FreeRadioButton.Checked)
+            {
+                WorkersUserLimitNumericUpDown.Enabled = false;
             }
         }
     }

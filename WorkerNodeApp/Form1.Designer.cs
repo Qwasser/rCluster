@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.WokersUserLimitNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.WorkersUserLimitNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.AdaptiveRadioButton = new System.Windows.Forms.RadioButton();
             this.LockedRadioButton = new System.Windows.Forms.RadioButton();
             this.FreeRadioButton = new System.Windows.Forms.RadioButton();
@@ -39,12 +39,12 @@
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.ApplyButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.WokersUserLimitNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WorkersUserLimitNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.WokersUserLimitNumericUpDown);
+            this.groupBox1.Controls.Add(this.WorkersUserLimitNumericUpDown);
             this.groupBox1.Controls.Add(this.AdaptiveRadioButton);
             this.groupBox1.Controls.Add(this.LockedRadioButton);
             this.groupBox1.Controls.Add(this.FreeRadioButton);
@@ -55,13 +55,13 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
-            // WokersUserLimitNumericUpDown
+            // WorkersUserLimitNumericUpDown
             // 
-            this.WokersUserLimitNumericUpDown.Location = new System.Drawing.Point(109, 21);
-            this.WokersUserLimitNumericUpDown.Name = "WokersUserLimitNumericUpDown";
-            this.WokersUserLimitNumericUpDown.Size = new System.Drawing.Size(47, 20);
-            this.WokersUserLimitNumericUpDown.TabIndex = 4;
-            this.WokersUserLimitNumericUpDown.ValueChanged += new System.EventHandler(this.WokersUserLimitNumericUpDown_ValueChanged);
+            this.WorkersUserLimitNumericUpDown.Location = new System.Drawing.Point(109, 21);
+            this.WorkersUserLimitNumericUpDown.Name = "WorkersUserLimitNumericUpDown";
+            this.WorkersUserLimitNumericUpDown.Size = new System.Drawing.Size(47, 20);
+            this.WorkersUserLimitNumericUpDown.TabIndex = 4;
+            this.WorkersUserLimitNumericUpDown.ValueChanged += new System.EventHandler(this.WokersUserLimitNumericUpDown_ValueChanged);
             // 
             // AdaptiveRadioButton
             // 
@@ -85,6 +85,7 @@
             this.LockedRadioButton.TabStop = true;
             this.LockedRadioButton.Text = "Locked";
             this.LockedRadioButton.UseVisualStyleBackColor = true;
+            this.LockedRadioButton.CheckedChanged += new System.EventHandler(this.LockedRadioButton_CheckedChanged);
             // 
             // FreeRadioButton
             // 
@@ -96,6 +97,7 @@
             this.FreeRadioButton.TabStop = true;
             this.FreeRadioButton.Text = "Free";
             this.FreeRadioButton.UseVisualStyleBackColor = true;
+            this.FreeRadioButton.CheckedChanged += new System.EventHandler(this.FreeRadioButton_CheckedChanged);
             // 
             // LimitedRadioButton
             // 
@@ -107,6 +109,7 @@
             this.LimitedRadioButton.TabStop = true;
             this.LimitedRadioButton.Text = "Limited";
             this.LimitedRadioButton.UseVisualStyleBackColor = true;
+            this.LimitedRadioButton.CheckedChanged += new System.EventHandler(this.LimitedRadioButton_CheckedChanged);
             // 
             // TrayIcon
             // 
@@ -140,7 +143,7 @@
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.WokersUserLimitNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WorkersUserLimitNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -152,7 +155,7 @@
         private System.Windows.Forms.RadioButton LockedRadioButton;
         private System.Windows.Forms.RadioButton FreeRadioButton;
         private System.Windows.Forms.RadioButton LimitedRadioButton;
-        private System.Windows.Forms.NumericUpDown WokersUserLimitNumericUpDown;
+        private System.Windows.Forms.NumericUpDown WorkersUserLimitNumericUpDown;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.Button ApplyButton;
 
