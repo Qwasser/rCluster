@@ -123,6 +123,7 @@
             // 
             // ApplyButton
             // 
+            this.ApplyButton.Enabled = false;
             this.ApplyButton.Location = new System.Drawing.Point(12, 139);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(168, 23);

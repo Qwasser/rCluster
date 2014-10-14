@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using WorkerNode;
 using _common.NodeInterfaces;
 using _common.Protocol;
 
@@ -30,6 +29,8 @@ namespace WorkerNodeApp
             {
                 LockedRadioButton.Checked = true;
             }
+
+            ApplyButton.Enabled = true;
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -123,7 +124,8 @@ namespace WorkerNodeApp
                         break;
                     }
             }
-
+            
+            ApplyButton.Enabled = false;
             LoadStatusLabel.Text = status.ToString();
         }
 
@@ -149,6 +151,8 @@ namespace WorkerNodeApp
 
                 _loadManager.SetStatus(new LoadStatus() { LoadType = LoadStatusType.Locked });
             }
+
+            ApplyButton.Enabled = false;
         }
 
         private void LockedRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -157,6 +161,8 @@ namespace WorkerNodeApp
             {
                 WorkersUserLimitNumericUpDown.Enabled = false;
             }
+
+            ApplyButton.Enabled = true;
         }
 
         private void LimitedRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -165,6 +171,8 @@ namespace WorkerNodeApp
             {
                 WorkersUserLimitNumericUpDown.Enabled = true;
             }
+
+            ApplyButton.Enabled = true;
         }
 
         private void FreeRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -173,6 +181,8 @@ namespace WorkerNodeApp
             {
                 WorkersUserLimitNumericUpDown.Enabled = false;
             }
+
+            ApplyButton.Enabled = true;
         }
     }
 }
