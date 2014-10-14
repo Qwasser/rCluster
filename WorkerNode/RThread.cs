@@ -85,7 +85,20 @@ namespace WorkerNode
                 Enabled = true
             };
 
-            _cpuLoadTread.Elapsed += (sender, args) => { CpuLoad = _cpuCounter.NextValue(); };
+            _cpuLoadTread.Elapsed += (sender, args) =>
+            {
+                try
+                {
+                    CpuLoad = _cpuCounter.NextValue();
+                }
+                catch (Exception e)
+                {
+                    var timer = sender as System.Timers.Timer;
+
+                    if (timer != null) timer.Stop();
+                }
+            };
+
             _cpuLoadTread.Start();
 
             _disposed = false;
