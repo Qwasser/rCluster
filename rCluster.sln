@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_common", "_common\_common.csproj", "{2CE3B2F0-ED29-4012-99FF-F69902ABE15A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_common_tests", "_common_tests\_common_tests.csproj", "{A9E27839-D8B0-4889-9253-3F92F7CDB671}"
@@ -16,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_commonConsoleTests", "_commonConsoleTests\_commonConsoleTests.csproj", "{8C90196F-D908-41A9-8914-8DF9E56F31A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsRemoteNode", "WindowsFormsRemoteNode\WindowsFormsRemoteNode.csproj", "{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{F75EF904-0609-4F3A-8A47-BE84100FC7D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +49,6 @@ Global
 		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
