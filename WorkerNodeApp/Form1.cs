@@ -89,7 +89,7 @@ namespace WorkerNodeApp
                     }
                 case LoadStatusType.Locked:
                     {
-                        //LockedRadioButton.Checked = true;
+                        LockedRadioButton.Checked = true;
                         break;
                     }
                 case LoadStatusType.Adaptive:
