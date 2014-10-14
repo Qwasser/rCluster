@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using _common.Protocol;
 using _common.Protocol.Request;
 using _common.Protocol.Response;
 using _common.SocketConnection;
@@ -21,7 +22,7 @@ namespace _commonConsoleTests
             Thread.Sleep(100);
             Console.Out.WriteLine(client.IsConnected());
             Console.ReadKey();
-            client.SendRequest(new StopWorkersRequest(10));
+            client.SendRequest(new SetLoadStatusRequest(new LoadStatus() {Limit = 2, LoadType = LoadStatusType.Limited}));
             Console.ReadKey();
             client.SendRequest(new AddWorkersRequest(1));
             Console.ReadKey();

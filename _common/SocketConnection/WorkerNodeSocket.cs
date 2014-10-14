@@ -110,8 +110,10 @@ namespace _common.SocketConnection
             }
             finally
             {
+                
                 _writer = StreamWriter.Null;
                 stream.Close();
+                _connectedClient.Close();
                 AsyncAcceptConnection();
             } 
         }

@@ -12,7 +12,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerNodeTest", "WorkerNodeTest\WorkerNodeTest.csproj", "{49454620-E823-4601-A098-611A1E3CD39D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerNodeApp", "WorkerNodeApp\WorkerNodeApp.csproj", "{0A77BFCC-ADC8-42EA-BBF3-F1EBC6D52820}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_commonConsoleTests", "_commonConsoleTests\_commonConsoleTests.csproj", "{8C90196F-D908-41A9-8914-8DF9E56F31A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsRemoteNode", "WindowsFormsRemoteNode\WindowsFormsRemoteNode.csproj", "{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{F75EF904-0609-4F3A-8A47-BE84100FC7D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +49,14 @@ Global
 		{8C90196F-D908-41A9-8914-8DF9E56F31A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C90196F-D908-41A9-8914-8DF9E56F31A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C90196F-D908-41A9-8914-8DF9E56F31A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F75EF904-0609-4F3A-8A47-BE84100FC7D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
