@@ -7,8 +7,6 @@ namespace WorkerNode
 {
     public class LoadManager : ILoadManager
     {
-        public Action<LoadStatus> LoadStatusChanged; 
-
         private readonly int _maxLimit;
         private readonly IWorkerManager _workerManager;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _common.NodeInterfaces;
 using _common.Protocol;
 
@@ -13,8 +14,16 @@ namespace WorkerNode
         public AsyncLoadManager(ILoadManager loadManager)
         {
             _loadManager = loadManager;
-            _loadManager.LoadStatusChanged += NotifyStatusChange;
+            _loadManager.LoadStatusChanged += LoadStatusChanged;
             _listeners = new List<ILoadManagerListener>();
+        }
+
+        private void LoadStatusChanged(LoadStatus loadStatus)
+        {
+            foreach (var loadManagerListener in _listeners)
+            {
+                loadManagerListener.OnLoadStatusChanged(loadStatus);
+            }
         }
 
         public void GetCurrentLimit()
@@ -51,14 +60,6 @@ namespace WorkerNode
         public void SetStatus(LoadStatus status)
         {
             _loadManager.SetStatus(status);
-        }
-
-        private void NotifyStatusChange(LoadStatus status)
-        {
-            foreach (var loadManagerListener in _listeners)
-            {
-                loadManagerListener.OnLoadStatusChanged(status);
-            }
         }
 
         public void AddListener(ILoadManagerListener listener)

@@ -37,6 +37,7 @@
             this.FreeRadioButton = new System.Windows.Forms.RadioButton();
             this.LimitedRadioButton = new System.Windows.Forms.RadioButton();
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.ApplyButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WokersUserLimitNumericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -84,7 +85,6 @@
             this.LockedRadioButton.TabStop = true;
             this.LockedRadioButton.Text = "Locked";
             this.LockedRadioButton.UseVisualStyleBackColor = true;
-            this.LockedRadioButton.CheckedChanged += new System.EventHandler(this.LockedRadioButton_CheckedChanged);
             // 
             // FreeRadioButton
             // 
@@ -96,7 +96,6 @@
             this.FreeRadioButton.TabStop = true;
             this.FreeRadioButton.Text = "Free";
             this.FreeRadioButton.UseVisualStyleBackColor = true;
-            this.FreeRadioButton.CheckedChanged += new System.EventHandler(this.FreeRadioButton_CheckedChanged);
             // 
             // LimitedRadioButton
             // 
@@ -108,7 +107,6 @@
             this.LimitedRadioButton.TabStop = true;
             this.LimitedRadioButton.Text = "Limited";
             this.LimitedRadioButton.UseVisualStyleBackColor = true;
-            this.LimitedRadioButton.CheckedChanged += new System.EventHandler(this.LimitedRadioButton_CheckedChanged);
             // 
             // TrayIcon
             // 
@@ -117,11 +115,22 @@
             this.TrayIcon.Visible = true;
             this.TrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TrayIcon_MouseDoubleClick);
             // 
+            // ApplyButton
+            // 
+            this.ApplyButton.Location = new System.Drawing.Point(12, 139);
+            this.ApplyButton.Name = "ApplyButton";
+            this.ApplyButton.Size = new System.Drawing.Size(168, 23);
+            this.ApplyButton.TabIndex = 1;
+            this.ApplyButton.Text = "Apply!";
+            this.ApplyButton.UseVisualStyleBackColor = true;
+            this.ApplyButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ApplyButton_MouseClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(191, 145);
+            this.ClientSize = new System.Drawing.Size(193, 173);
+            this.Controls.Add(this.ApplyButton);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -145,6 +154,7 @@
         private System.Windows.Forms.RadioButton LimitedRadioButton;
         private System.Windows.Forms.NumericUpDown WokersUserLimitNumericUpDown;
         private System.Windows.Forms.NotifyIcon TrayIcon;
+        private System.Windows.Forms.Button ApplyButton;
 
     }
 }
