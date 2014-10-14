@@ -3,7 +3,7 @@
 namespace _common.Protocol.Response
 {
     [Serializable]
-    class WorkerMemoryRetreivedResponse: AbstractResponseClusterMessage
+    public class WorkerMemoryRetreivedResponse: AbstractResponseClusterMessage
     {
         private readonly long _memory;
 

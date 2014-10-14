@@ -95,7 +95,7 @@ namespace _common.SocketConnection
                     }
                     catch (IOException ex)
                     {
-                        Console.Out.WriteLine(ex.ToString());
+                        string str = ex.ToString();
                     }
                 }         
                 reader.Close();
