@@ -22,9 +22,14 @@ namespace _commonConsoleTests
             Thread.Sleep(100);
             Console.Out.WriteLine(client.IsConnected());
             Console.ReadKey();
-            client.SendRequest(new SetLoadStatusRequest(new LoadStatus() {Limit = 2, LoadType = LoadStatusType.Limited}));
+            client.SendRequest(new SetLoadStatusRequest(new LoadStatus() {Limit = 4, LoadType = LoadStatusType.Limited}));
             Console.ReadKey();
-            client.SendRequest(new AddWorkersRequest(1));
+            client.SendRequest(new StopAllWorkersRequest());
+            Console.ReadKey();
+            
+            client.SendRequest(new AddAllWorkersRequest());
+            Console.ReadKey();
+            client.SendRequest(new StopAllWorkersRequest());
             Console.ReadKey();
             client.Disconnect();
         }
