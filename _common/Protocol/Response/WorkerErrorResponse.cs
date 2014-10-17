@@ -18,7 +18,7 @@ namespace _common.Protocol.Response
 
         public override void Handle(MasterNodeContext context)
         {
-            context.WorkerManagerListener.OnError(_msg);
+            context.WorkerManagerListener.OnWorkerManagerError(_msg);
         }
     }
 }

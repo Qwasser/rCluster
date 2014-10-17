@@ -19,7 +19,7 @@ namespace _common.SocketConnection
         
         // Current tcp client
         private TcpClient _client;
-        private readonly IResponseHandler _responseHandler;
+        private IResponseHandler _responseHandler;
         
         // State of connection
         private ConnectionUtils.ConnectionState _state = ConnectionUtils.ConnectionState.Disconnected;
@@ -101,6 +101,11 @@ namespace _common.SocketConnection
                 _client.Close();
                 _receiver._thread.Join();
             }
+        }
+
+        public void SetResponseHandler(IResponseHandler response)
+        {
+            _responseHandler = response;
         }
 
         public void AddObserver(INodeConnectionObserver observer)

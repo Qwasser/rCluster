@@ -52,12 +52,12 @@ namespace WorkerNodeApp
             WindowState = FormWindowState.Normal;
         }
 
-        public void OnMaxLimitRetreived(int limit)
+        public void OnWorkersMaxLimitRetreived(int limit)
         {
             WorkersUserLimitNumericUpDown.Maximum = limit;
         }
 
-        public void OnCurrentLimitRetreived(int limit)
+        public void OnWorkersCurrentLimitRetreived(int limit)
         {
             throw new NotImplementedException();
         }

@@ -21,7 +21,7 @@ namespace WorkerNode
 
             foreach (var workerManagerListener in _listeners)
             {
-                workerManagerListener.OnCountRetreived(count);
+                workerManagerListener.OnWorkersCountRetreived(count);
             }
         }
 
@@ -33,7 +33,7 @@ namespace WorkerNode
 
             foreach (var workerManagerListener in _listeners)
             {
-                workerManagerListener.OnCountRetreived(count);
+                workerManagerListener.OnWorkersCountRetreived(count);
             }
         }
 
@@ -45,7 +45,7 @@ namespace WorkerNode
 
             foreach (var workerManagerListener in _listeners)
             {
-                workerManagerListener.OnCountRetreived(count);
+                workerManagerListener.OnWorkersCountRetreived(count);
             }
         }
 
@@ -57,7 +57,7 @@ namespace WorkerNode
 
             foreach (var workerManagerListener in _listeners)
             {
-                workerManagerListener.OnCountRetreived(count);
+                workerManagerListener.OnWorkersCountRetreived(count);
             }
         }
 
@@ -69,7 +69,7 @@ namespace WorkerNode
 
             foreach (var workerManagerListener in _listeners)
             {
-                workerManagerListener.OnCountRetreived(count);
+                workerManagerListener.OnWorkersCountRetreived(count);
             }
         }
 

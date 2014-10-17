@@ -32,7 +32,7 @@ namespace WorkerNode
 
             foreach (var loadManagerListener in _listeners)
             {
-                loadManagerListener.OnCurrentLimitRetreived(limit);
+                loadManagerListener.OnWorkersCurrentLimitRetreived(limit);
             }
         }
 
@@ -42,7 +42,7 @@ namespace WorkerNode
 
             foreach (var loadManagerListener in _listeners)
             {
-                loadManagerListener.OnMaxLimitRetreived(maxLimit);
+                loadManagerListener.OnWorkersMaxLimitRetreived(maxLimit);
             }
         }
 

@@ -17,12 +17,12 @@ namespace _common.Protocol.Response
             this._sender = sender;
         }
 
-        public void OnMaxLimitRetreived(int limit)
+        public void OnWorkersMaxLimitRetreived(int limit)
         {
             _sender.SendResponse(new MaxWorkerLimitRetreivedResponse(limit));
         }
 
-        public void OnCurrentLimitRetreived(int limit)
+        public void OnWorkersCurrentLimitRetreived(int limit)
         {
             _sender.SendResponse(new CurrentWorkerLimitRetreivedResponse(limit));
         }

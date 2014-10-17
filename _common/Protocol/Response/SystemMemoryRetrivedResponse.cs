@@ -18,7 +18,7 @@ namespace _common.Protocol.Response
 
         public override void Handle(MasterNodeContext context)
         {
-            context.SystemInfoListener.OnMemoryRetreived(_memory);
+            context.SystemInfoListener.OnTotalMemoryRetreived(_memory);
         }
     }
 }

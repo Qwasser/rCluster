@@ -30,7 +30,7 @@ namespace _common.Protocol.Response
             _sender.SendResponse(new LibraryInstallResponse(libraryName));
         }
 
-        public void OnFailure(string msg)
+        public void OnLibraryManagerError(string msg)
         {
             _sender.SendResponse(new LibraryFailureResponse(msg));
         }

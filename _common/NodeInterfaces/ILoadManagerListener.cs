@@ -4,10 +4,9 @@ namespace _common.NodeInterfaces
 {
     public interface ILoadManagerListener
     {
-        void OnMaxLimitRetreived(int limit);
-        void OnCurrentLimitRetreived(int limit);
+        void OnWorkersMaxLimitRetreived(int limit);
+        void OnWorkersCurrentLimitRetreived(int limit);
         void OnLoadStatusRetreived(LoadStatus status);
         void OnLoadStatusChanged(LoadStatus status);
-
     }
 }

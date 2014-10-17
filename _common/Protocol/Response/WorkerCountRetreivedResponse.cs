@@ -18,7 +18,7 @@ namespace _common.Protocol.Response
 
         public override void Handle(MasterNodeContext context)
         {
-            context.WorkerManagerListener.OnCountRetreived(_count);
+            context.WorkerManagerListener.OnWorkersCountRetreived(_count);
         }
     }
 }

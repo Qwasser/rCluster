@@ -16,12 +16,12 @@ namespace _common.Protocol.Response
             _sender = sender;
         }
 
-        public void OnCountRetreived(int count)
+        public void OnWorkersCountRetreived(int count)
         {
             _sender.SendResponse(new WorkerCountRetreivedResponse(count));
         }
 
-        public void OnError(string error)
+        public void OnWorkerManagerError(string error)
         {
             _sender.SendResponse(new WorkerErrorResponse(error));
         }
@@ -31,12 +31,12 @@ namespace _common.Protocol.Response
             _sender.SendResponse(new RedisIpRetreivedResponse(ip));
         }
 
-        public void OnWorkersLoadRetreived(long load)
+        public void OnWorkersLoadRetreived(float load)
         {
             _sender.SendResponse(new WorkerLoadRetreivedResponse(load));
         }
 
-        public void OnWorkersMemoryRetreived(long memory)
+        public void OnWorkersMemoryRetreived(float memory)
         {
             throw new NotImplementedException();
         }

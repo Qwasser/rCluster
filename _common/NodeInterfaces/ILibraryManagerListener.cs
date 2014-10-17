@@ -13,6 +13,6 @@ namespace _common.NodeInterfaces
         void OnLibraryListRetreived(List<string> libraryList);
         void OnHasLibrary(string libraryName, bool hasLibrary);
         void OnLibraryInstalled(string libraryName);
-        void OnFailure(string msg);
+        void OnLibraryManagerError(string msg);
     }
 }

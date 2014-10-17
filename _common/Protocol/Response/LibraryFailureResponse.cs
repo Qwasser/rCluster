@@ -18,7 +18,7 @@ namespace _common.Protocol.Response
 
         public override void Handle(MasterNodeContext context)
         {
-            context.LibraryManagerListener.OnFailure(_msg);
+            context.LibraryManagerListener.OnLibraryManagerError(_msg);
         }
     }
 }

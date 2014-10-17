@@ -22,7 +22,7 @@ namespace WorkerNode
 
             foreach (var listener in _listeners)
             {
-                listener.OnMemoryRetreived(memory);
+                listener.OnTotalMemoryRetreived(memory);
             }
         }
 
@@ -32,7 +32,7 @@ namespace WorkerNode
 
             foreach (var listener in _listeners)
             {
-                listener.OnLoadRetreived(load);
+                listener.OnTotalLoadRetreived(load);
             }
         }
 

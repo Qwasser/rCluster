@@ -9,11 +9,11 @@ namespace _common.Protocol.Response
     [Serializable]
     public class WorkerLoadRetreivedResponse: AbstractResponseClusterMessage
     {
-        private readonly long _load;
+        private readonly float _load;
 
-        public WorkerLoadRetreivedResponse(long load)
+        public WorkerLoadRetreivedResponse(float load)
         {
-            this._load = load;
+            _load = load;
         }
 
         public override void Handle(MasterNodeContext context)

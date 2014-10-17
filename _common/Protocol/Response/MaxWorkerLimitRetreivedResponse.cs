@@ -18,7 +18,7 @@ namespace _common.Protocol.Response
 
         public override void Handle(MasterNodeContext context)
         {
-            context.LoadManagerListener.OnMaxLimitRetreived(_limit);
+            context.LoadManagerListener.OnWorkersMaxLimitRetreived(_limit);
         }
     }
 }
