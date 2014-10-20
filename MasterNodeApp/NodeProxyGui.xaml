@@ -7,12 +7,23 @@
              d:DesignHeight="50" d:DesignWidth="600">
     <Grid>
         <Label x:Name="HostNameLabel" Content="Host Name" HorizontalAlignment="Left" Margin="27,10,0,0" VerticalAlignment="Top" Height="30" Width="100"/>
-        <CheckBox x:Name="UseCheck" Content="Use" HorizontalAlignment="Left" Margin="132,16,0,0" VerticalAlignment="Top" Height="24"/>
+        
         <Label x:Name="SystemInfoLabel" Content="Load 20%/55%" HorizontalAlignment="Left" Margin="177,10,0,0" VerticalAlignment="Top" Height="30"/>
         <Button x:Name="RemoveWorkerButton" Content="-" HorizontalAlignment="Left" Margin="569,13,0,0" VerticalAlignment="Top" Width="20" FontWeight="Bold"/>
         <Button x:Name="AddWorkerButton" Content="+" HorizontalAlignment="Left" Margin="544,13,0,0" VerticalAlignment="Top" Width="20" FontWeight="Bold"/>
         <Label x:Name="WokersCountLabel" Content="Workers 1/4" HorizontalAlignment="Left" Margin="439,10,0,0" VerticalAlignment="Top" Width="100"/>
-        <Expander x:Name="SettingsExpander" HorizontalAlignment="Left" Margin="0,13,0,0" VerticalAlignment="Top" Width="600" Height="183" Expanded="SettingsExpander_Expanded" Collapsed="SettingsExpander_Collapsed">
+        <Expander x:Name="SettingsExpander" HorizontalAlignment="Left" Margin="0,75,0,-208.4" VerticalAlignment="Top" Width="600" Height="183" Expanded="SettingsExpander_Expanded" Collapsed="SettingsExpander_Collapsed">
+            <Expander.Header>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                        <CheckBox x:Name="UseCheck" Content="Use" HorizontalAlignment="Left" Margin="132,16,0,0" VerticalAlignment="Top" Height="24"/>
+                    </StackPanel>
+                </Grid>
+            </Expander.Header>
             <Grid HorizontalAlignment="Left" Height="100" Width="598">
                 <Button x:Name="LoadSettingsButton" Content="Load Settings" HorizontalAlignment="Left" Margin="488,70,0,0" VerticalAlignment="Top" Width="100"/>
                 <Button x:Name="NodeSettingsButton" Content="Node Settings" HorizontalAlignment="Left" Margin="488,45,0,0" VerticalAlignment="Top" Width="100"/>
