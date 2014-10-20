@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_common", "_common\_common.csproj", "{2CE3B2F0-ED29-4012-99FF-F69902ABE15A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_common_tests", "_common_tests\_common_tests.csproj", "{A9E27839-D8B0-4889-9253-3F92F7CDB671}"
