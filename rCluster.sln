@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerNodeApp", "WorkerNode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_commonConsoleTests", "_commonConsoleTests\_commonConsoleTests.csproj", "{8C90196F-D908-41A9-8914-8DF9E56F31A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsRemoteNode", "WindowsFormsRemoteNode\WindowsFormsRemoteNode.csproj", "{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterNodeApp", "MasterNodeApp\MasterNodeApp.csproj", "{68CC1CC9-14A6-426B-A73B-FB5CE0A37446}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeProxy", "NodeProxy\NodeProxy.csproj", "{E5723A3B-FCC9-4133-A80B-EF1D69952E02}"
@@ -49,10 +47,6 @@ Global
 		{8C90196F-D908-41A9-8914-8DF9E56F31A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C90196F-D908-41A9-8914-8DF9E56F31A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C90196F-D908-41A9-8914-8DF9E56F31A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{373BD46C-7C72-4EF1-BF57-A7ECCB38498E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68CC1CC9-14A6-426B-A73B-FB5CE0A37446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68CC1CC9-14A6-426B-A73B-FB5CE0A37446}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68CC1CC9-14A6-426B-A73B-FB5CE0A37446}.Release|Any CPU.ActiveCfg = Release|Any CPU
