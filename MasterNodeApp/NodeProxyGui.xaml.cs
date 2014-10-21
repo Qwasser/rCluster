@@ -19,6 +19,8 @@ namespace MasterNodeApp
         public NodeProxyGui(NodeProxy.NodeProxy nodeProxy)
         {
             _nodeProxy = nodeProxy;
+            _nodeProxy.AddListener(this);
+
             InitializeComponent();
         }
 
@@ -34,7 +36,17 @@ namespace MasterNodeApp
 
         public void OnWorkersCountRetreived(int count)
         {
-            WorkersCountLabel.ContentStringFormat = count.ToString(CultureInfo.InvariantCulture);
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    WorkersCountLabel.Content = count.ToString(CultureInfo.InvariantCulture);
+                });
+
+                return;
+            }
+
+            WorkersCountLabel.Content = count.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnWorkerManagerError(string error)
@@ -49,12 +61,34 @@ namespace MasterNodeApp
 
         public void OnWorkersLoadRetreived(float load)
         {
-            WorkersLoadLabel.ContentStringFormat = load.ToString(CultureInfo.InvariantCulture);
+            load = (float) Math.Round(load);
+
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    WorkersLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
+                });
+
+                return;
+            }
+
+            WorkersLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnWorkersMemoryRetreived(float memory)
         {
-            WorkersMemoryLabel.ContentStringFormat = memory.ToString(CultureInfo.InvariantCulture);
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    WorkersMemoryLabel.Content = memory.ToString(CultureInfo.InvariantCulture);
+                });
+
+                return;
+            }
+            
+            WorkersMemoryLabel.Content = memory.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnLibraryListRetreived(List<string> libraryList)
@@ -79,8 +113,19 @@ namespace MasterNodeApp
 
         public void OnWorkersMaxLimitRetreived(int limit)
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    _maxWorkersLimit = limit;
+                    MaxWorkerLimitLabel.Content = "Max Workers Limit: " + _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
+                });
+
+                return;
+            }
+            
             _maxWorkersLimit = limit;
-            MaxWorkerLimitLabel.ContentStringFormat = "Max Workers Limit: " + _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
+            MaxWorkerLimitLabel.Content = "Max Workers Limit: " + _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnWorkersCurrentLimitRetreived(int limit)
@@ -90,12 +135,34 @@ namespace MasterNodeApp
 
         public void OnTotalMemoryRetreived(float memory)
         {
-            NodeMemoryLabel.ContentStringFormat = memory.ToString(CultureInfo.InvariantCulture);
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    NodeMemoryLabel.Content = memory.ToString(CultureInfo.InvariantCulture);
+                });
+
+                return;
+            }
+
+            NodeMemoryLabel.Content = memory.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnTotalLoadRetreived(float load)
         {
-            NodeLoadLabel.ContentStringFormat = load.ToString(CultureInfo.InvariantCulture);
+            load = (float)Math.Round(load);
+
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    NodeLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
+                });
+
+                return;
+            }
+
+            NodeLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnConnectionError()
@@ -105,15 +172,49 @@ namespace MasterNodeApp
 
         public void OnDisconnected()
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    ConnectionPanel.Visibility = Visibility.Hidden;
+                    NotConnectedPanel.Visibility = Visibility.Visible;
+
+                    NodeSettingsButton.IsEnabled = false;
+                    LoadSettingsButton.IsEnabled = false;
+
+                    ConnectStateLabel.Content = "Not Connected";
+                    ConnectButton.IsEnabled = true;
+                });
+
+                return;
+            }
+
             ConnectionPanel.Visibility = Visibility.Hidden;
             NotConnectedPanel.Visibility = Visibility.Visible;
 
             NodeSettingsButton.IsEnabled = false;
             LoadSettingsButton.IsEnabled = false;
+
+            ConnectStateLabel.Content = "Not Connected";
+            ConnectButton.IsEnabled = true;
         }
 
         public void OnConnected()
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    ConnectionPanel.Visibility = Visibility.Visible;
+                    NotConnectedPanel.Visibility = Visibility.Hidden;
+
+                    NodeSettingsButton.IsEnabled = true;
+                    LoadSettingsButton.IsEnabled = true;
+                });
+
+                return;
+            }
+
             ConnectionPanel.Visibility = Visibility.Visible;
             NotConnectedPanel.Visibility = Visibility.Hidden;
 
@@ -123,7 +224,19 @@ namespace MasterNodeApp
 
         public void OnConnecting()
         {
-            throw new NotImplementedException();
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    ConnectStateLabel.Content = "Connecting...";
+                    ConnectButton.IsEnabled = false;
+                });
+
+                return;
+            }
+
+            ConnectStateLabel.Content = "Connecting...";
+            ConnectButton.IsEnabled = false;
         }
 
         public void OnLoadStatusChanged(LoadStatus status)
@@ -138,26 +251,58 @@ namespace MasterNodeApp
 
         private void LoadStatusChanged(LoadStatus status)
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(delegate
+                {
+                    _currStatus = status;
+                    WorkersSettingsLabel.Content = "Worker Settings: " + status;
+
+                    switch (status.LoadType)
+                    {
+                        case LoadStatusType.Limited:
+                            {
+                                WorkersLimitLabel.Content = status.Limit.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            }
+
+                        case LoadStatusType.Free:
+                            {
+                                WorkersLimitLabel.Content = _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            }
+
+                        case LoadStatusType.Locked:
+                            {
+                                WorkersLimitLabel.Content = "0";
+                                break;
+                            }
+                    }
+                });
+
+                return;
+            }
+
             _currStatus = status;
-            WorkersSettingsLabel.ContentStringFormat = "Worker Settings: " + status;
+            WorkersSettingsLabel.Content = "Worker Settings: " + status;
 
             switch (status.LoadType)
             {
                 case LoadStatusType.Limited:
                     {
-                        WorkersLimitLabel.ContentStringFormat = status.Limit.ToString(CultureInfo.InvariantCulture);
+                        WorkersLimitLabel.Content = status.Limit.ToString(CultureInfo.InvariantCulture);
                         break;
                     }
 
                 case LoadStatusType.Free:
                     {
-                        WorkersLimitLabel.ContentStringFormat = _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
+                        WorkersLimitLabel.Content = _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
                         break;
                     }
 
                 case LoadStatusType.Locked:
                     {
-                        WorkersLimitLabel.ContentStringFormat = "0";
+                        WorkersLimitLabel.Content = "0";
                         break;
                     }
             }

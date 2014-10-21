@@ -1,5 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
+using NodeProxy;
+using _common.SocketConnection;
 
 namespace MasterNodeApp
 {
@@ -12,41 +13,17 @@ namespace MasterNodeApp
         {
             InitializeComponent();
             HostStackPanel.CanVerticallyScroll = true;
-            var host1 = new NodeProxyGui(null)
+
+            var masterNodeSocket = new MasterNodeSocket();
+            var nodeProxy = new NodeProxy.NodeProxy(masterNodeSocket, masterNodeSocket, new NodeProxyConfiguration("host 1", "127.0.0.1", 6700));
+
+            var host1 = new NodeProxyGui(nodeProxy)
             {   
                 Margin = new Thickness(5),
 
             };
 
             HostStackPanel.Children.Add(host1);
-            var host2 = new NodeProxyGui(null)
-            {
-                Margin = new Thickness(5),
-
-            };
-            HostStackPanel.Children.Add(host2);
-
-            host2 = new NodeProxyGui(null)
-            {
-                Margin = new Thickness(5),
-
-            };
-            HostStackPanel.Children.Add(host2);
-
-            host2 = new NodeProxyGui(null)
-            {
-                Margin = new Thickness(5),
-
-            };
-            HostStackPanel.Children.Add(host2);
-
-            host2 = new NodeProxyGui(null)
-            {
-                Margin = new Thickness(5),
-
-            };
-            HostStackPanel.Children.Add(host2);
-
             HostStackPanel.UpdateLayout();
         }
 

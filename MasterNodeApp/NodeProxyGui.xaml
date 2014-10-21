@@ -13,7 +13,7 @@
                     <CheckBox x:Name="UseCheck" Content="Use" Margin="5" VerticalAlignment ="Center" HorizontalAlignment="Left"/>
                     <Label x:Name="SystemInfoLabel" Content="Load: N/A" Margin="5" HorizontalAlignment="Left"/>
                 </StackPanel>
-                <StackPanel x:Name="ConnectionPanel" Margin="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right">
+                <StackPanel x:Name="ConnectionPanel" Margin="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right" Visibility="Hidden">
                     <Label Content="Workers: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="60"/>
                     <Label x:Name="WorkersCountLabel" Content="N/A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35"/>
                     <Label Content="Limit: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="50"/>
@@ -21,8 +21,8 @@
                     <Button x:Name="RemoveWorkerButton" Content="-" HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
                     <Button x:Name="AddWorkerButton" Content="+" HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
                 </StackPanel>
-                <StackPanel x:Name="NotConnectedPanel" Margin="0,20,10,20" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right" Width="200" Visibility="Hidden">
-                    <Label Content="Not Connected" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Foreground="Red"/>
+                <StackPanel x:Name="NotConnectedPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right" Width="200">
+                    <Label x:Name="ConnectStateLabel" Content="Not Connected" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Foreground="Red"/>
                     <Button x:Name="ConnectButton" Content="Connect!" HorizontalAlignment="Right" Width="100
                             " FontWeight="Bold" Click="ConnectButton_Click"/>
 
