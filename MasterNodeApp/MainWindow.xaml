@@ -7,9 +7,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <ScrollViewer Name ="HostScrollViewers" HorizontalAlignment="Left" Height="369" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Top" Width="602">
-            <StackPanel Orientation="Horizontal" Name = "HostStackPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-        </ScrollViewer>
+        </Grid.RowDefinitions>  
+        <StackPanel Orientation="Vertical"
+  
+                    Name = "HostStackPanel" 
+                    VerticalAlignment="Stretch" 
+                    HorizontalAlignment="Stretch"
+                    Height="auto"
+                    Width="auto" Margin="5"/>
     </Grid>
 </Window>
