@@ -8,12 +8,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>  
-        <StackPanel Orientation="Vertical"
-  
-                    Name = "HostStackPanel" 
-                    VerticalAlignment="Stretch" 
-                    HorizontalAlignment="Stretch"
-                    Height="auto"
-                    Width="auto" Margin="5"/>
+        <ScrollViewer CanContentScroll="False">
+            <StackPanel Orientation="Vertical"
+                        Width ="640"
+                        Name = "HostStackPanel" 
+                        VerticalAlignment="Stretch" 
+                        HorizontalAlignment="Left"
+                        Margin="5"/>
+        </ScrollViewer>
     </Grid>
 </Window>

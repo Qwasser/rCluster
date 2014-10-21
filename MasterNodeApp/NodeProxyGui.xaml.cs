@@ -24,12 +24,12 @@ namespace MasterNodeApp
 
         private void SettingsExpander_Expanded(object sender, RoutedEventArgs e)
         {
-            Height = 200;
+            Height = 125;
         }
 
         private void SettingsExpander_Collapsed(object sender, RoutedEventArgs e)
         {
-            Height = 50;
+            Height = 40;
         }
 
         public void OnWorkersCountRetreived(int count)
