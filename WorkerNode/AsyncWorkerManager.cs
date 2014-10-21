@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _common.NodeInterfaces;
 
 namespace WorkerNode
@@ -75,12 +74,22 @@ namespace WorkerNode
 
         public void GetWorkersMemory()
         {
-            throw new NotImplementedException();
+            var memory = _workerManager.GetUsedMemory();
+
+            foreach (var workerManagerListener in _listeners)
+            {
+                workerManagerListener.OnWorkersMemoryRetreived(memory);
+            }
         }
 
         public void GetWorkersLoad()
         {
-            throw new NotImplementedException();
+            var load = _workerManager.GetTotalLoad();
+
+            foreach (var workerManagerListener in _listeners)
+            {
+                workerManagerListener.OnWorkersLoadRetreived(load);
+            }
         }
 
         public void AddListener(IWorkerManagerListener listener)

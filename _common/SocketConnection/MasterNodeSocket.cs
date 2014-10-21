@@ -37,6 +37,11 @@ namespace _common.SocketConnection
             this._responseHandler = responseHandler;
         }
 
+        public MasterNodeSocket()
+        {
+            
+        }
+
         public void SendRequest(AbstractRequestClusterMessage msg)
         {
             if (IsConnected() && _writer != StreamWriter.Null)

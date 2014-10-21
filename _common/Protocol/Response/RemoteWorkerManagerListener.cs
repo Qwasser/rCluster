@@ -38,7 +38,7 @@ namespace _common.Protocol.Response
 
         public void OnWorkersMemoryRetreived(float memory)
         {
-            throw new NotImplementedException();
+            _sender.SendResponse(new WorkerMemoryRetreivedResponse(memory));
         }
     }
 }

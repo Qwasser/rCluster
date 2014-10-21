@@ -28,7 +28,7 @@ namespace NodeProxy
         {
             _nodeConnection = nodeConnection;
             _nodeConnection.SetResponseHandler(new MasterNodeContext(this, this, this, this));
-
+            _nodeConnection.AddObserver(this);
             _configuration = configuration;
             _asyncLibraryManager = new RemoteLibraryManager(sender);
             _asyncLoadManager = new RemoteLoadManager(sender);
@@ -176,13 +176,18 @@ namespace NodeProxy
                 listener.OnConnected();
             }
 
-            _asyncLoadManager.GetStatus();
+ 
             _asyncLoadManager.GetMaxLimit();
 
             _asyncWorkerManager.GetWorkersCount();
 
-            _asyncSystemInfo.GetSystemLoad();
+            _asyncLoadManager.GetStatus();
+
             _asyncSystemInfo.GetSystemMemory();
+            _asyncSystemInfo.GetSystemLoad();
+            _asyncWorkerManager.GetWorkersLoad();
+            _asyncWorkerManager.GetWorkersMemory();
+
         }
 
         public void OnConnecting()

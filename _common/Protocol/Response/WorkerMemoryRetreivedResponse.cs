@@ -5,9 +5,9 @@ namespace _common.Protocol.Response
     [Serializable]
     public class WorkerMemoryRetreivedResponse: AbstractResponseClusterMessage
     {
-        private readonly long _memory;
+        private readonly float _memory;
 
-        public WorkerMemoryRetreivedResponse(long memory)
+        public WorkerMemoryRetreivedResponse(float memory)
         {
             _memory = memory;
         }
