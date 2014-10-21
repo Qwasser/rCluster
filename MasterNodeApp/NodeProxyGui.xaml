@@ -11,24 +11,39 @@
                 <StackPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Left">
                     <Label x:Name="HostNameLabel" Content="Host Name" Margin="10" HorizontalAlignment="Left"/>
                     <CheckBox x:Name="UseCheck" Content="Use" Margin="10" VerticalAlignment ="Center" HorizontalAlignment="Left"/>
-                    <Label x:Name="SystemInfoLabel" Content="Load 20%/55%" Margin="10" HorizontalAlignment="Left"/>
+                    <Label x:Name="SystemInfoLabel" Content="Load: N/A" Margin="10" HorizontalAlignment="Left"/>
                 </StackPanel>
-                <StackPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right">
-                    <Label x:Name="WokersCountLabel" Content="Workers 1/4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"/>
+                <StackPanel x:Name="ConnectionPanel" Margin="10" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right">
+                    <Label Content="Workers: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="60"/>
+                    <Label x:Name="WorkersCountLabel" Content="N/A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35"/>
+                    <Label Content="Limit: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="50"/>
+                    <Label x:Name="WorkersLimitLabel" Content="N/A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35"/>
                     <Button x:Name="RemoveWorkerButton" Content="-" HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
                     <Button x:Name="AddWorkerButton" Content="+" HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
+                </StackPanel>
+                <StackPanel x:Name="NotConnectedPanel" Margin="0,20,10,20" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right" Width="200" Visibility="Hidden">
+                    <Label Content="Not Connected" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Foreground="Red"/>
+                    <Button x:Name="ConnectButton" Content="Connect!" HorizontalAlignment="Right" Width="100
+                            " FontWeight="Bold" Click="ConnectButton_Click"/>
+
                 </StackPanel>
             </Grid>
         </Expander.Header>
         <Grid HorizontalAlignment="Left" Height="100" Width="598">
-            <Button x:Name="LoadSettingsButton" Content="Load Settings" HorizontalAlignment="Left" Margin="488,70,0,0" VerticalAlignment="Top" Width="100"/>
-            <Button x:Name="NodeSettingsButton" Content="Node Settings" HorizontalAlignment="Left" Margin="488,45,0,0" VerticalAlignment="Top" Width="100"/>
+            <Button x:Name="LoadSettingsButton" Content="Load Settings" HorizontalAlignment="Left" Margin="488,70,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
+            <Button x:Name="NodeSettingsButton" Content="Node Settings" HorizontalAlignment="Left" Margin="488,45,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
             <Label x:Name="HostName" Content="Host Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="AdressLabel" Content="Adress: 192.168.0.100" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="WorkerLimitLabel" Content="Worker Limit: 8" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="WorkersSettingsLabel" Content="Workers Settings: limited" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="NodeLoadLabel" Content="Node load: 55%" HorizontalAlignment="Left" Margin="180,41,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="NodeLoadFromWorkersLabel" Content="Load FromWorkers: 20%" HorizontalAlignment="Left" Margin="180,72,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="AdressLabel" Content="Adress: N/A" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="MaxWorkerLimitLabel" Content="Max Worker Limit: N/A" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="WorkersSettingsLabel" Content="Workers Settings: N/A" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="Node load:" HorizontalAlignment="Left" Margin="180,41,0,0" VerticalAlignment="Top"/>
+            <Label Content="Workers Load:" HorizontalAlignment="Left" Margin="180,72,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="NodeLoadLabel" Content="N/A" HorizontalAlignment="Left" Margin="253,41,0,0" VerticalAlignment="Top"/>
+            <Label Content="Memory:" HorizontalAlignment="Left" Margin="289,41,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="NodeMemoryLabel" Content="N/A" HorizontalAlignment="Left" Margin="351,41,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="WorkersLoadLabel" Content="N/A" HorizontalAlignment="Left" Margin="271,72,0,0" VerticalAlignment="Top"/>
+            <Label Content="Workers memory:" HorizontalAlignment="Left" Margin="307,72,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="WorkersMemoryLabel" Content="N/A" HorizontalAlignment="Left" Margin="416,72,0,0" VerticalAlignment="Top"/>
         </Grid>
     </Expander>
 </UserControl>

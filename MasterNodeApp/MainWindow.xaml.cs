@@ -10,6 +10,13 @@ namespace MasterNodeApp
         public MainWindow()
         {
             InitializeComponent();
+            var host1 = new NodeProxyGui(null);
+            HostStackPanel.Children.Add(host1);
+
+            host1 = new NodeProxyGui(null);
+            HostStackPanel.Children.Add(host1);
+
+            HostStackPanel.UpdateLayout();
         }
 
         

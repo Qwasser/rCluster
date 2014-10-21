@@ -1,17 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using NodeProxy;
 using _common.Protocol;
 
@@ -22,10 +12,14 @@ namespace MasterNodeApp
     /// </summary>
     public partial class NodeProxyGui : INodeProxyListener
     {
-        public NodeProxyGui()
-        {
-            InitializeComponent();
+        private NodeProxy.NodeProxy _nodeProxy;
+        private LoadStatus _currStatus;
+        private int _maxWorkersLimit;
 
+        public NodeProxyGui(NodeProxy.NodeProxy nodeProxy)
+        {
+            _nodeProxy = nodeProxy;
+            InitializeComponent();
         }
 
         private void SettingsExpander_Expanded(object sender, RoutedEventArgs e)
@@ -40,7 +34,7 @@ namespace MasterNodeApp
 
         public void OnWorkersCountRetreived(int count)
         {
-            throw new NotImplementedException();
+            WorkersCountLabel.ContentStringFormat = count.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnWorkerManagerError(string error)
@@ -55,12 +49,12 @@ namespace MasterNodeApp
 
         public void OnWorkersLoadRetreived(float load)
         {
-            throw new NotImplementedException();
+            WorkersLoadLabel.ContentStringFormat = load.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnWorkersMemoryRetreived(float memory)
         {
-            throw new NotImplementedException();
+            WorkersMemoryLabel.ContentStringFormat = memory.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnLibraryListRetreived(List<string> libraryList)
@@ -85,7 +79,8 @@ namespace MasterNodeApp
 
         public void OnWorkersMaxLimitRetreived(int limit)
         {
-            throw new NotImplementedException();
+            _maxWorkersLimit = limit;
+            MaxWorkerLimitLabel.ContentStringFormat = "Max Workers Limit: " + _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnWorkersCurrentLimitRetreived(int limit)
@@ -95,12 +90,12 @@ namespace MasterNodeApp
 
         public void OnTotalMemoryRetreived(float memory)
         {
-            throw new NotImplementedException();
+            NodeMemoryLabel.ContentStringFormat = memory.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnTotalLoadRetreived(float load)
         {
-            throw new NotImplementedException();
+            NodeLoadLabel.ContentStringFormat = load.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnConnectionError()
@@ -110,12 +105,20 @@ namespace MasterNodeApp
 
         public void OnDisconnected()
         {
-            throw new NotImplementedException();
+            ConnectionPanel.Visibility = Visibility.Hidden;
+            NotConnectedPanel.Visibility = Visibility.Visible;
+
+            NodeSettingsButton.IsEnabled = false;
+            LoadSettingsButton.IsEnabled = false;
         }
 
         public void OnConnected()
         {
-            throw new NotImplementedException();
+            ConnectionPanel.Visibility = Visibility.Visible;
+            NotConnectedPanel.Visibility = Visibility.Hidden;
+
+            NodeSettingsButton.IsEnabled = true;
+            LoadSettingsButton.IsEnabled = true;
         }
 
         public void OnConnecting()
@@ -125,12 +128,44 @@ namespace MasterNodeApp
 
         public void OnLoadStatusChanged(LoadStatus status)
         {
-            throw new NotImplementedException();
+            LoadStatusChanged(status);
         }
 
         public void OnLoadStatusRetreived(LoadStatus status)
         {
-            throw new NotImplementedException();
+            LoadStatusChanged(status);
+        }
+
+        private void LoadStatusChanged(LoadStatus status)
+        {
+            _currStatus = status;
+            WorkersSettingsLabel.ContentStringFormat = "Worker Settings: " + status;
+
+            switch (status.LoadType)
+            {
+                case LoadStatusType.Limited:
+                    {
+                        WorkersLimitLabel.ContentStringFormat = status.Limit.ToString(CultureInfo.InvariantCulture);
+                        break;
+                    }
+
+                case LoadStatusType.Free:
+                    {
+                        WorkersLimitLabel.ContentStringFormat = _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
+                        break;
+                    }
+
+                case LoadStatusType.Locked:
+                    {
+                        WorkersLimitLabel.ContentStringFormat = "0";
+                        break;
+                    }
+            }
+        }
+
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            _nodeProxy.Connect();
         }
     }
 }
