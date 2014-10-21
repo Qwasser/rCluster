@@ -20,7 +20,7 @@ namespace WorkerNode
 
         int GetWorkersCount();
 
-        long GetUsedMemory();
+        float GetUsedMemory();
 
         float GetTotalLoad();
 

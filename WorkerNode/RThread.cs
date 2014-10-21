@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Timers;
 
 namespace WorkerNode
 {
@@ -25,13 +23,14 @@ namespace WorkerNode
             get { return _process.HasExited; }
         }
 
-        public long Memory
+        public float Memory
         {
-            get { return _process.WorkingSet64; }
+            get { return _ramCounter.NextValue() / 1024 / 1024; }
         }
 
         private System.Timers.Timer _cpuLoadTread;
         private PerformanceCounter _cpuCounter;
+        private PerformanceCounter _ramCounter;
 
         public float CpuLoad { get; private set; }
 
@@ -100,6 +99,13 @@ namespace WorkerNode
             };
 
             _cpuLoadTread.Start();
+
+            _ramCounter = new PerformanceCounter
+            {
+                CategoryName = "Process",
+                CounterName = "Working Set",
+                InstanceName = _process.ProcessName
+            };
 
             _disposed = false;
         }

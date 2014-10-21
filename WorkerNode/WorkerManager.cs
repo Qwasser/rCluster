@@ -86,7 +86,7 @@ namespace WorkerNode
             RemoveWorkers(_workers.Count);
         }
 
-        public long GetUsedMemory()
+        public float GetUsedMemory()
         {
             return _workers.Select(w => w.Memory).Sum();
         }
