@@ -10,6 +10,7 @@ namespace MasterNodeApp
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         
