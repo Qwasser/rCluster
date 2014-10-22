@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Height="40">
 
-    <Expander x:Name="SettingsExpander" HorizontalAlignment="Left" Margin="0, 0,0,-226" VerticalAlignment="Top" Width="600" Expanded="SettingsExpander_Expanded" Collapsed="SettingsExpander_Collapsed">
+    <Expander x:Name="SettingsExpander" HorizontalAlignment="Left" Margin="0, 0,0,-226" VerticalAlignment="Top" Width="600" Expanded="SettingsExpander_Expanded" Collapsed="SettingsExpander_Collapsed" BorderBrush="#FF030303" Background="#FFF1EFEF">
+        
         <Expander.Header>
-            <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}" Height="40" Margin="0,0,-0.4,0">
+                <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}" Height="40" Margin="0,0,-0.4,0">
                 <StackPanel Margin="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Left">
                     <Label x:Name="HostNameLabel" Content="Host Name" Margin="5" HorizontalAlignment="Left"/>
                     <CheckBox x:Name="UseCheck" Content="Use" Margin="5" VerticalAlignment ="Center" HorizontalAlignment="Left"/>
@@ -28,7 +29,11 @@
 
                 </StackPanel>
             </Grid>
+               
+        
+       
         </Expander.Header>
+        <Border Background="White" BorderBrush="Black" >
         <Grid HorizontalAlignment="Left" Height="100" Width="598">
             <Button x:Name="LoadSettingsButton" Content="Load Settings" HorizontalAlignment="Left" Margin="488,70,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
             <Button x:Name="NodeSettingsButton" Content="Node Settings" HorizontalAlignment="Left" Margin="488,45,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
@@ -45,5 +50,6 @@
             <Label Content="Workers memory:" HorizontalAlignment="Left" Margin="307,72,0,0" VerticalAlignment="Top"/>
             <Label x:Name="WorkersMemoryLabel" Content="N/A" HorizontalAlignment="Left" Margin="416,72,0,0" VerticalAlignment="Top"/>
         </Grid>
+        </Border>
     </Expander>
 </UserControl>

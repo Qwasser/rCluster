@@ -9,13 +9,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ScrollViewer CanContentScroll="False" Height="250">
+        <ScrollViewer CanContentScroll="False" Height="250" Width="Auto" Margin="5" HorizontalAlignment="Left" BorderBrush="Black">
             <StackPanel Orientation="Vertical"
-                        Width ="620"
+                        Width ="Auto"
                         Name = "HostStackPanel" 
                         VerticalAlignment="Top" 
                         HorizontalAlignment="Left"
-                        
+            
                         Margin="5"/>
         </ScrollViewer>
     </Grid>

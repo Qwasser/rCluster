@@ -12,7 +12,7 @@ namespace _common.SocketConnection
     {
         private static TcpListener _listener;
         private static IRequestHandler _requestHandler;
-        private static TcpClient _connectedClient = null;
+        private static TcpClient _connectedClient;
         private static StreamWriter _writer = StreamWriter.Null;
         public static void StartListening(int port, IRequestHandler requestHnadler)
         {
