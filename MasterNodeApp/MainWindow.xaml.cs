@@ -20,23 +20,31 @@ namespace MasterNodeApp
             InitializeComponent();
             HostStackPanel.CanVerticallyScroll = true;
 
-            var section =
-                (NodeProxyConfigurationsSection)ConfigurationManager.GetSection("NodeProxyConfigurationsSection");
+            var hostNames = new List<string>(ConfigurationManager.AppSettings["hostNames"].Split(';'));
 
-            section.NodesInfo
+            foreach (var hostName in hostNames)
+            {
+                var nodeInfoString = ConfigurationManager.AppSettings[hostName];
 
-            var masterNodeSocket = new MasterNodeSocket();
-            var nodeProxy = new NodeProxy.NodeProxy(masterNodeSocket, masterNodeSocket, new NodeProxyConfiguration("host 1", "127.0.0.1", 6700));
-            _proxies.Add(nodeProxy);
+                var ip = nodeInfoString.Split(';')[0];
+                int port;
 
-            var host1 = new NodeProxyGui(nodeProxy)
-            {   
-                Margin = new Thickness(5),
+                if (int.TryParse(nodeInfoString.Split(';')[1], out port))
+                {
+                    var masterNodeSocket = new MasterNodeSocket();
+                    var nodeProxy = new NodeProxy.NodeProxy(masterNodeSocket, masterNodeSocket, new NodeProxyConfiguration(hostName, ip, port));
+                    _proxies.Add(nodeProxy);
 
-            };
+                    var newHost = new NodeProxyGui(nodeProxy)
+                    {
+                        Margin = new Thickness(5),
 
-            HostStackPanel.Children.Add(host1);
-            HostStackPanel.UpdateLayout();
+                    };
+
+                    HostStackPanel.Children.Add(newHost);
+                    HostStackPanel.UpdateLayout();
+                }
+            }
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)

@@ -72,7 +72,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NodeProxyConfigurationsSection.cs" />
     <Compile Include="NodeProxyGui.xaml.cs">
       <DependentUpon>NodeProxyGui.xaml</DependentUpon>
     </Compile>
