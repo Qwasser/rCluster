@@ -207,10 +207,11 @@ namespace _common.SocketConnection
                 }
                 catch (Exception ex)
                 {
-                    _parent.Disconnect();
+                    Console.Out.WriteLine(ex.ToString());
                 }
                 finally
                 {
+                    _parent.Disconnect();
                     _stream.Close();
                 }
             }
