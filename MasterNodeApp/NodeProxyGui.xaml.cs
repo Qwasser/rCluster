@@ -12,7 +12,7 @@ namespace MasterNodeApp
     /// </summary>
     public partial class NodeProxyGui : INodeProxyListener
     {
-        private NodeProxy.NodeProxy _nodeProxy;
+        private readonly NodeProxy.NodeProxy _nodeProxy;
         private LoadStatus _currStatus;
         private int _maxWorkersLimit;
 
@@ -22,6 +22,11 @@ namespace MasterNodeApp
             _nodeProxy.AddListener(this);
 
             InitializeComponent();
+
+            HostNameLabel.Content = nodeProxy.Configuration.Name;
+            HostNameLabelIn.Content = nodeProxy.Configuration.Name;
+            AdressLabel.Content = "Adderess: " + nodeProxy.Configuration.Ip + ":" +  nodeProxy.Configuration.Port;
+
         }
 
         private void SettingsExpander_Expanded(object sender, RoutedEventArgs e)

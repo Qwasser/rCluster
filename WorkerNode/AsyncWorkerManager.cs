@@ -11,6 +11,7 @@ namespace WorkerNode
         public AsyncWorkerManager(IWorkerManager workerManager)
         {
             _workerManager = workerManager;
+            _workerManager.WorkersCountChange += OnWorkersCountChange;
             _listeners = new List<IWorkerManagerListener>();
         }
 
@@ -27,49 +28,21 @@ namespace WorkerNode
         public void AddWorkers(int n)
         {
             _workerManager.AddWorkers(n);
-
-            var count = _workerManager.GetWorkersCount();
-
-            foreach (var workerManagerListener in _listeners)
-            {
-                workerManagerListener.OnWorkersCountRetreived(count);
-            }
         }
 
         public void RemoveWorkers(int n)
         {
             _workerManager.RemoveWorkers(n);
-
-            var count = _workerManager.GetWorkersCount();
-
-            foreach (var workerManagerListener in _listeners)
-            {
-                workerManagerListener.OnWorkersCountRetreived(count);
-            }
         }
 
         public void AddAllWorkers()
         {
             _workerManager.AddAllWorkers();
-
-            var count = _workerManager.GetWorkersCount();
-
-            foreach (var workerManagerListener in _listeners)
-            {
-                workerManagerListener.OnWorkersCountRetreived(count);
-            }
         }
 
         public void RemoveAllWorkers()
         {
             _workerManager.RemoveAllWorkers();
-
-            var count = _workerManager.GetWorkersCount();
-
-            foreach (var workerManagerListener in _listeners)
-            {
-                workerManagerListener.OnWorkersCountRetreived(count);
-            }
         }
 
         public void GetWorkersMemory()
@@ -89,6 +62,14 @@ namespace WorkerNode
             foreach (var workerManagerListener in _listeners)
             {
                 workerManagerListener.OnWorkersLoadRetreived(load);
+            }
+        }
+
+        private void OnWorkersCountChange(int count)
+        {
+            foreach (var workerManagerListener in _listeners)
+            {
+                workerManagerListener.OnWorkersCountRetreived(count);
             }
         }
 

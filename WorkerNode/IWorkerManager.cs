@@ -3,26 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _common.Protocol;
 
 namespace WorkerNode
 {
-    public interface IWorkerManager
+    public abstract class IWorkerManager
     {
-        void AddWorkers(int n);
+        public abstract void AddWorkers(int n);
 
-        void RemoveWorkers(int n);
+        public abstract void RemoveWorkers(int n);
 
-        void AddAllWorkers();
+        public abstract void AddAllWorkers();
 
-        void RemoveAllWorkers();
+        public abstract void RemoveAllWorkers();
 
-        void SetWorkersLimit(int limit);
+        public abstract void SetWorkersLimit(int limit);
 
-        int GetWorkersCount();
+        public abstract int GetWorkersCount();
 
-        float GetUsedMemory();
+        public abstract float GetUsedMemory();
 
-        float GetTotalLoad();
+        public abstract float GetTotalLoad();
+
+        public Action<int> WorkersCountChange;
 
         //void addListener(IWorkerManagerListener)
     }

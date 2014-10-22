@@ -33,12 +33,12 @@ namespace WorkerNode
             _workerThreadFactory = workerThreadFactory ?? new WorkerThreadFactory();
         }
 
-        public int GetWorkersCount()
+        public override int GetWorkersCount()
         {
             return _workers.Count;
         }
 
-        public void SetWorkersLimit(int limit)
+        public override void SetWorkersLimit(int limit)
         {
             if (limit >= WorkersLimit)
             {
@@ -53,7 +53,7 @@ namespace WorkerNode
             }
         }
  
-        public void AddWorkers(int n)
+        public override void AddWorkers(int n)
         {
             for (var i = 0; i < n && _workers.Count < WorkersLimit; i++)
             {
@@ -65,33 +65,37 @@ namespace WorkerNode
 
                 _workers.AddLast(newWorker);
             }
+
+            WorkersCountChange(_workers.Count);
         }
 
-        public void RemoveWorkers(int n)
+        public override void RemoveWorkers(int n)
         {
             for (int i = 0; i < n && _workers.Count > 0; i++)
             {
                 _workers.Last.Value.Dispose();
                 _workers.RemoveLast();
             }
+
+            WorkersCountChange(_workers.Count);
         }
 
-        public void AddAllWorkers()
+        public override void AddAllWorkers()
         {
             AddWorkers(WorkersLimit);
         }
 
-        public void RemoveAllWorkers()
+        public override void RemoveAllWorkers()
         {
             RemoveWorkers(_workers.Count);
         }
 
-        public float GetUsedMemory()
+        public override float GetUsedMemory()
         {
             return _workers.Select(w => w.Memory).Sum();
         }
 
-        public float GetTotalLoad()
+        public override float GetTotalLoad()
         {
             return _workers.Select(w => w.CpuLoad).Sum();
         }

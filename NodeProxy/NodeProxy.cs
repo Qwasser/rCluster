@@ -20,7 +20,7 @@ namespace NodeProxy
         
         private readonly IAsyncWorkerManager _asyncWorkerManager;
 
-        private readonly NodeProxyConfiguration _configuration;
+        public readonly NodeProxyConfiguration Configuration;
 
         private List<INodeProxyListener> _listeners; 
 
@@ -29,7 +29,7 @@ namespace NodeProxy
             _nodeConnection = nodeConnection;
             _nodeConnection.SetResponseHandler(new MasterNodeContext(this, this, this, this));
             _nodeConnection.AddObserver(this);
-            _configuration = configuration;
+            Configuration = configuration;
             _asyncLibraryManager = new RemoteLibraryManager(sender);
             _asyncLoadManager = new RemoteLoadManager(sender);
             _asyncSystemInfo = new RemoteSystemInfo(sender);
@@ -40,7 +40,7 @@ namespace NodeProxy
 
         public void Connect()
         {
-            _nodeConnection.Connect(_configuration.Ip, _configuration.Port);
+            _nodeConnection.Connect(Configuration.Ip, Configuration.Port);
         }
 
         public void Disconnect()
