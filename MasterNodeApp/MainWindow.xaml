@@ -7,13 +7,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>  
-        <ScrollViewer CanContentScroll="False">
+        </Grid.RowDefinitions>
+        <ScrollViewer CanContentScroll="False" Height="250">
             <StackPanel Orientation="Vertical"
-                        Width ="640"
+                        Width ="620"
                         Name = "HostStackPanel" 
-                        VerticalAlignment="Stretch" 
+                        VerticalAlignment="Top" 
                         HorizontalAlignment="Left"
+                        
                         Margin="5"/>
         </ScrollViewer>
     </Grid>
