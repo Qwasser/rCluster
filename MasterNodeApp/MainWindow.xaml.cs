@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Configuration;
+using System.Windows;
 using NodeProxy;
 using _common.SocketConnection;
 
@@ -13,6 +14,11 @@ namespace MasterNodeApp
         {
             InitializeComponent();
             HostStackPanel.CanVerticallyScroll = true;
+
+            var section =
+                (NodeProxyConfigurationsSection)ConfigurationManager.GetSection("NodeProxyConfigurationsSection");
+
+            section.NodesInfo
 
             var masterNodeSocket = new MasterNodeSocket();
             var nodeProxy = new NodeProxy.NodeProxy(masterNodeSocket, masterNodeSocket, new NodeProxyConfiguration("host 1", "127.0.0.1", 6700));

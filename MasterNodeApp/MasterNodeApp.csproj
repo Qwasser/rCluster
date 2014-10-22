@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,6 +72,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NodeProxyConfigurationsSection.cs" />
     <Compile Include="NodeProxyGui.xaml.cs">
       <DependentUpon>NodeProxyGui.xaml</DependentUpon>
     </Compile>
