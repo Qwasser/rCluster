@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _common.NodeInterfaces;
 
 namespace WorkerNode
@@ -12,9 +13,24 @@ namespace WorkerNode
         public AsyncSystemInfo(ISystemInfo systemInfo)
         {
             _systemInfo = systemInfo;
+            _systemInfo.InfoChange += OnInfoChange;
+
             _listeners = new List<ISystemInfoListener>();
         }
 
+
+        private void OnInfoChange(Tuple<float, float> info)
+        {
+            foreach (var listener in _listeners)
+            {
+                listener.OnTotalLoadRetreived(info.Item1);
+            }
+
+            foreach (var listener in _listeners)
+            {
+                listener.OnTotalMemoryRetreived(info.Item2);
+            }
+        }
 
         public void GetSystemMemory()
         {

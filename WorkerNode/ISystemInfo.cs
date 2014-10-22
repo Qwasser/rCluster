@@ -1,9 +1,13 @@
-﻿namespace WorkerNode
-{
-    public interface ISystemInfo
-    {
-        float GetMemory();
+﻿using System;
 
-        float GetLoad();
+namespace WorkerNode
+{
+    public abstract class ISystemInfo
+    {
+        public abstract float GetMemory();
+
+        public abstract float GetLoad();
+
+        public Action<Tuple<float, float>> InfoChange;
     }
 }

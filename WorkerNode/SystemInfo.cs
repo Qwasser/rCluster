@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace WorkerNode
 {
@@ -10,8 +11,6 @@ namespace WorkerNode
         private PerformanceCounter _ramCounter;
 
         private System.Timers.Timer _cpuLoadTread;
-
-        private bool _aborted;
 
         private float _cpuLoad;
 
@@ -25,7 +24,6 @@ namespace WorkerNode
 
             _ramCounter = new PerformanceCounter("Memory", "Available MBytes");
 
-            _aborted = false;
             _cpuLoad = 0;
 
             _cpuLoadTread = new System.Timers.Timer()
@@ -34,17 +32,22 @@ namespace WorkerNode
                 Enabled = true
             };
 
-            _cpuLoadTread.Elapsed += (sender, args) => UpdateCpuLoad();
+            _cpuLoadTread.Elapsed += (sender, args) =>
+            {
+                UpdateCpuLoad();
+
+                InfoChange(new Tuple<float, float>(GetLoad(), GetMemory()));
+            };
 
             _cpuLoadTread.Start();
         }
 
-        public float GetMemory()
+        public override float GetMemory()
         {
             return _ramCounter.NextValue();
         }
 
-        public float GetLoad()
+        public override float GetLoad()
         {
             return _cpuLoad;
         }
