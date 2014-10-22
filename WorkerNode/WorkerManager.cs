@@ -40,17 +40,13 @@ namespace WorkerNode
 
         public override void SetWorkersLimit(int limit)
         {
-            if (limit >= WorkersLimit)
+            if (limit < _workers.Count)
             {
-                WorkersLimit = limit;
-            }
-            else
-            {
-                int n = WorkersLimit - limit;
+                int n = _workers.Count - limit;
                 RemoveWorkers(n);
-
-                WorkersLimit = limit;
             }
+
+            WorkersLimit = limit;
         }
  
         public override void AddWorkers(int n)
