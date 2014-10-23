@@ -23,8 +23,8 @@
                     <Label x:Name="WorkersCountLabel" Content="N/A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35"/>
                     <Label Content="Limit: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="50"/>
                     <Label x:Name="WorkersLimitLabel" Content="N/A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35"/>
-                    <Button x:Name="RemoveWorkerButton" Content="-" HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
-                    <Button x:Name="AddWorkerButton" Content="+" HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
+                    <Button x:Name="RemoveWorkerButton" Content="-" Click="RemoveWorkerButton_Click"  HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
+                    <Button x:Name="AddWorkerButton" Content="+" Click="AddWorkerButton_Click" HorizontalAlignment="Right" Width="20" FontWeight="Bold"/>
                 </StackPanel>
                 <StackPanel x:Name="NotConnectedPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment ="Right" Width="200" Margin="0,4,0.4,10" Height="26" Grid.RowSpan="2">
                     <Label x:Name="ConnectStateLabel" Content="Not Connected" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Foreground="Red"/>

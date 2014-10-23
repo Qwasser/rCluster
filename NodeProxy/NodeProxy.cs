@@ -18,7 +18,7 @@ namespace NodeProxy
         
         private readonly IAsyncSystemInfo _asyncSystemInfo;
         
-        private readonly IAsyncWorkerManager _asyncWorkerManager;
+        public readonly IAsyncWorkerManager _asyncWorkerManager;
 
         public readonly NodeProxyConfiguration Configuration;
 

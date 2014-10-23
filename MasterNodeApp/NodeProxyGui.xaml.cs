@@ -317,5 +317,15 @@ namespace MasterNodeApp
         {
             _nodeProxy.Connect();
         }
+
+        private void AddWorkerButton_Click(object sender, RoutedEventArgs e)
+        {
+            _nodeProxy._asyncWorkerManager.AddWorkers(1);
+        }
+
+        private void RemoveWorkerButton_Click(object sender, RoutedEventArgs e)
+        {
+            _nodeProxy._asyncWorkerManager.RemoveWorkers(1);
+        }
     }
 }

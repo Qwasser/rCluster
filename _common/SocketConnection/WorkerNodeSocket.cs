@@ -14,6 +14,7 @@ namespace _common.SocketConnection
         private static IRequestHandler _requestHandler;
         private static TcpClient _connectedClient;
         private static StreamWriter _writer = StreamWriter.Null;
+        private static Task <TcpClient> _clientTask;
         public static void StartListening(int port, IRequestHandler requestHnadler)
         {
             _requestHandler = requestHnadler;
@@ -30,8 +31,10 @@ namespace _common.SocketConnection
 
         public static void StopListening()
         {
+            _clientTask.Dispose();
             if (_connectedClient != null)
             {
+                
                 _connectedClient.Close();
             }
             _listener.Stop();
@@ -41,9 +44,9 @@ namespace _common.SocketConnection
         {
             try
             {
-                var clientTask = Task.Factory.FromAsync<TcpClient>(_listener.BeginAcceptTcpClient,
+                _clientTask = Task.Factory.FromAsync<TcpClient>(_listener.BeginAcceptTcpClient,
                     _listener.EndAcceptTcpClient, _listener);
-                clientTask.ContinueWith(c => SaveConnection(c.Result)).ContinueWith(c => ContinuousReceive(c.Result));
+                _clientTask.ContinueWith(c => SaveConnection(c.Result)).ContinueWith(c => ContinuousReceive(c.Result));
             }
             catch (Exception e)
             {
@@ -56,7 +59,7 @@ namespace _common.SocketConnection
         {
             _connectedClient = client;
             _writer = new StreamWriter(client.GetStream());
-            return client.GetStream();
+            return client.GetStream();   
         }
 
         public static void SendResponse(AbstractResponseClusterMessage msg)

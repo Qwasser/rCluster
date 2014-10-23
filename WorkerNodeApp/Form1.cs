@@ -19,6 +19,8 @@ namespace WorkerNodeApp
 
             InitializeComponent();
 
+            this.FormClosing += MainForm_Closing;
+
             loadManager.GetMaxLimit();
             loadManager.GetStatus();
         }
@@ -182,6 +184,11 @@ namespace WorkerNodeApp
             }
 
             ApplyButton.Enabled = true;
+        }
+
+        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _common.SocketConnection.WorkerNodeSocket.StopListening();
         }
     }
 }
