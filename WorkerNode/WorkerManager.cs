@@ -6,6 +6,8 @@ namespace WorkerNode
 {
     public class WorkerManager : IWorkerManager
     {
+        private const int TimerInterval = 1000;
+
         private const int WorkerLimitConst = 0;
 
         private readonly string _redisIp;
@@ -19,6 +21,8 @@ namespace WorkerNode
         private readonly LinkedList<WorkerThread> _workers;
         private readonly IWorkerThreadFactory _workerThreadFactory;
 
+        private readonly System.Timers.Timer _loadMonitorThread;
+
         public WorkerManager(string redisIp = "127.0.0.1", string redisPort = "6379", string queue = "jobs", IWorkerThreadFactory workerThreadFactory = null)
         {
             _redisIp = redisIp;
@@ -31,6 +35,22 @@ namespace WorkerNode
 
             _workers = new LinkedList<WorkerThread>();
             _workerThreadFactory = workerThreadFactory ?? new WorkerThreadFactory();
+
+            _loadMonitorThread = new System.Timers.Timer()
+            {
+                Interval = TimerInterval,
+                Enabled = true
+            };
+
+            _loadMonitorThread.Elapsed += (sender, args) =>
+            {
+                if (WorkersLoadUpdated != null)
+                {
+                    WorkersLoadUpdated(new Tuple<float, float>(GetTotalLoad(), GetUsedMemory()));
+                }
+            };
+
+            _loadMonitorThread.Start();
         }
 
         public override int GetWorkersCount()
@@ -121,6 +141,11 @@ namespace WorkerNode
         private void WorkerMessage(Tuple<int, string> tuple)
         {
             
+        }
+
+        ~WorkerManager()
+        {
+            _loadMonitorThread.Stop();
         }
     }
 }

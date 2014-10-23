@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _common.NodeInterfaces;
 
 namespace WorkerNode
@@ -12,6 +13,7 @@ namespace WorkerNode
         {
             _workerManager = workerManager;
             _workerManager.WorkersCountChange += OnWorkersCountChange;
+            _workerManager.WorkersLoadUpdated += OnWorkersLoadUpdated;
             _listeners = new List<IWorkerManagerListener>();
         }
 
@@ -70,6 +72,19 @@ namespace WorkerNode
             foreach (var workerManagerListener in _listeners)
             {
                 workerManagerListener.OnWorkersCountRetreived(count);
+            }
+        }
+
+        private void OnWorkersLoadUpdated(Tuple<float, float> load)
+        {
+            foreach (var workerManagerListener in _listeners)
+            {
+                workerManagerListener.OnWorkersLoadRetreived(load.Item1);
+            }
+
+            foreach (var workerManagerListener in _listeners)
+            {
+                workerManagerListener.OnWorkersMemoryRetreived(load.Item2);
             }
         }
 

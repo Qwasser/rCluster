@@ -27,6 +27,8 @@ namespace WorkerNode
 
         public Action<int> WorkersCountChange;
 
+        public Action<Tuple<float, float>> WorkersLoadUpdated;
+
         //void addListener(IWorkerManagerListener)
     }
 }
