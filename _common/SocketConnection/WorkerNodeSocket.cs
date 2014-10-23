@@ -63,9 +63,16 @@ namespace _common.SocketConnection
         {
             if (_writer != StreamWriter.Null)
             {
-                
-                _writer.WriteLine(ConnectionUtils.Encode(msg));
-                _writer.Flush();
+                try
+                {
+                    _writer.WriteLine(ConnectionUtils.Encode(msg));
+                    _writer.Flush();
+                }
+                catch (IOException exception)
+                {
+                    _writer.Close();
+                    _writer = StreamWriter.Null;
+                }
             }
         }
 
@@ -102,7 +109,7 @@ namespace _common.SocketConnection
                 _connectedClient.Close();
 
             }
-            catch (Exception ex)
+            catch (SocketException ex)
             {
                 Console.Out.WriteLine(ex.ToString());
             }

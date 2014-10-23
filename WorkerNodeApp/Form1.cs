@@ -64,8 +64,7 @@ namespace WorkerNodeApp
 
         public void OnLoadStatusRetreived(LoadStatus status)
         {
-            ApplyStaus(status);
-            _workerManager.AddAllWorkers();
+
         }
 
         public void OnLoadStatusChanged(LoadStatus status)
