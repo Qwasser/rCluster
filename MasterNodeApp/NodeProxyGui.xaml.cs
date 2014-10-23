@@ -162,6 +162,7 @@ namespace MasterNodeApp
                 Dispatcher.Invoke(delegate
                 {
                     NodeLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
+                    SystemInfoLabel.Content = "Load: " + load.ToString(CultureInfo.InvariantCulture);
                 });
 
                 return;
