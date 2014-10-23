@@ -37,8 +37,7 @@ namespace MasterNodeApp
 
                     var newHost = new NodeProxyGui(nodeProxy)
                     {
-                        Margin = new Thickness(5),
-
+                        Margin = new Thickness(4),
                     };
 
                     HostStackPanel.Children.Add(newHost);

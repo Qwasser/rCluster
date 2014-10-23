@@ -31,7 +31,7 @@ namespace MasterNodeApp
 
         private void SettingsExpander_Expanded(object sender, RoutedEventArgs e)
         {
-            Height = 125;
+            Height = 145;
         }
 
         private void SettingsExpander_Collapsed(object sender, RoutedEventArgs e)

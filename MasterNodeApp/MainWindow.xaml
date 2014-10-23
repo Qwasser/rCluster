@@ -9,14 +9,19 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ScrollViewer CanContentScroll="False" Height="250" Width="Auto" Margin="5" HorizontalAlignment="Left" BorderBrush="Black">
-            <StackPanel Orientation="Vertical"
-                        Width ="Auto"
-                        Name = "HostStackPanel" 
-                        VerticalAlignment="Top" 
-                        HorizontalAlignment="Left"
+        <Border Width="Auto" BorderBrush="Black" BorderThickness ="2" HorizontalAlignment="Left">
+            <ScrollViewer CanContentScroll="False" Height="250" Width="Auto" Margin="5" HorizontalAlignment="Left" BorderBrush="Black">
             
-                        Margin="5"/>
+                <StackPanel Orientation="Vertical"
+                            Width ="Auto"
+                            Name = "HostStackPanel" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left"
+            
+                            Margin="5"/>
+            
         </ScrollViewer>
+        </Border>
+
     </Grid>
 </Window>
