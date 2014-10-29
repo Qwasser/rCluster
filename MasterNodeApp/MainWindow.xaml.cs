@@ -54,6 +54,48 @@ namespace MasterNodeApp
             }
         }
 
+        private void RunAllButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            foreach (var nodeProxy in _proxies)
+            {
+                nodeProxy._asyncWorkerManager.AddAllWorkers();
+            }
+        }
+
+        private void StopAllButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            foreach (var nodeProxy in _proxies)
+            {
+                nodeProxy._asyncWorkerManager.RemoveAllWorkers();
+            }
+        }
+
+        private void RemoveOneWorkerButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (OnEachNodeCheckBox.IsChecked != null && OnEachNodeCheckBox.IsChecked.Value)
+            {
+                foreach (var nodeProxy in _proxies)
+                {
+                    nodeProxy._asyncWorkerManager.RemoveWorkers(1);
+                }
+            }
+        }
+
+        private void AddOneWorkerButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (OnEachNodeCheckBox.IsChecked != null && OnEachNodeCheckBox.IsChecked.Value)
+            {
+                foreach (var nodeProxy in _proxies)
+                {
+                    nodeProxy._asyncWorkerManager.AddWorkers(1);
+                }
+            }
+        }
+
+
+
+
+
 
     }
 }
