@@ -7,7 +7,7 @@ namespace WorkerNode
     public class WorkerManager : IWorkerManager
     {
         private const int TimerInterval = 1000;
-
+        private static readonly Object Obj = new Object();
         private const int WorkerLimitConst = 0;
 
         private readonly string _redisIp;
@@ -87,12 +87,15 @@ namespace WorkerNode
 
         public override void RemoveWorkers(int n)
         {
-            for (int i = 0; i < n && _workers.Count > 0; i++)
+            lock (Obj)
             {
-                _workers.Last.Value.Dispose();
-                _workers.RemoveLast();
+                for (int i = 0; i < n && _workers.Count > 0; i++)
+                {
+                    _workers.Last.Value.Dispose();
+                    _workers.RemoveLast();
+                }
+                
             }
-
             WorkersCountChange(_workers.Count);
         }
 
@@ -108,12 +111,41 @@ namespace WorkerNode
 
         public override float GetUsedMemory()
         {
-            return _workers.Select(w => w.Memory).Sum();
+            lock (Obj)
+            {
+                return _workers.Select(w =>
+                {
+                    if (!w.HasExidet)
+                    {
+                        return w.Memory;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            ).Sum();
+                
+            }       
         }
 
         public override float GetTotalLoad()
         {
-            return _workers.Select(w => w.CpuLoad).Sum();
+            lock (Obj)
+            {
+                return _workers.Select(w =>
+                {
+                    if (!w.HasExidet)
+                    {
+                        return w.CpuLoad;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            ).Sum();   
+            }
         }
 
         private void WokerSuccess(Tuple<int, string> tuple)

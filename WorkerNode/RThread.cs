@@ -25,7 +25,17 @@ namespace WorkerNode
 
         public float Memory
         {
-            get { return _ramCounter.NextValue() / 1024 / 1024; }
+            get
+            {
+                if (! _process.HasExited)
+                {
+                    return _ramCounter.NextValue()/1024/1024;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
         }
 
         private System.Timers.Timer _cpuLoadTread;
@@ -43,8 +53,8 @@ namespace WorkerNode
                 
                 FileName = rPath,
                 Arguments = script,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
+                RedirectStandardOutput = false,
+                RedirectStandardError = false,
                 UseShellExecute = false,
                 CreateNoWindow = true
                 

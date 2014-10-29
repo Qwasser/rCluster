@@ -203,7 +203,7 @@ namespace _common.SocketConnection
                             reader.Close();
                             break;
                         }
-                        
+
                     }
 
                 }
@@ -213,16 +213,17 @@ namespace _common.SocketConnection
                 }
                 finally
                 {
-                    _stream.Close();
-                    _parent._state = ConnectionUtils.ConnectionState.Disconnected;
+                    if (_parent._state != ConnectionUtils.ConnectionState.Disconnected)
+                    {
                     
-                    _parent._writer.Close();
-                    _parent._client.Close();
-                    _parent.NotifyDisconnected();
-                    Console.Out.WriteLine("dd");
-                }
+                        _stream.Close();
+                        _parent._state = ConnectionUtils.ConnectionState.Disconnected;
 
-                Console.Out.WriteLine("dd");
+                        _parent._writer.Close();
+                        _parent._client.Close();
+                        _parent.NotifyDisconnected();
+                    }
+                }
             }
 
             private NetworkStream _stream;
