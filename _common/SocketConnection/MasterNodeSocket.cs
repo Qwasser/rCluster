@@ -195,26 +195,34 @@ namespace _common.SocketConnection
                             else
                             {
                                 // Reached end of stream. Must stop thread and close connection
-                                _parent.Disconnect();
+                                break;
                             }
                         }
                         catch (IOException ex)
                         {
                             reader.Close();
+                            break;
                         }
                         
                     }
 
                 }
-                catch (Exception ex)
+                catch (SocketException ex)
                 {
                     Console.Out.WriteLine(ex.ToString());
                 }
                 finally
                 {
-                    _parent.Disconnect();
                     _stream.Close();
+                    _parent._state = ConnectionUtils.ConnectionState.Disconnected;
+                    
+                    _parent._writer.Close();
+                    _parent._client.Close();
+                    _parent.NotifyDisconnected();
+                    Console.Out.WriteLine("dd");
                 }
+
+                Console.Out.WriteLine("dd");
             }
 
             private NetworkStream _stream;

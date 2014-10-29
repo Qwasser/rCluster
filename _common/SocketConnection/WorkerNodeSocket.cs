@@ -39,6 +39,7 @@ namespace _common.SocketConnection
         {
             if (_connected)
             {
+                _connectedClient.GetStream().Close();
                 _connectedClient.Close();
             }
             _connectionHandler.Stop();
@@ -53,12 +54,17 @@ namespace _common.SocketConnection
                 try
                 {
                     _writer.WriteLine(ConnectionUtils.Encode(msg));
+
                     _writer.Flush();
                 }
                 catch (IOException exception)
                 {
                     _writer.Close();
                     _writer = StreamWriter.Null;
+                }
+                catch (ObjectDisposedException e2)
+                {
+                    
                 }
             }
         }
@@ -82,16 +88,16 @@ namespace _common.SocketConnection
                 
                 while (!_isStopped)
                 {
-                    IAsyncResult result = WorkerNodeSocket._listener.BeginAcceptTcpClient(null, null);
+                    IAsyncResult result = _listener.BeginAcceptTcpClient(null, null);
                     // wait for connection
                     bool success = result.AsyncWaitHandle.WaitOne();
 
-                    if (success)
+                    if (success && !_isStopped)
                     {
                         _connectedClient = _listener.EndAcceptTcpClient(result);
                         _connected = true;
 
-                        var stream = WorkerNodeSocket._connectedClient.GetStream();
+                        var stream = _connectedClient.GetStream();
                         _writer = new StreamWriter(stream);
                         var reader = new StreamReader(stream);
 
@@ -138,7 +144,8 @@ namespace _common.SocketConnection
                     {
                     
                     }
-                }    
+                }
+                Console.Out.WriteLine("stopped");
             }
         }
 
