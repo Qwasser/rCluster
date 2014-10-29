@@ -2,6 +2,9 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Channels;
+using System.Threading;
 using System.Threading.Tasks;
 using _common.Protocol.Request;
 using _common.Protocol.Response;
@@ -14,9 +17,11 @@ namespace _common.SocketConnection
         private static IRequestHandler _requestHandler;
         private static TcpClient _connectedClient;
         private static StreamWriter _writer = StreamWriter.Null;
-        private static Task <TcpClient> _clientTask;
+        private static bool _connected = false;
+        private static ConnectionHandler _connectionHandler;
         public static void StartListening(int port, IRequestHandler requestHnadler)
         {
+            _connected = false;
             _requestHandler = requestHnadler;
             
             // Getting local ips
@@ -26,45 +31,24 @@ namespace _common.SocketConnection
 
             _listener = new TcpListener(ipEndPoint);
             _listener.Start(0);
-            AsyncAcceptConnection();
+
+            _connectionHandler = new ConnectionHandler();
         }
 
         public static void StopListening()
         {
-            _clientTask.Dispose();
-            if (_connectedClient != null)
+            if (_connected)
             {
-                
                 _connectedClient.Close();
             }
+            _connectionHandler.Stop();
             _listener.Stop();
-        }
-
-        private static void AsyncAcceptConnection()
-        {
-            try
-            {
-                _clientTask = Task.Factory.FromAsync<TcpClient>(_listener.BeginAcceptTcpClient,
-                    _listener.EndAcceptTcpClient, _listener);
-                _clientTask.ContinueWith(c => SaveConnection(c.Result)).ContinueWith(c => ContinuousReceive(c.Result));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            
-        }
-
-        private static NetworkStream SaveConnection(TcpClient client)
-        {
-            _connectedClient = client;
-            _writer = new StreamWriter(client.GetStream());
-            return client.GetStream();   
+            _connectionHandler.Thread.Join();    
         }
 
         public static void SendResponse(AbstractResponseClusterMessage msg)
         {
-            if (_writer != StreamWriter.Null)
+            if (_connected)
             {
                 try
                 {
@@ -79,51 +63,83 @@ namespace _common.SocketConnection
             }
         }
 
-        private static void ContinuousReceive(NetworkStream stream)
+        private sealed class ConnectionHandler
         {
-            try
+            private bool _isStopped = false;
+            internal readonly Thread Thread;
+            public void Stop()
             {
-                var reader = new StreamReader(stream);
-                bool shutdown = false;
-                while (!shutdown)
-                {
-                    try
-                    {
-                        //Console.Out.WriteLine("here");
-                        string res = reader.ReadLine();
-                        while (res != null)
-                        {
-                            _requestHandler.HandleRequest(
-                                ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
-                                
-                            res = reader.ReadLine();
-                        }
-                        shutdown = true;
-                        
-                    }
-                    catch (IOException ex)
-                    {
-                        string str = ex.ToString();
-                    }
-                }         
-                reader.Close();
-                _writer.Close();
-                _writer = StreamWriter.Null;
-                _connectedClient.Close();
+                _isStopped = true;
+            }
+            internal ConnectionHandler()
+            {
+                Thread = new Thread(Run);
+                Thread.Start();
+            }
 
-            }
-            catch (SocketException ex)
-            {
-                Console.Out.WriteLine(ex.ToString());
-            }
-            finally
+            private void Run()
             {
                 
-                _writer = StreamWriter.Null;
-                stream.Close();
-                _connectedClient.Close();
-                AsyncAcceptConnection();
-            } 
+                while (!_isStopped)
+                {
+                    IAsyncResult result = WorkerNodeSocket._listener.BeginAcceptTcpClient(null, null);
+                    // wait for connection
+                    bool success = result.AsyncWaitHandle.WaitOne();
+
+                    if (success)
+                    {
+                        _connectedClient = _listener.EndAcceptTcpClient(result);
+                        _connected = true;
+
+                        var stream = WorkerNodeSocket._connectedClient.GetStream();
+                        _writer = new StreamWriter(stream);
+                        var reader = new StreamReader(stream);
+
+                        try
+                        {
+                            
+                            bool shutdown = false;
+                            while (!shutdown)
+                            {
+                                try
+                                {
+                                    string res = reader.ReadLine();
+                                    while (res != null)
+                                    {
+                                        _requestHandler.HandleRequest(
+                                            ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
+
+                                        res = reader.ReadLine();
+                                    }
+                                    shutdown = true;
+                                }
+                                catch (IOException ex)
+                                {
+                                    // input is broken, break for clean up                                
+                                    break;
+                                }
+                            }
+                        }
+                        catch (SocketException ex)
+                        {
+                            
+                        }
+                        finally
+                        {
+                            _connected = false;
+                            reader.Close();
+                            _writer.Close();
+                            _writer = StreamWriter.Null;
+                            _connectedClient.Close();
+
+                        } 
+                    }
+                    else
+                    {
+                    
+                    }
+                }    
+            }
         }
 
         void IResponseSender.SendResponse(AbstractResponseClusterMessage response)

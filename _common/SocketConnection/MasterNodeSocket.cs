@@ -151,7 +151,8 @@ namespace _common.SocketConnection
                 
                 _receiver = new Receiver(_client.GetStream(), this);
                 _writer = new StreamWriter(_client.GetStream());
-                NotifyConnected();       
+                NotifyConnected();  
+                
             }
             else
             {
