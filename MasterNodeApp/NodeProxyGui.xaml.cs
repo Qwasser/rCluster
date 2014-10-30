@@ -73,12 +73,14 @@ namespace MasterNodeApp
                 Dispatcher.Invoke(delegate
                 {
                     WorkersLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
+                    SystemInfoLabel.Content = "Load: " + load.ToString(CultureInfo.InvariantCulture);
                 });
 
                 return;
             }
 
             WorkersLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
+            SystemInfoLabel.Content = "Load: " + load.ToString(CultureInfo.InvariantCulture);
         }
 
         public void OnWorkersMemoryRetreived(float memory)
@@ -162,7 +164,7 @@ namespace MasterNodeApp
                 Dispatcher.Invoke(delegate
                 {
                     NodeLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
-                    SystemInfoLabel.Content = "Load: " + load.ToString(CultureInfo.InvariantCulture);
+                    
                 });
 
                 return;

@@ -42,7 +42,10 @@ namespace WorkerNode
         private PerformanceCounter _cpuCounter;
         private PerformanceCounter _ramCounter;
 
-        public float CpuLoad { get; private set; }
+        public double CpuLoad { get; private set; }
+
+        private double _oldCPUTime = 0;
+        private double _currentCPUTime = 0;
 
         public RThread(String script, String rPath, int id)
         {
@@ -53,8 +56,8 @@ namespace WorkerNode
                 
                 FileName = rPath,
                 Arguments = script,
-                RedirectStandardOutput = false,
-                RedirectStandardError = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
                 
@@ -86,19 +89,25 @@ namespace WorkerNode
             _process.Start();
 
             CpuLoad = 0f;
-            _cpuCounter = new PerformanceCounter("Process", "% Processor Time", _process.ProcessName);
+            _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
 
+
+            
             _cpuLoadTread = new System.Timers.Timer()
             {
                 Interval = TimerInterval,
                 Enabled = true
             };
-
+            
             _cpuLoadTread.Elapsed += (sender, args) =>
             {
                 try
                 {
-                    CpuLoad = _cpuCounter.NextValue();
+                    _oldCPUTime = _currentCPUTime;
+                    _currentCPUTime = _process.TotalProcessorTime.TotalMilliseconds;
+                    CpuLoad = (_currentCPUTime - _oldCPUTime)/TimerInterval;
+                    CpuLoad = CpuLoad*_cpuCounter.NextValue();
+                    CpuLoad = CpuLoad/4;
                 }
                 catch (Exception e)
                 {

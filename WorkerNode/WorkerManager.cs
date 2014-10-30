@@ -111,41 +111,57 @@ namespace WorkerNode
 
         public override float GetUsedMemory()
         {
-            lock (Obj)
+            try
             {
-                return _workers.Select(w =>
+                lock (_workers)
                 {
-                    if (!w.HasExidet)
+                    return _workers.Select(w =>
                     {
-                        return w.Memory;
+                        if (!w.HasExidet)
+                        {
+                            return w.Memory;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
                     }
-                    else
-                    {
-                        return 0;
-                    }
+                ).Sum();
                 }
-            ).Sum();
-                
-            }       
+            }
+            catch (Exception)
+            {
+
+                return 0;
+            } 
         }
 
         public override float GetTotalLoad()
         {
-            lock (Obj)
+            try
             {
-                return _workers.Select(w =>
+                lock (_workers)
                 {
-                    if (!w.HasExidet)
+                    return (float) _workers.Select(w =>
                     {
-                        return w.CpuLoad;
+                        if (!w.HasExidet)
+                        {
+                            return w.CpuLoad;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
                     }
-                    else
-                    {
-                        return 0;
-                    }
+                        ).Sum();
                 }
-            ).Sum();   
             }
+            catch (Exception)
+            {
+
+                return 0;
+            }
+           
         }
 
         private void WokerSuccess(Tuple<int, string> tuple)
@@ -155,6 +171,8 @@ namespace WorkerNode
                 var thread = _workers.FirstOrDefault(workerThread => workerThread.Id == tuple.Item1);
 
                 _workers.Remove(thread);
+
+                AddWorkers(1);
             }
         }
 
