@@ -184,7 +184,7 @@ namespace WorkerNode
 
                 _workers.Remove(thread);
 
-                AddWorkers(1);
+                //AddWorkers(1);
             }
         }
 

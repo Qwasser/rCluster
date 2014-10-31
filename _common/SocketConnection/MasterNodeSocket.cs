@@ -144,20 +144,28 @@ namespace _common.SocketConnection
 
         private void OnConnected(IAsyncResult result)
         {
-            if (_client.Connected)
+            if (_client.Client != null)
             {
-                // If client is succesfully connected - set the state and run receiver thread
-                _state = ConnectionUtils.ConnectionState.Connected;
-                
-                _receiver = new Receiver(_client.GetStream(), this);
-                _writer = new StreamWriter(_client.GetStream());
-                NotifyConnected();  
-                
+                if (_client.Connected)
+                {
+                    // If client is succesfully connected - set the state and run receiver thread
+                    _state = ConnectionUtils.ConnectionState.Connected;
+
+                    _receiver = new Receiver(_client.GetStream(), this);
+                    _writer = new StreamWriter(_client.GetStream());
+                    NotifyConnected();
+
+                }
+                else
+                {
+                    // If not connected - close client, set disconnected status and notify observers
+                    _client.Close();
+                    _state = ConnectionUtils.ConnectionState.Disconnected;
+                    NotifyDisconnected();
+                }
             }
             else
             {
-                // If not connected - close client, set disconnected status and notify observers
-                _client.Close();
                 _state = ConnectionUtils.ConnectionState.Disconnected;
                 NotifyDisconnected();
             }
