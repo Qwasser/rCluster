@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace WorkerNode
 {
     public class WorkerManager : IWorkerManager
     {
         private const int TimerInterval = 1000;
-        private static readonly Object Obj = new Object();
+        public static readonly Object Obj = new Object();
+        private static Mutex mutex = new Mutex(false, "test");
         private const int WorkerLimitConst = 0;
 
         private readonly string _redisIp;
@@ -71,24 +73,33 @@ namespace WorkerNode
  
         public override void AddWorkers(int n)
         {
-            for (var i = 0; i < n && _workers.Count < WorkersLimit; i++)
+             try
             {
-                var newWorker = _workerThreadFactory.CreateWorker(_redisIp, _redisPort, _queue, ++_maxId);
-                
-                newWorker.OnSuccess += WokerSuccess;
-                newWorker.OnFailure += WokerFailure;
-                newWorker.OnMessage += WorkerMessage;
+                mutex.WaitOne();
+                for (var i = 0; i < n && _workers.Count < WorkersLimit; i++)
+                {
+                    var newWorker = _workerThreadFactory.CreateWorker(_redisIp, _redisPort, _queue, ++_maxId);
 
-                _workers.AddLast(newWorker);
+                    newWorker.OnSuccess += WokerSuccess;
+                    newWorker.OnFailure += WokerFailure;
+                    newWorker.OnMessage += WorkerMessage;
+
+                    _workers.AddLast(newWorker);
+                }
             }
+             finally
+             {
+                 mutex.ReleaseMutex();
+             }
 
             WorkersCountChange(_workers.Count);
         }
 
         public override void RemoveWorkers(int n)
         {
-            lock (Obj)
+            try
             {
+                mutex.WaitOne();
                 for (int i = 0; i < n && _workers.Count > 0; i++)
                 {
                     _workers.Last.Value.Dispose();
@@ -96,96 +107,116 @@ namespace WorkerNode
                 }
                 
             }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
             WorkersCountChange(_workers.Count);
         }
 
         public override void AddAllWorkers()
         {
+            
             AddWorkers(WorkersLimit);
+            
         }
 
         public override void RemoveAllWorkers()
         {
+           
             RemoveWorkers(_workers.Count);
+            
         }
 
         public override float GetUsedMemory()
         {
+            float result = 0;
+            
             try
             {
-                lock (_workers)
-                {
-                    return _workers.Select(w =>
-                    {
-                        if (!w.HasExidet)
-                        {
-                            return w.Memory;
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
-                ).Sum();
-                }
+                mutex.WaitOne();
+                result += _workers.Where(worker => !worker.HasExidet).Sum(worker => worker.Memory);
             }
-            catch (Exception)
+            catch (InvalidOperationException e)
             {
-
-                return 0;
-            } 
+                result = 0;
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+            return result;
         }
 
         public override float GetTotalLoad()
         {
+            float result = 0;
+            
             try
             {
-                lock (_workers)
-                {
-                    return (float) _workers.Select(w =>
-                    {
-                        if (!w.HasExidet)
-                        {
-                            return w.CpuLoad;
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
-                        ).Sum();
-                }
+                mutex.WaitOne();
+                result += _workers.Where(worker => !worker.HasExidet).Sum(worker => (float) worker.CpuLoad);
             }
-            catch (Exception)
+            catch (InvalidOperationException e)
             {
-
-                return 0;
+                result = 0;
             }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+            return result;
            
         }
 
         private void WokerSuccess(Tuple<int, string> tuple)
         {
-            lock (_workers)
+            try
             {
+                mutex.WaitOne();
                 var thread = _workers.FirstOrDefault(workerThread => workerThread.Id == tuple.Item1);
 
                 _workers.Remove(thread);
 
+                WorkersCountChange(_workers.Count());
+            }
+            catch (InvalidOperationException e)
+            {
+                
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+
+            try
+            {
+
                 AddWorkers(1);
+            }
+            catch (InvalidOperationException e)
+            {
+
             }
         }
 
         private void WokerFailure(Tuple<int, string> tuple)
         {
-            lock (_workers)
+            try
             {
+                mutex.WaitOne();
                 var thread = _workers.FirstOrDefault(workerThread => workerThread.Id == tuple.Item1);
+
 
                 _workers.Remove(thread);
 
-                //AddWorkers(1);
+                WorkersCountChange(_workers.Count());
             }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+
         }
 
         private void WorkerMessage(Tuple<int, string> tuple)

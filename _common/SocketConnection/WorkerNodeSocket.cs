@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Channels;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using _common.Protocol.Request;
@@ -88,6 +89,7 @@ namespace _common.SocketConnection
                 
                 while (!_isStopped)
                 {
+                    
                     IAsyncResult result = _listener.BeginAcceptTcpClient(null, null);
                     // wait for connection
                     bool success = result.AsyncWaitHandle.WaitOne();
@@ -112,6 +114,7 @@ namespace _common.SocketConnection
                                     string res = reader.ReadLine();
                                     while (res != null)
                                     {
+
                                         _requestHandler.HandleRequest(
                                             ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
 
@@ -123,6 +126,10 @@ namespace _common.SocketConnection
                                 {
                                     // input is broken, break for clean up                                
                                     break;
+                                }
+                                catch (SerializationException ex)
+                                {
+                                    // wrong message - ignore
                                 }
                             }
                         }
@@ -139,10 +146,6 @@ namespace _common.SocketConnection
                             _connectedClient.Close();
 
                         } 
-                    }
-                    else
-                    {
-                    
                     }
                 }
                 Console.Out.WriteLine("stopped");
