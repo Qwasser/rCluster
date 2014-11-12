@@ -43,10 +43,10 @@ namespace MasterNodeApp
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     WorkersCountLabel.Content = count.ToString(CultureInfo.InvariantCulture);
-                });
+                }));
 
                 return;
             }
@@ -70,11 +70,11 @@ namespace MasterNodeApp
 
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     WorkersLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
                     SystemInfoLabel.Content = "Load: " + load.ToString(CultureInfo.InvariantCulture);
-                });
+                }));
 
                 return;
             }
@@ -87,10 +87,10 @@ namespace MasterNodeApp
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     WorkersMemoryLabel.Content = memory.ToString(CultureInfo.InvariantCulture);
-                });
+                }));
 
                 return;
             }
@@ -122,11 +122,11 @@ namespace MasterNodeApp
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     _maxWorkersLimit = limit;
                     MaxWorkerLimitLabel.Content = "Max Workers Limit: " + _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
-                });
+                }));
 
                 return;
             }
@@ -144,10 +144,10 @@ namespace MasterNodeApp
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     NodeMemoryLabel.Content = memory.ToString(CultureInfo.InvariantCulture);
-                });
+                }));
 
                 return;
             }
@@ -161,11 +161,11 @@ namespace MasterNodeApp
 
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     NodeLoadLabel.Content = load.ToString(CultureInfo.InvariantCulture);
                     
-                });
+                }));
 
                 return;
             }
@@ -182,17 +182,18 @@ namespace MasterNodeApp
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     ConnectionPanel.Visibility = Visibility.Hidden;
                     NotConnectedPanel.Visibility = Visibility.Visible;
 
                     NodeSettingsButton.IsEnabled = false;
                     LoadSettingsButton.IsEnabled = false;
+                    DisconnectButton.IsEnabled = false;
 
                     ConnectStateLabel.Content = "Not Connected";
                     ConnectButton.IsEnabled = true;
-                });
+                }));
 
                 return;
             }
@@ -202,6 +203,7 @@ namespace MasterNodeApp
 
             NodeSettingsButton.IsEnabled = false;
             LoadSettingsButton.IsEnabled = false;
+            DisconnectButton.IsEnabled = false;
 
             ConnectStateLabel.Content = "Not Connected";
             ConnectButton.IsEnabled = true;
@@ -211,14 +213,15 @@ namespace MasterNodeApp
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     ConnectionPanel.Visibility = Visibility.Visible;
                     NotConnectedPanel.Visibility = Visibility.Hidden;
 
                     NodeSettingsButton.IsEnabled = true;
                     LoadSettingsButton.IsEnabled = true;
-                });
+                    DisconnectButton.IsEnabled = true;
+                }));
 
                 return;
             }
@@ -228,17 +231,18 @@ namespace MasterNodeApp
 
             NodeSettingsButton.IsEnabled = true;
             LoadSettingsButton.IsEnabled = true;
+            DisconnectButton.IsEnabled = true;
         }
 
         public void OnConnecting()
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     ConnectStateLabel.Content = "Connecting...";
                     ConnectButton.IsEnabled = false;
-                });
+                }));
 
                 return;
             }
@@ -261,7 +265,7 @@ namespace MasterNodeApp
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(delegate
+                Dispatcher.BeginInvoke(new Action(delegate
                 {
                     _currStatus = status;
                     WorkersSettingsLabel.Content = "Worker Settings: " + status;
@@ -269,24 +273,24 @@ namespace MasterNodeApp
                     switch (status.LoadType)
                     {
                         case LoadStatusType.Limited:
-                            {
-                                WorkersLimitLabel.Content = status.Limit.ToString(CultureInfo.InvariantCulture);
-                                break;
-                            }
+                        {
+                            WorkersLimitLabel.Content = status.Limit.ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
 
                         case LoadStatusType.Free:
-                            {
-                                WorkersLimitLabel.Content = _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
-                                break;
-                            }
+                        {
+                            WorkersLimitLabel.Content = _maxWorkersLimit.ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
 
                         case LoadStatusType.Locked:
-                            {
-                                WorkersLimitLabel.Content = "0";
-                                break;
-                            }
+                        {
+                            WorkersLimitLabel.Content = "0";
+                            break;
+                        }
                     }
-                });
+                }));
 
                 return;
             }
@@ -329,6 +333,11 @@ namespace MasterNodeApp
         private void RemoveWorkerButton_Click(object sender, RoutedEventArgs e)
         {
             _nodeProxy._asyncWorkerManager.RemoveWorkers(1);
+        }
+
+        private void DisconnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            _nodeProxy.Disconnect();
         }
     }
 }

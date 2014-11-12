@@ -56,9 +56,9 @@ namespace WorkerNode
                 
                 FileName = rPath,
                 Arguments = script,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
+                RedirectStandardOutput = false,
+                RedirectStandardError = false,
+                UseShellExecute = true,
                 CreateNoWindow = true
                 
             };

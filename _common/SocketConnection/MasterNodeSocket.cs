@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Remoting.Channels;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,9 +29,13 @@ namespace _common.SocketConnection
         private Receiver _receiver;
         // Current stream writer
         private StreamWriter _writer = StreamWriter.Null;
+        private StreamReader _reader = StreamReader.Null;
         
         // Shut down event to stop all the threads
         public ManualResetEvent ShutDownEvent = new ManualResetEvent(false);
+        
+        // lock object
+        private readonly object _lock = new object();
 
         public MasterNodeSocket(IResponseHandler responseHandler)
         {
@@ -46,8 +51,11 @@ namespace _common.SocketConnection
         {
             if (IsConnected() && _writer != StreamWriter.Null)
             {
-                _writer.WriteLine(ConnectionUtils.Encode(msg));
-                _writer.Flush();
+                lock (_lock)
+                {
+                    _writer.WriteLine(ConnectionUtils.Encode(msg));
+                    _writer.Flush();
+                }
             }
         }
 
@@ -101,10 +109,20 @@ namespace _common.SocketConnection
             if (_state == ConnectionUtils.ConnectionState.Connected)
             {
                 _state = ConnectionUtils.ConnectionState.Disconnected;
-                ShutDownEvent.Set();
-                NotifyDisconnected();
+                
+                _client.GetStream().Close();
                 _client.Close();
+
+                _receiver._stop_receive = true;
+                
+                var st = _receiver._thread.ThreadState;
+                if (st == ThreadState.WaitSleepJoin)
+                {
+                   // _receiver._thread.Abort();
+                }
                 _receiver._thread.Join();
+                NotifyDisconnected();
+                
             }
         }
 
@@ -175,6 +193,7 @@ namespace _common.SocketConnection
         {
             internal Receiver(NetworkStream stream, MasterNodeSocket parent)
             {
+                _stop_receive = false;
                 _stream = stream;
                 _parent = parent;
                 _thread = new Thread(Run);
@@ -187,18 +206,20 @@ namespace _common.SocketConnection
                 {
                     // ShutdownEvent is a ManualResetEvent signaled by
                     // Client when its time to close the socket.
+                    _stream.ReadTimeout = 4000;
+                    _parent._reader = new StreamReader(_stream);
 
-                    var reader = new StreamReader(_stream);
-                    while (!_parent.ShutDownEvent.WaitOne(0))
+                    
+                    while (!_stop_receive)
                     {
                         try
                         {
-                            string res = reader.ReadLine();
-                            if (res != null)
+                            
+                            string res = _parent._reader.ReadLine();
+                            if (res != null && !_stop_receive)
                             {
                                 _parent._responseHandler.HandleResponse(
                                     ConnectionUtils.TryDecode<AbstractResponseClusterMessage>(res));
-
                             }
                             else
                             {
@@ -208,10 +229,13 @@ namespace _common.SocketConnection
                         }
                         catch (IOException ex)
                         {
-                            reader.Close();
+                            _parent._reader.Close();
                             break;
                         }
-
+                        catch (SerializationException ex)
+                        {
+                            // wrong message - ignore
+                        }
                     }
 
                 }
@@ -226,14 +250,14 @@ namespace _common.SocketConnection
                     
                         _stream.Close();
                         _parent._state = ConnectionUtils.ConnectionState.Disconnected;
-
+                        _parent._reader.Close();
                         _parent._writer.Close();
                         _parent._client.Close();
                         _parent.NotifyDisconnected();
                     }
                 }
             }
-
+            public bool _stop_receive;
             private NetworkStream _stream;
             public Thread _thread;
             private MasterNodeSocket _parent;

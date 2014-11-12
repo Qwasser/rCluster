@@ -20,6 +20,10 @@ namespace _common.SocketConnection
         private static StreamWriter _writer = StreamWriter.Null;
         private static bool _connected = false;
         private static ConnectionHandler _connectionHandler;
+
+        // lock object
+        private static readonly object _lock = new object();
+
         public static void StartListening(int port, IRequestHandler requestHnadler)
         {
             _connected = false;
@@ -50,22 +54,25 @@ namespace _common.SocketConnection
 
         public static void SendResponse(AbstractResponseClusterMessage msg)
         {
-            if (_connected)
+            lock (_lock)
             {
-                try
+                if (_connected)
                 {
-                    _writer.WriteLine(ConnectionUtils.Encode(msg));
+                    try
+                    {
+                        _writer.WriteLine(ConnectionUtils.Encode(msg));
 
-                    _writer.Flush();
-                }
-                catch (IOException exception)
-                {
-                    _writer.Close();
-                    _writer = StreamWriter.Null;
-                }
-                catch (ObjectDisposedException e2)
-                {
-                    
+                        _writer.Flush();
+                    }
+                    catch (IOException exception)
+                    {
+                        _writer.Close();
+                        _writer = StreamWriter.Null;
+                    }
+                    catch (ObjectDisposedException e2)
+                    {
+
+                    }
                 }
             }
         }

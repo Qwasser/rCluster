@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -23,11 +24,18 @@ namespace _common.SocketConnection
 
         public static T TryDecode<T>(string bytes)
         {
-            byte[] b = Convert.FromBase64String(bytes);
-            using (var stream = new MemoryStream(b))
+            try
+            {            
+                byte[] b = Convert.FromBase64String(bytes);
+                using (var stream = new MemoryStream(b))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    return (T)Formatter.Deserialize(stream);
+                }
+            }
+            catch (FormatException e)
             {
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T)Formatter.Deserialize(stream);
+                throw new SerializationException();
             }
         }
 

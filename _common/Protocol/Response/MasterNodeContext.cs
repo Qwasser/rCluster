@@ -23,7 +23,17 @@ namespace _common.Protocol.Response
 
         public void HandleResponse(AbstractResponseClusterMessage msg)
         {
-            msg.Handle(this);
+            if (!_stopHandling)
+            {
+                msg.Handle(this);
+            }
         }
+
+        public void StopHandling()
+        {
+            this._stopHandling = true;
+        }
+
+        private bool _stopHandling;
     }
 }

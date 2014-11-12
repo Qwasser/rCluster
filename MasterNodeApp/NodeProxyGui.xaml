@@ -39,8 +39,9 @@
         </Expander.Header>
         <Border Background="White" BorderBrush="Black" >
             <Grid HorizontalAlignment="Left" Height="100" Width="598">
+                <Button x:Name="DisconnectButton" Content="Disconnect" Click="DisconnectButton_Click" HorizontalAlignment="Left" Margin="488,10,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
                 <Button x:Name="LoadSettingsButton" Content="Load Settings" HorizontalAlignment="Left" Margin="488,70,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
-                <Button x:Name="NodeSettingsButton" Content="Node Settings" HorizontalAlignment="Left" Margin="488,45,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
+                <Button x:Name="NodeSettingsButton" Content="Node Settings" HorizontalAlignment="Left" Margin="488,40,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False"/>
                 <Label x:Name="HostNameLabelIn" Content="Host Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="AdressLabel" Content="Adress: N/A" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="MaxWorkerLimitLabel" Content="Max Worker Limit: N/A" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
