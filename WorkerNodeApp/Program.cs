@@ -26,6 +26,7 @@ namespace WorkerNodeApp
             var redisQueue = ConfigurationManager.AppSettings["redisQueue"];
             var redisScriptTemplate =  ConfigurationManager.AppSettings["redisScriptTemplate"];
             var loadStatusStr = ConfigurationManager.AppSettings["loadStatus"];
+            var applicationPort = int.Parse(ConfigurationManager.AppSettings["appPort"]);
 
             LoadStatus loadStatus;
             if (!LoadStatus.TryParseString(loadStatusStr, out loadStatus))
@@ -51,7 +52,7 @@ namespace WorkerNodeApp
 
             // Start listening and message handling in current context
             // Port must be loaded from config file
-            WorkerNodeSocket.StartListening(6700, context);
+            WorkerNodeSocket.StartListening(applicationPort, context);
 
             // Create listeners for response handling
             var remoteWorkerManager = new RemoteWorkerManagerListener(new WorkerNodeSocket());

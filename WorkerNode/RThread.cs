@@ -57,8 +57,8 @@ namespace WorkerNode
                 FileName = rPath,
                 Arguments = script,
                 RedirectStandardOutput = false,
-                RedirectStandardError = false,
-                UseShellExecute = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
                 CreateNoWindow = true
                 
             };
@@ -96,7 +96,7 @@ namespace WorkerNode
             _cpuLoadTread = new System.Timers.Timer()
             {
                 Interval = TimerInterval,
-                Enabled = true
+                Enabled = false
             };
             
             _cpuLoadTread.Elapsed += (sender, args) =>
@@ -138,8 +138,8 @@ namespace WorkerNode
 
             if (!_process.HasExited)
             {
-                _process.CloseMainWindow();
                 _process.Kill();
+                _process.WaitForExit();
             }
 
             _disposed = true;
