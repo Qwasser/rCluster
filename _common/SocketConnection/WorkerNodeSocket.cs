@@ -2,11 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Channels;
 using System.Runtime.Serialization;
 using System.Threading;
-using System.Threading.Tasks;
 using _common.Protocol.Request;
 using _common.Protocol.Response;
 
@@ -22,7 +19,7 @@ namespace _common.SocketConnection
         private static ConnectionHandler _connectionHandler;
 
         // lock object
-        private static readonly object _lock = new object();
+        private static readonly object Lock = new object();
 
         public static void StartListening(int port, IRequestHandler requestHnadler)
         {
@@ -54,14 +51,13 @@ namespace _common.SocketConnection
 
         public static void SendResponse(AbstractResponseClusterMessage msg)
         {
-            lock (_lock)
+            lock (Lock)
             {
                 if (_connected)
                 {
                     try
                     {
                         _writer.WriteLine(ConnectionUtils.Encode(msg));
-
                         _writer.Flush();
                     }
                     catch (IOException exception)
@@ -121,7 +117,6 @@ namespace _common.SocketConnection
                                     string res = reader.ReadLine();
                                     while (res != null)
                                     {
-
                                         _requestHandler.HandleRequest(
                                             ConnectionUtils.TryDecode<AbstractRequestClusterMessage>(res));
 
@@ -142,20 +137,21 @@ namespace _common.SocketConnection
                         }
                         catch (SocketException ex)
                         {
-                            
+            
                         }
                         finally
                         {
-                            _connected = false;
-                            reader.Close();
-                            _writer.Close();
-                            _writer = StreamWriter.Null;
-                            _connectedClient.Close();
-
+                            lock (Lock)
+                            {
+                                _connected = false;
+                                reader.Close();
+                                _writer.Close();
+                                _writer = StreamWriter.Null;
+                                _connectedClient.Close();              
+                            }
                         } 
                     }
                 }
-                Console.Out.WriteLine("stopped");
             }
         }
 

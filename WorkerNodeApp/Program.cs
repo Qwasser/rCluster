@@ -18,15 +18,28 @@ namespace WorkerNodeApp
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            var rPath = ConfigurationManager.AppSettings["rPath"];
+            string workerType;
+            if (args.Length == 2 && args[0] == "workers_type")
+            {
+                workerType = args[1];
+            }
+            else
+            {
+                workerType = "r";
+            }
+
+            var workerExePath = ConfigurationManager.AppSettings[workerType + "Path"];
+            var workerScriptTemplate =  ConfigurationManager.AppSettings[workerType + "ScriptTemplate"];
+            
+            // this params are R specific - they need generalization
             var redisPort = ConfigurationManager.AppSettings["redisPort"];
             var redisIp = ConfigurationManager.AppSettings["redisIp"];
             var redisQueue = ConfigurationManager.AppSettings["redisQueue"];
-            var redisScriptTemplate =  ConfigurationManager.AppSettings["redisScriptTemplate"];
+
             var loadStatusStr = ConfigurationManager.AppSettings["loadStatus"];
-            var applicationPort = int.Parse(ConfigurationManager.AppSettings["appPort"]);
+            var applicationPort = int.Parse(ConfigurationManager.AppSettings[workerType + "Port"]);
 
             LoadStatus loadStatus;
             if (!LoadStatus.TryParseString(loadStatusStr, out loadStatus))
@@ -35,7 +48,7 @@ namespace WorkerNodeApp
                 loadStatus.Limit = DefaultWorkerLimit;
             }
 
-            IWorkerThreadFactory workerThreadFactory = new WorkerThreadFactory(redisScriptTemplate, rPath);
+            IWorkerThreadFactory workerThreadFactory = new WorkerThreadFactory(workerScriptTemplate, workerExePath);
             IWorkerManager workerManager = new WorkerManager(redisIp, redisPort, redisQueue, workerThreadFactory);
 
             ILoadManager loadManager = new LoadManager(workerManager, loadStatus);
