@@ -66,7 +66,7 @@ namespace WorkerNodeApp
 
         public void OnLoadStatusRetreived(LoadStatus status)
         {
-
+            ApplyStaus(status);
         }
 
         public void OnLoadStatusChanged(LoadStatus status)
